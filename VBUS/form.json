@@ -8,8 +8,8 @@
         }
     ],
     "actions": [
-        { "type": "ValidationTextBox", "name": "Password", "caption": "Password" },
-        { "type": "Button", "label": "Send Password", "onClick": "Resol_SendPass($pass);" }
+        { "type": "ValidationTextBox", "name": "Password", "caption": "Password","value": "Pass"},
+        { "type": "Button", "label": "Send Password", "onClick": "Resol_SendPass($id);" }
     ],
     "status": []
 }
