@@ -107,7 +107,7 @@
 					{
 						foreach($master->field as $field)
 						{
-							$field_name = (string)($field->name[$language]); // 0 = deutsch 1 = englisch
+							$field_name = (string)@($field->name[$language]); // 0 = deutsch 1 = englisch
 							$field_info = (string)$field['commonUsage'][0];
 							$field_unit = (string)$field->unit;
 							$field_bit_size = (int)$field->bitSize;
