@@ -23,10 +23,12 @@
 
 			switch($this->ReadPropertyInteger("GatewayMode")) {
 				case 0: //ClientSocket bei Modus 0 erstellen
+					$this->WriteAttributeInteger("GatewayMode", 0);
 					$this->ForceParent("{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}");
 					break;
 				case 1: //SerialPort bei Modus 1 erstellen
 					$this->ForceParent("{6DC3D946-0D31-450F-A8C6-C42DB8D7D4F1}");
+					$this->WriteAttributeInteger("GatewayMode", 1);
 					break;
 			}
 		}
@@ -37,8 +39,8 @@
 			$language = 0;
 			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
 			$payload = utf8_decode($data->Buffer);
-			if (substr($payload,0,2) == "\xaa\x00") return;
-			$value = ltrim(utf8_decode($data->Buffer), "\xaa\x10");
+			if (substr($payload,0,2) == "\xaa\x00") return; // return if not payload
+			$value = ltrim(utf8_decode($data->Buffer), "\xaa\x10"); // remove the first 2 bytes, like the cutter
 			define('ANZAHL_FRAMES', ord($value{6}));
 			define('HEADER_CHECKSUMME', ord($value{7}));
 			define('REGLER_TYP', "0x" . dechex(ord($value{2})) . dechex(ord($value{1} )));
