@@ -8,16 +8,10 @@
         }
     ],
     "actions": [
-        {
-            "name": "Text",
-            "type": "ValidationTextBox",
-            "caption": "Text"
-        },
-        {
-            "type": "Button",
-            "caption": "Send",
-            "onClick": "ATN_Send($id, $Text);"
-        }
+        { "type": "Button",
+        "caption": "Reset", 
+        "onClick": "SetValue(12345, 0);", 
+        "confirm": "Dies setzt die benötigten Instanzen" }
     ],
     "status": []
 }
