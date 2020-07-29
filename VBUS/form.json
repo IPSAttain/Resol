@@ -6,7 +6,7 @@
                 { "caption": "RS232", "value": 1 }
             ]
         },
-        { "type": "Select", "name": "VarName", "caption": "Language",
+        { "type": "Select", "name": "VarName", "caption": "Language for Var Names",
             "options": [
                 { "caption": "German", "value": 0 },
                 { "caption": "English", "value": 1 }
