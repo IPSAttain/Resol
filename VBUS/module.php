@@ -73,8 +73,8 @@
 						$this->SendDebug("Frame Checksumm","Error in Frame $i >> calculated: $cs received: ".ord($value{$i * 6 + 7}),0);
 						return;
 					}
-					$this->SendDebug("Frame Checksumm","Checksumm OK for $i frames",0);
 				} // end for frameschleife
+				$this->SendDebug("Frame Checksumm","Checksumm OK for $i frames",0);
 			}
 			else  // Checksumme Head not ok
 			{
@@ -85,7 +85,7 @@
 			if (file_exists(XML_DATEI))
 			{
 				$xml = simplexml_load_file(XML_DATEI);	
-
+				$this->SendDebug("XML",implode(" , ",$xml),0);
 			}
 		}
 
