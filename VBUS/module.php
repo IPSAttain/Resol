@@ -8,6 +8,7 @@
 
 			//$this->ConnectParent("{AC6C6E74-C797-40B3-BA82-F135D941D1A2}");
 			$this->RegisterPropertyInteger("GatewayMode", 0);
+			$this->RegisterPropertyInteger("VarName", 0);
 			$this->RegisterPropertyString("Password", "Pass");
 		}
 
@@ -59,34 +60,33 @@
 		public function ReceiveData($JSONString)
 		{
 			$data = json_decode($JSONString);
-			$language = 0;
+			$language = $this->ReadPropertyInteger("VarName");
 			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
 			$payload = utf8_decode($data->Buffer);
 			if (substr($payload,0,2) == "\xaa\x10") 
 			{
 				$value = ltrim(utf8_decode($data->Buffer), "\xaa\x10"); // remove the first 2 bytes, like the cutter
-				define('ANZAHL_FRAMES', ord($value{6}));
+				define('NUMBER_OF_FRAMES', ord($value{6}));
 				define('HEADER_CHECKSUMME', ord($value{7}));
-				define('REGLER_TYP', "0x" . dechex(ord($value{2})) . dechex(ord($value{1} )));
-				define('SCRIPT_KENNUNG', 'V-Bus-Modul');
-				define('XML_DATEI', __DIR__ . "/../libs/VBusSpecificationResol.xml");
-				$this->SendDebug("Regler Typ",REGLER_TYP,0);
+				define('DEVICE_TYP', "0x" . dechex(ord($value{2})) . dechex(ord($value{1} )));
+				define('XML_FILE', __DIR__ . "/../libs/VBusSpecificationResol.xml");
+				$this->SendDebug("Device Typ",DEVICE_TYP,0);
 
 				$cs = 16;       // durch den Cutter wird das erste Byte (0x10 Hex) abgeschnitten, hier wird der Wert wieder dazu genommen
 				for ($i=00; $i<=06; $i++)
 				{
 					$cs += ord($value{$i}); //Headerbytes zur Checksumme zusammenaddieren
 				}
-				$cs = ~$cs;	//Checksumme invertieren
-				$cs &= 127;	//MSB aus Checksumme entfernen
+				$cs = ~$cs;	//invert Checksumm
+				$cs &= 127;	//remove the MSB from Checksumm
 				$this->SendDebug("Header Checksumm","Calculated: $cs , Received: " . HEADER_CHECKSUMME,0);
-				if ( $cs == HEADER_CHECKSUMME)  // Checksumme ok?
+				if ( $cs == HEADER_CHECKSUMME)  // Checksumm ok?
 				{
 					$this->SendDebug("Header Checksumm","Checksumme OK!",0);
 					$byte_array = array();
 					$k = 0; // array Index
-					$this->SendDebug("Frame Count","Number of Frames: " . (ANZAHL_FRAMES+1),0);
-					for ($i=01; $i<=ANZAHL_FRAMES; $i++) // Schleife für alle Datenframes
+					$this->SendDebug("Frame Count","Number of Frames: " . (NUMBER_OF_FRAMES+1),0);
+					for ($i=01; $i<=NUMBER_OF_FRAMES; $i++) // loop for all frames
 					{
 					$cs = 0;
 					$septet = ord($value{$i * 6 + 6});
@@ -95,11 +95,11 @@
 							$payload_byte = ord($value{$i * 6 + 2 + $j});
 							$byte_array[$k] = $payload_byte + 128 * (($septet >> $j) & 1); //das komplette Datenbyte aus dem Byte und dem Teil des Septet zusammenfügen
 							$k++; //Array Index erhöhen
-							$cs += $payload_byte;// Bytes zur Checksumme addieren
+							$cs += $payload_byte;// add payload to checksumm
 						} // End payload Byte Schleife
-						$cs += $septet; // septet dazuaddieren
-						$cs = ~$cs; //Checksumme invertieren
-						$cs &= 127; //MSB aus Checksumme entfernen
+						$cs += $septet; // add septet 
+						$cs = ~$cs; // invert Checksumm
+						$cs &= 127; // remove MSB from Checksumm
 						// $this->SendDebug("Frame Checksumm","Frame $i >> Calculated: $cs , Received: ".ord($value{$i * 6 + 7}),0);
 						if ($cs != ord($value{$i * 6 + 7})) // Checksumme Frame not ok?
 						{
@@ -116,28 +116,28 @@
 				}	// end else
 				$this->SendDebug("Received Data",implode(" , ",$byte_array),0);
 					
-				if (file_exists(XML_DATEI))
+				if (file_exists(XML_FILE))
 				{
-					$xml = simplexml_load_file(XML_DATEI);	
+					$xml = simplexml_load_file(XML_FILE);	
 					
-					### Regler Typ in der XML Datei suchen ###
+					### Look for the device in the xml file ###
 					foreach($xml->device as $master)
 					{
-						if ($master->address == REGLER_TYP)
+						if ($master->address == DEVICE_TYP)
 						{
-							$regler_name = (string)$master->name;
-							$this->SendDebug("Device Name",$regler_name,0);
+							$device_name = (string)$master->name;
+							$this->SendDebug("Device Name",$device_name,0);
 							break; // end foreach
 						} // end if
 					}
-					if (!isset($regler_name))
+					if (!isset($device_name))
 					{
-						$this->SendDebug("Device Name",REGLER_TYP ." does not exist in the XML file",0);
+						$this->SendDebug("Device Name",DEVICE_TYP ." does not exist in the XML file",0);
 					}
 					### Regler
 					foreach($xml->packet as $master)
 					{
-						if ($master->source == REGLER_TYP) // passenden Regler in der Datei gefunden
+						if ($master->source == DEVICE_TYP) // match
 						{
 							foreach($master->field as $field)
 							{
@@ -228,7 +228,7 @@
 									$var_profil = "~Intensity.100";
 								}
 								//if ($var_profil == "" && $field_unit != "") {$var_profil = ATN_CreateVariableProfile($var_type, $field_unit, $field_bit_size);}
-								$var_ident = REGLER_TYP . $field_offset . (string)$field->bitPos;  // eindeutigen IDENT erzeugen
+								$var_ident = DEVICE_TYP . $field_offset . (string)$field->bitPos;  // eindeutigen IDENT erzeugen
 								$position = (int) $field_offset . (string)$field->bitPos;
 								//$this->SendDebug("Field Output","Ident: " . $var_ident . "| Name: " . $field_name . "| Offset: " . $field_offset . "| Value: ".$var_value . " ".$field_unit . "| Profil: " .$var_profil ,0);
 								switch ($var_type)

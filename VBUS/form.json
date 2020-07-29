@@ -6,6 +6,12 @@
                 { "caption": "RS232", "value": 1 }
             ]
         },
+        { "type": "Select", "name": "VarName", "caption": "Language",
+            "options": [
+                { "caption": "German", "value": 0 },
+                { "caption": "English", "value": 1 }
+            ]
+        },
         { "type": "ValidationTextBox", "name": "Password", "caption": "Password","value": "Pass"}
     ],
     "actions": [

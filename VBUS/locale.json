@@ -4,7 +4,10 @@
             "Select Gateway": "Gateway auswählen",
             "Password": "Passwort",
             "Send Password": "Passwort senden",
-            "Network": "Netzwerk"
+            "Network": "Netzwerk",
+            "Language": "Sprache",
+            "German": "Deutsch",
+            "English":"Englisch"
         }
     }
 }
