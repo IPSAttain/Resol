@@ -36,7 +36,14 @@
 
 		//Übergeordnete Instanz ist ein "SerialPort"
 		public function GetConfigurationForParent() {
-			return "{\"BaudRate\": \"9600\", \"StopBits\": \"1\", \"DataBits\": \"8\", \"Parity\": \"None\"}";
+			if ($this->ReadPropertyInteger("GatewayMode") == 1)
+			{
+				return "{\"BaudRate\": \"9600\", \"StopBits\": \"1\", \"DataBits\": \"8\", \"Parity\": \"None\"}";
+			}
+			if ($this->ReadPropertyInteger("GatewayMode") == 1)
+			{
+				return "{\"Port\": \"7053\"}";
+			}
 		}
 
 		public function ReceiveData($JSONString)
