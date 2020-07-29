@@ -40,7 +40,7 @@
 			}
 			if ($this->ReadPropertyInteger("GatewayMode") == 0)
 			{
-				return "{\"Port\": \"07053\"}";
+				return "{\"Port\": 7053}";
 			}
 		}
 
