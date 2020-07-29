@@ -67,7 +67,7 @@
 					$cs += $septet; // septet dazuaddieren
 					$cs = ~$cs; //Checksumme invertieren
 					$cs &= 127; //MSB aus Checksumme entfernen
-					$this->SendDebug("Frame Checksumm","Calculated Frame $i: $cs , Received: ".ord($value{$i * 6 + 7}),0);
+					$this->SendDebug("Frame Checksumm","Frame $i >> Calculated: $cs , Received: ".ord($value{$i * 6 + 7}),0);
 					if ($cs != ord($value{$i * 6 + 7})) // Checksumme Frame not ok?
 					{
 						$this->SendDebug("Frame Checksumm","Error in Frame $i >> calculated: $cs received: ".ord($value{$i * 6 + 7}),0);
@@ -79,7 +79,7 @@
 			{
 				$this->SendDebug("Header Checksumm","Error >> calculated: $cs received: ".ord($value{7}),0);
 			}	// end else
-			$this->SendDebug(SCRIPT_KENNUNG,implode("','",$byte_array),0);
+			$this->SendDebug("Recived Data",implode("','",$byte_array),0);
 				
 		}
 
