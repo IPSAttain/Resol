@@ -84,6 +84,7 @@
 			else  // Checksumme Head not ok
 			{
 				$this->SendDebug("Header Checksumm","Error >> calculated: $cs received: ".ord($value{7}),0);
+				return;
 			}	// end else
 			$this->SendDebug("Received Data",implode(" , ",$byte_array),0);
 				
