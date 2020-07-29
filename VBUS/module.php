@@ -47,13 +47,13 @@
 			}
 			$cs = ~$cs;	//Checksumme invertieren
 			$cs &= 127;	//MSB aus Checksumme entfernen
-			if ($debug) $this->SendDebug(SCRIPT_KENNUNG,"Berrechnete Checksumme Header: $cs , Empfangene Checksumme: " . HEADER_CHECKSUMME);
+			if ($debug) $this->SendDebug(SCRIPT_KENNUNG,"Berrechnete Checksumme Header: $cs , Empfangene Checksumme: " . HEADER_CHECKSUMME,0);
 			if ( $cs == HEADER_CHECKSUMME)  // Checksumme ok?
 			{
-				if ($debug) $this->SendDebug(SCRIPT_KENNUNG,"HeaderChecksumme OK!");
+				if ($debug) $this->SendDebug(SCRIPT_KENNUNG,"HeaderChecksumme OK!",0);
 				$byte_array = array();
 				$k = 0; // array Index
-				if ($debug) $this->SendDebug(SCRIPT_KENNUNG,"Anzahl der ermittelten Frames: " . ANZAHL_FRAMES);
+				if ($debug) $this->SendDebug(SCRIPT_KENNUNG,"Anzahl der ermittelten Frames: " . ANZAHL_FRAMES,0);
 				for ($i=01; $i<=ANZAHL_FRAMES; $i++) // Schleife für alle Datenframes
 				{
 				   $cs = 0;
@@ -68,19 +68,19 @@
 					$cs += $septet; // septet dazuaddieren
 					$cs = ~$cs; //Checksumme invertieren
 					$cs &= 127; //MSB aus Checksumme entfernen
-					if ($debug) $this->SendDebug(SCRIPT_KENNUNG,"Berrechnete Checksumme Frame $i: $cs , Empfangene Checksumme: ".ord($value{$i * 6 + 7}));
+					if ($debug) $this->SendDebug(SCRIPT_KENNUNG,"Berrechnete Checksumme Frame $i: $cs , Empfangene Checksumme: ".ord($value{$i * 6 + 7}),0);
 					if ($cs != ord($value{$i * 6 + 7})) // Checksumme Frame not ok?
 					{
-						$this->SendDebug(SCRIPT_KENNUNG,"Checksummenfehler im Frame $i >> ermittelte Summe: $cs empfangene Summe: ".ord($value{$i * 6 + 7}));
+						$this->SendDebug(SCRIPT_KENNUNG,"Checksummenfehler im Frame $i >> ermittelte Summe: $cs empfangene Summe: ".ord($value{$i * 6 + 7}),0);
 						return;
 					}
 				} // end for frameschleife
 			}
 			else  // Checksumme Head not ok
 			{
-				$this->SendDebug(SCRIPT_KENNUNG,"Checksummenfehler Header >>Checksumme berrechnet: $cs Checksumme soll: ".ord($value{7}));
+				$this->SendDebug(SCRIPT_KENNUNG,"Checksummenfehler Header >>Checksumme berrechnet: $cs Checksumme soll: ".ord($value{7}),0);
 			}	// end else
-			if ($debug) $this->SendDebug(SCRIPT_KENNUNG,print_r($byte_array));
+			if ($debug) $this->SendDebug(SCRIPT_KENNUNG,print_r($byte_array),0);
 				
 		}
 
