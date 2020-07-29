@@ -26,6 +26,7 @@
 				case 0: //ClientSocket bei Modus 0 erstellen
 					$this->ForceParent("{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}");
 					$this->GetConfigurationForParent();
+					Resol_SendPass();
 					break;
 				case 1: //SerialPort bei Modus 1 erstellen
 					$this->ForceParent("{6DC3D946-0D31-450F-A8C6-C42DB8D7D4F1}");
@@ -54,7 +55,7 @@
 				'Buffer' => utf8_encode($data),
 			]));
 		}
-		
+
 		public function ReceiveData($JSONString)
 		{
 			$data = json_decode($JSONString);
