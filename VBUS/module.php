@@ -31,14 +31,13 @@
 		{
 			$data = json_decode($JSONString);
 			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
-			$debug = true;
 			$value = utf8_decode($data->Buffer);
 			define('ANZAHL_FRAMES', ord($value{6}));
 			define('HEADER_CHECKSUMME', ord($value{7}));
 			define('REGLER_TYP', "0x" . dechex(ord($value{2})) . dechex(ord($value{1} )));
 			define('SCRIPT_KENNUNG', 'V-Bus-Modul');
 			define('XML_DATEI', 'VBusSpecificationResol.xml');
-			if ($debug) $this->SendDebug("Regler Typ",REGLER_TYP,0);
+			$this->SendDebug("Regler Typ",REGLER_TYP,0);
 
 			$cs = 16;       // durch den Cutter wird das erste Byte (0x10 Hex) abgeschnitten, hier wird der Wert wieder dazu genommen
 			for ($i=00; $i<=06; $i++)
@@ -47,13 +46,13 @@
 			}
 			$cs = ~$cs;	//Checksumme invertieren
 			$cs &= 127;	//MSB aus Checksumme entfernen
-			if ($debug) $this->SendDebug(SCRIPT_KENNUNG,"Berrechnete Checksumme Header: $cs , Empfangene Checksumme: " . HEADER_CHECKSUMME,0);
+			$this->SendDebug("Header Checksumm","Calculated: $cs , Received: " . HEADER_CHECKSUMME,0);
 			if ( $cs == HEADER_CHECKSUMME)  // Checksumme ok?
 			{
-				if ($debug) $this->SendDebug(SCRIPT_KENNUNG,"HeaderChecksumme OK!",0);
+				$this->SendDebug("Header Checksumm","Checksumme OK!",0);
 				$byte_array = array();
 				$k = 0; // array Index
-				if ($debug) $this->SendDebug(SCRIPT_KENNUNG,"Anzahl der ermittelten Frames: " . ANZAHL_FRAMES,0);
+				$this->SendDebug("Frame Count","Number of Frames: " . ANZAHL_FRAMES,0);
 				for ($i=01; $i<=ANZAHL_FRAMES; $i++) // Schleife für alle Datenframes
 				{
 				   $cs = 0;
@@ -68,19 +67,19 @@
 					$cs += $septet; // septet dazuaddieren
 					$cs = ~$cs; //Checksumme invertieren
 					$cs &= 127; //MSB aus Checksumme entfernen
-					if ($debug) $this->SendDebug(SCRIPT_KENNUNG,"Berrechnete Checksumme Frame $i: $cs , Empfangene Checksumme: ".ord($value{$i * 6 + 7}),0);
+					$this->SendDebug("Frame Checksumm","Calculated Frame $i: $cs , Received: ".ord($value{$i * 6 + 7}),0);
 					if ($cs != ord($value{$i * 6 + 7})) // Checksumme Frame not ok?
 					{
-						$this->SendDebug(SCRIPT_KENNUNG,"Checksummenfehler im Frame $i >> ermittelte Summe: $cs empfangene Summe: ".ord($value{$i * 6 + 7}),0);
+						$this->SendDebug("Frame Checksumm","Error in Frame $i >> calculated: $cs received: ".ord($value{$i * 6 + 7}),0);
 						return;
 					}
 				} // end for frameschleife
 			}
 			else  // Checksumme Head not ok
 			{
-				$this->SendDebug(SCRIPT_KENNUNG,"Checksummenfehler Header >>Checksumme berrechnet: $cs Checksumme soll: ".ord($value{7}),0);
+				$this->SendDebug("Header Checksumm","Error >> calculated: $cs received: ".ord($value{7}),0);
 			}	// end else
-			if ($debug) $this->SendDebug(SCRIPT_KENNUNG,print_r($byte_array),0);
+			$this->SendDebug(SCRIPT_KENNUNG,implode("','",$byte_array),0);
 				
 		}
 
