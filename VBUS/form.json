@@ -1,6 +1,6 @@
 {
     "elements": [
-        { "type": "Select", "name": "Gateway", "caption": "",
+        { "type": "Select", "name": "GatewayMode", "caption": "Select Gateway",
             "options": [
                 { "caption": "Network", "value": 0 },
                 { "caption": "RS232", "value": 1 }
