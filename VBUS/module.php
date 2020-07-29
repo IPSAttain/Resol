@@ -38,7 +38,7 @@
 			define('REGLER_TYP', "0x" . dechex(ord($value{2})) . dechex(ord($value{1} )));
 			define('SCRIPT_KENNUNG', 'V-Bus-Modul');
 			define('XML_DATEI', 'VBusSpecificationResol.xml');
-			if ($debug) $this->SendDebug(SCRIPT_KENNUNG,REGLER_TYP,0);
+			if ($debug) $this->SendDebug("Regler Typ",REGLER_TYP,0);
 
 			$cs = 16;       // durch den Cutter wird das erste Byte (0x10 Hex) abgeschnitten, hier wird der Wert wieder dazu genommen
 			for ($i=00; $i<=06; $i++)
@@ -80,7 +80,7 @@
 			{
 				$this->SendDebug(SCRIPT_KENNUNG,"Checksummenfehler Header >>Checksumme berrechnet: $cs Checksumme soll: ".ord($value{7}),0);
 			}	// end else
-			if ($debug) $this->SendDebug(SCRIPT_KENNUNG,$byte_array,0);
+			if ($debug) $this->SendDebug(SCRIPT_KENNUNG,print_r($byte_array),0);
 				
 		}
 
