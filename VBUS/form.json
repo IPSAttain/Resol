@@ -5,10 +5,10 @@
                 { "caption": "Network", "value": 0 },
                 { "caption": "RS232", "value": 1 }
             ]
-        }
+        },
+        { "type": "ValidationTextBox", "name": "Password", "caption": "Password","value": "Pass"}
     ],
     "actions": [
-        { "type": "ValidationTextBox", "name": "Password", "caption": "Password","value": "Pass"},
         { "type": "Button", "label": "Send Password", "onClick": "Resol_SendPass($id);" }
     ],
     "status": []
