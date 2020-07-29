@@ -85,7 +85,18 @@
 			if (file_exists(XML_DATEI))
 			{
 				$xml = simplexml_load_file(XML_DATEI);	
-				$this->SendDebug("XML",print_r($xml),0);
+				
+				### Regler Typ in der XML Datei suchen ###
+				foreach($xml->device as $master)
+				{
+					if ($master->address == REGLER_TYP)
+					{
+						$regler_name = (string)$master->name;
+						if ($debug) IPS_LogMessage(SCRIPT_KENNUNG,$regler_name);
+						$this->SendDebug("Device Name",$regler_name,0);
+						break; // end foreach
+					} // end if
+				}
 			}
 		}
 
