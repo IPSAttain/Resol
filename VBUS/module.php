@@ -30,6 +30,7 @@
 		public function ReceiveData($JSONString)
 		{
 			$data = json_decode($JSONString);
+			$language = 0;
 			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
 			$value = utf8_decode($data->Buffer);
 			define('ANZAHL_FRAMES', ord($value{6}));
