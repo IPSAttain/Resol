@@ -7,11 +7,6 @@
             ]
         }
     ],
-    "actions": [
-        { "type": "Button",
-        "caption": "Reset", 
-        "onClick": "SetValue(12345, 0);", 
-        "confirm": "Dies setzt die benötigten Instanzen" }
-    ],
+    "actions": [],
     "status": []
 }
