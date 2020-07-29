@@ -92,11 +92,123 @@
 					if ($master->address == REGLER_TYP)
 					{
 						$regler_name = (string)$master->name;
-						if ($debug) IPS_LogMessage(SCRIPT_KENNUNG,$regler_name);
 						$this->SendDebug("Device Name",$regler_name,0);
 						break; // end foreach
 					} // end if
 				}
+				if (!isset($regler_name))
+				{
+					$this->SendDebug("Device Name",REGLER_TYP ." does not exist in the XML file",0);
+				}
+				### Regler
+				foreach($xml->packet as $master)
+				{
+					if ($master->source == REGLER_TYP) // passenden Regler in der Datei gefunden
+					{
+						foreach($master->field as $field)
+						{
+							$field_name = (string)($field->name[$language]); // 0 = deutsch 1 = englisch
+							$field_info = (string)$field['commonUsage'][0];
+							$field_unit = (string)$field->unit;
+							$field_bit_size = (int)$field->bitSize;
+							$var_profil = "";
+							if ($field_bit_size  == 1)
+							{
+								$var_type = 0; // 0 ^ bool
+							}
+							elseif ((float)$field->factor < 1 && (float)$field->factor > 0)
+							{
+								$var_type = 2; // ^ float
+							}
+							else // kein factor oder factor >= 1
+							{
+								$var_type = 1; // ^ integer
+							}
+							if (isset($field->field->offset)) // es gibt mehrere unterwerte
+							{
+								$var_value = 0;
+								foreach($field->field as $child_field)
+								{
+									$field_offset =   (int)$child_field->offset;
+									$field_factor = (float)$child_field->factor;
+									$var_value += ($byte_array[$field_offset] + 256 * $byte_array[$field_offset+1])* $field_factor;
+								}
+							}
+							else // nur 1 unterwert
+							{
+								$field_offset = (int)$field->offset;
+								if (isset($field->factor))
+								{
+									$field_factor = (float)$field->factor;
+								}
+								else // wenn kein factor angegeben ist
+								{
+									$field_factor = 1;
+								}
+								switch ($field_bit_size)
+								{
+									case 32:
+										$var_value  = $byte_array[$field_offset] + (2**8) * $byte_array[$field_offset+1] + (2**16) * $byte_array[$field_offset+2] + (2**24) * $byte_array[$field_offset+3];
+										$var_value *= $field_factor;
+									break;
+									case 31:
+										$var_value  = $byte_array[$field_offset] + (2**8) * $byte_array[$field_offset+1] + (2**16) * $byte_array[$field_offset+2] + (2**24) * $byte_array[$field_offset+3];
+										$var_value -= ((2**32)*($var_value >> 31)); // wenn bit 31 == true , Wert ist negativ
+										$var_value *= $field_factor;
+									break;
+									case 16:
+										$var_value  = $byte_array[$field_offset] + (2**8) * $byte_array[$field_offset+1];
+										$var_value *= $field_factor;
+									break;
+									case 15:
+										$var_value  = $byte_array[$field_offset] + 2**8 * $byte_array[$field_offset+1];
+										$var_value -= ((2**16)*($var_value >> 15)); // wenn bit 15 == true , Wert ist negativ
+										$var_value *= $field_factor;
+									break;
+									case 8:
+										$var_value = $byte_array[$field_offset];
+									break;
+									case 7:  
+										$var_value = $byte_array[$field_offset];
+										$var_value -= ((2**8)*($var_value >> 7)); // wenn bit 7 == true , Wert ist negativ
+									break;
+									case 1:
+										$field_bit = $field->bitPos;
+										$var_value = (($byte_array[$field_offset] >> $field_bit) & 1);
+										$var_profil = "~Switch";
+									break;
+								} // END Switch
+							} //end else
+							if ((string)$field->format == "t") // Systemzeit
+							{
+								$var_value = mktime(0,$var_value,0);
+								$var_profil = "~UnixTimestamp";
+							}
+							if ((string) $field_unit == " °C") // Temperaturen
+							{
+								$var_profil = "~Temperature";
+		
+							}
+							if ($field_unit == " %") // Drehzahlen
+							{
+								$var_profil = "~Intensity.100";
+							}
+							//if ($debug) echo "|" .$var_profil . "|" . $field_unit . "|\r\n";
+							//if ($var_profil == "" && $field_unit != "") {$var_profil = ATN_CreateVariableProfile($var_type, $field_unit, $field_bit_size);}
+							$var_ident = REGLER_TYP . $field_offset . (string)$field->bitPos;  // eindeutigen IDENT erzeugen
+							$position = (int) $field_offset . (string)$field->bitPos;
+							//if ($debug) IPS_LogMessage(SCRIPT_KENNUNG,$field_name . " " . $field_offset . " ".$var_value . " ".$field_unit);
+							$this->SendDebug("Field Output","Ident: " . $var_ident . " Name: " . $field_name . " Offset: " . $field_offset . " Value: ".$var_value . " ".$field_unit,0);
+							//$var_id = CreateVariableByName($parentID, $field_name, $var_type, $var_ident, $var_profil, $position, $field_info);
+							//if (GetValue($var_id) != $var_value) SetValue($var_id,$var_value); // Wert in Variable abspeichern. Nur neue.
+						}
+					break; //foreach beenden
+					} // end if
+				} //end foreach
+			} //end if
+			else
+			{
+				$this->SendDebug("XML","Fail to load XML file",0);
 			}
 		}
 
