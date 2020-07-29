@@ -1,0 +1,16 @@
+{
+    "elements": [],
+    "actions": [
+        {
+            "name": "Text",
+            "type": "ValidationTextBox",
+            "caption": "Text"
+        },
+        {
+            "type": "Button",
+            "caption": "Send",
+            "onClick": "ATN_Send($id, $Text);"
+        }
+    ],
+    "status": []
+}
