@@ -30,7 +30,8 @@
 		public function ReceiveData($JSONString)
 		{
 			$data = json_decode($JSONString);
-			IPS_LogMessage("Device RECV", utf8_decode($data->Buffer));
+			//IPS_LogMessage("Device RECV", utf8_decode($data->Buffer));
+			this->SendDebug("Recived",utf8_decode($data->Buffer),1)
 			$debug = true;
 			$value = utf8_decode($data->Buffer);
 			define('ANZAHL_FRAMES', ord($value{6}));
