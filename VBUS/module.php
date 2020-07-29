@@ -29,8 +29,14 @@
 				case 1: //SerialPort bei Modus 1 erstellen
 					//$this->RegisterPropertyInteger("GatewayMode", 1);
 					$this->ForceParent("{6DC3D946-0D31-450F-A8C6-C42DB8D7D4F1}");
-					break;
+					$this->GetConfigurationForParent();
+ 					break;
 			}
+		}
+
+		//Übergeordnete Instanz ist ein "SerialPort"
+		public function GetConfigurationForParent() {
+			return "{\"BaudRate\": \"9600\", \"StopBits\": \"1\", \"DataBits\": \"8\", \"Parity\": \"None\"}";
 		}
 
 		public function ReceiveData($JSONString)
