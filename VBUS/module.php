@@ -36,7 +36,7 @@
 			define('HEADER_CHECKSUMME', ord($value{7}));
 			define('REGLER_TYP', "0x" . dechex(ord($value{2})) . dechex(ord($value{1} )));
 			define('SCRIPT_KENNUNG', 'V-Bus-Modul');
-			define('XML_DATEI', 'VBusSpecificationResol.xml');
+			define('XML_DATEI', __DIR__ . "/../libs/VBusSpecificationResol.xml");
 			$this->SendDebug("Regler Typ",REGLER_TYP,0);
 
 			$cs = 16;       // durch den Cutter wird das erste Byte (0x10 Hex) abgeschnitten, hier wird der Wert wieder dazu genommen
@@ -67,20 +67,25 @@
 					$cs += $septet; // septet dazuaddieren
 					$cs = ~$cs; //Checksumme invertieren
 					$cs &= 127; //MSB aus Checksumme entfernen
-					$this->SendDebug("Frame Checksumm","Frame $i >> Calculated: $cs , Received: ".ord($value{$i * 6 + 7}),0);
+					// $this->SendDebug("Frame Checksumm","Frame $i >> Calculated: $cs , Received: ".ord($value{$i * 6 + 7}),0);
 					if ($cs != ord($value{$i * 6 + 7})) // Checksumme Frame not ok?
 					{
 						$this->SendDebug("Frame Checksumm","Error in Frame $i >> calculated: $cs received: ".ord($value{$i * 6 + 7}),0);
 						return;
 					}
+					$this->SendDebug("Frame Checksumm","Checksumm OK for $i frames"),0);
 				} // end for frameschleife
 			}
 			else  // Checksumme Head not ok
 			{
 				$this->SendDebug("Header Checksumm","Error >> calculated: $cs received: ".ord($value{7}),0);
 			}	// end else
-			$this->SendDebug("Recived Data",implode("','",$byte_array),0);
+			$this->SendDebug("Received Data",implode(" , ",$byte_array),0);
 				
+			if (file_exists(XML_DATEI))
+			{
+				$xml = simplexml_load_file(XML_DATEI);	
+			}
 		}
 
 	}
