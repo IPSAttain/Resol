@@ -36,7 +36,7 @@
 			$data = json_decode($JSONString);
 			$language = 0;
 			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
-			$value = utf8_decode($data->Buffer);
+			$value = ltrim(utf8_decode($data->Buffer), "\xaa\x10");
 			define('ANZAHL_FRAMES', ord($value{6}));
 			define('HEADER_CHECKSUMME', ord($value{7}));
 			define('REGLER_TYP', "0x" . dechex(ord($value{2})) . dechex(ord($value{1} )));
