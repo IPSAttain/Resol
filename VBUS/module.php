@@ -52,7 +52,7 @@
 				$this->SendDebug("Header Checksumm","Checksumme OK!",0);
 				$byte_array = array();
 				$k = 0; // array Index
-				$this->SendDebug("Frame Count","Number of Frames: " . ANZAHL_FRAMES,0);
+				$this->SendDebug("Frame Count","Number of Frames: " . (ANZAHL_FRAMES+1),0);
 				for ($i=01; $i<=ANZAHL_FRAMES; $i++) // Schleife für alle Datenframes
 				{
 				   $cs = 0;
@@ -85,7 +85,7 @@
 			if (file_exists(XML_DATEI))
 			{
 				$xml = simplexml_load_file(XML_DATEI);	
-				$this->SendDebug("XML",implode(" , ",$xml),0);
+				$this->SendDebug("XML",print_r($xml),0);
 			}
 		}
 
