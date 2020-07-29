@@ -203,6 +203,12 @@
 								case 0:
 									$this->RegisterVariableBoolean($var_ident, $field_name, '~Switch', 0);
 									if($this->GetValue($var_ident) != $var_value) SetValueBoolean($this->GetIDForIdent($var_ident), $var_value);
+								break;
+								case 1:
+									$this->RegisterVariableInteger($var_ident, $field_name, $var_profil, 0);
+									if($this->GetValue($var_ident) != $var_value) SetValueInteger($this->GetIDForIdent($var_ident), $var_value);
+
+								break;
 							} // end switch
 							//$var_id = CreateVariableByName($parentID, $field_name, $var_type, $var_ident, $var_profil, $position, $field_info);
 							//if (GetValue($var_id) != $var_value) SetValue($var_id,$var_value); // Wert in Variable abspeichern. Nur neue.
