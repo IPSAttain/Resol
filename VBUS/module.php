@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . "/../libs/VBusSpecificationResol.xml");  // Regler Spezifikationen
 	class VBUS extends IPSModule {
 
 		public function Create()
@@ -35,7 +36,7 @@
 			define('ANZAHL_FRAMES', ord($value{6}));
 			define('HEADER_CHECKSUMME', ord($value{7}));
 			define('REGLER_TYP', "0x" . dechex(ord($value{2})) . dechex(ord($value{1} )));
-			define('SCRIPT_KENNUNG', 'V-Bus-Script ID : ' . $_IPS['SELF']);
+			define('SCRIPT_KENNUNG', 'V-Bus-Modul');
 			define('XML_DATEI', 'VBusSpecificationResol.xml');
 			if ($debug) IPS_LogMessage(SCRIPT_KENNUNG,REGLER_TYP);
 
