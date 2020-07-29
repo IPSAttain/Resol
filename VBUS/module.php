@@ -36,6 +36,8 @@
 			$data = json_decode($JSONString);
 			$language = 0;
 			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
+			$payload = utf8_decode($data->Buffer);
+			if (substr($payload,0,2) == "\xaa\x00") return;
 			$value = ltrim(utf8_decode($data->Buffer), "\xaa\x10");
 			define('ANZAHL_FRAMES', ord($value{6}));
 			define('HEADER_CHECKSUMME', ord($value{7}));
@@ -202,7 +204,7 @@
 							//if ($var_profil == "" && $field_unit != "") {$var_profil = ATN_CreateVariableProfile($var_type, $field_unit, $field_bit_size);}
 							$var_ident = REGLER_TYP . $field_offset . (string)$field->bitPos;  // eindeutigen IDENT erzeugen
 							$position = (int) $field_offset . (string)$field->bitPos;
-							$this->SendDebug("Field Output","Ident: " . $var_ident . "| Name: " . $field_name . "| Offset: " . $field_offset . "| Value: ".$var_value . " ".$field_unit . "| Profil: " .$var_profil ,0);
+							//$this->SendDebug("Field Output","Ident: " . $var_ident . "| Name: " . $field_name . "| Offset: " . $field_offset . "| Value: ".$var_value . " ".$field_unit . "| Profil: " .$var_profil ,0);
 							switch ($var_type)
 							{
 								case 0: // bool
