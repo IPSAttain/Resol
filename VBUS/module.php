@@ -85,6 +85,7 @@
 			if (file_exists(XML_DATEI))
 			{
 				$xml = simplexml_load_file(XML_DATEI);	
+				
 			}
 		}
 
