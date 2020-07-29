@@ -8,6 +8,7 @@
 
 			//$this->ConnectParent("{AC6C6E74-C797-40B3-BA82-F135D941D1A2}");
 			$this->RegisterPropertyInteger("GatewayMode", 0);
+			$this->RegisterPropertyString("Password", "Pass");
 		}
 
 		public function Destroy()
@@ -44,6 +45,15 @@
 			}
 		}
 
+		public function SendPass()
+		{
+			$data =  "PASS " . $this->ReadPropertyString("Password") . CHR(13);
+			$data .= "DATA" . CHR(13);
+			$this->SendDataToParent(json_encode([
+				'DataID' => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}",
+				'Buffer' => utf8_encode($data),
+			]));
+		}
 		public function ReceiveData($JSONString)
 		{
 			$data = json_decode($JSONString);

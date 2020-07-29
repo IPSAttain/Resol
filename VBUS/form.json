@@ -7,6 +7,9 @@
             ]
         }
     ],
-    "actions": [],
+    "actions": [
+        { "type": "ValidationTextBox", "name": "Password", "caption": "Password" },
+        { "type": "Button", "label": "Send Password", "onClick": "ATN_SendPass();" }
+    ],
     "status": []
 }
