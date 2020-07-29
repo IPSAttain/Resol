@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/../libs/VBusSpecificationResol.xml");  // Regler Spezifikationen
+//require_once(__DIR__ . "/../libs/VBusSpecificationResol.xml");  // Regler Spezifikationen
 	class VBUS extends IPSModule {
 
 		public function Create()
