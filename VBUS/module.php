@@ -1,5 +1,4 @@
 <?php
-//require_once(__DIR__ . "/../libs/VBusSpecificationResol.xml");  // Regler Spezifikationen
 	class VBUS extends IPSModule {
 
 		public function Create()
@@ -7,7 +6,8 @@
 			//Never delete this line!
 			parent::Create();
 
-			$this->ConnectParent("{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}");
+			$this->ConnectParent("{AC6C6E74-C797-40B3-BA82-F135D941D1A2}");
+			$this->RegisterPropertyInteger("GatewayMode", 0);
 		}
 
 		public function Destroy()
@@ -20,6 +20,15 @@
 		{
 			//Never delete this line!
 			parent::ApplyChanges();
+
+			switch($this->ReadPropertyInteger("GatewayMode")) {
+				case 0: //ClientSocket bei Modus 0 erstellen
+					$this->ForceParent("{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}");
+					break;
+				case 1: //SerialPort bei Modus 1 erstellen
+					$this->ForceParent("{6DC3D946-0D31-450F-A8C6-C42DB8D7D4F1}");
+					break;
+			}
 		}
 
 		public function Send(string $Text)
@@ -213,8 +222,6 @@
 									if($this->GetValue($var_ident) != $var_value) SetValueFloat($this->GetIDForIdent($var_ident), $var_value);
 								break;
 							} // end switch
-							//$var_id = CreateVariableByName($parentID, $field_name, $var_type, $var_ident, $var_profil, $position, $field_info);
-							//if (GetValue($var_id) != $var_value) SetValue($var_id,$var_value); // Wert in Variable abspeichern. Nur neue.
 						}
 					break; //foreach beenden
 					} // end if
@@ -225,5 +232,4 @@
 				$this->SendDebug("XML","Fail to load XML file",0);
 			}
 		}
-
 	}

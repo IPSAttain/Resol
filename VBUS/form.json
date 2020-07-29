@@ -1,5 +1,12 @@
 {
-    "elements": [],
+    "elements": [
+        { "type": "Select", "name": "Gateway", "caption": "",
+            "options": [
+                { "caption": "Network", "value": 0 },
+                { "caption": "RS232", "value": 1 }
+            ]
+        }
+    ],
     "actions": [
         {
             "name": "Text",
