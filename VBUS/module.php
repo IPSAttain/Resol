@@ -199,7 +199,7 @@
 							$var_ident = REGLER_TYP . $field_offset . (string)$field->bitPos;  // eindeutigen IDENT erzeugen
 							$position = (int) $field_offset . (string)$field->bitPos;
 							//if ($debug) IPS_LogMessage(SCRIPT_KENNUNG,$field_name . " " . $field_offset . " ".$var_value . " ".$field_unit);
-							$this->SendDebug("Field Output","Ident: " . $var_ident . " Name: " . $field_name . " Offset: " . $field_offset . " Value: ".$var_value . " ".$field_unit,0);
+							$this->SendDebug("Field Output","Ident: " . $var_ident . "| Name: " . $field_name . "| Offset: " . $field_offset . "| Value: ".$var_value . " ".$field_unit . "| Profil: " .$var_profil . "| Unit: " . $field_unit ,0);
 							//$var_id = CreateVariableByName($parentID, $field_name, $var_type, $var_ident, $var_profil, $position, $field_info);
 							//if (GetValue($var_id) != $var_value) SetValue($var_id,$var_value); // Wert in Variable abspeichern. Nur neue.
 						}
