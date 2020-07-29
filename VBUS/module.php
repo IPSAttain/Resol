@@ -30,7 +30,6 @@
 		public function ReceiveData($JSONString)
 		{
 			$data = json_decode($JSONString);
-			//IPS_LogMessage("Device RECV", utf8_decode($data->Buffer));
 			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
 			$debug = true;
 			$value = utf8_decode($data->Buffer);
@@ -39,7 +38,7 @@
 			define('REGLER_TYP', "0x" . dechex(ord($value{2})) . dechex(ord($value{1} )));
 			define('SCRIPT_KENNUNG', 'V-Bus-Modul');
 			define('XML_DATEI', 'VBusSpecificationResol.xml');
-			if ($debug) IPS_LogMessage(SCRIPT_KENNUNG,REGLER_TYP);
+			if ($debug) $this->SendDebug(SCRIPT_KENNUNG,REGLER_TYP);
 
 			$cs = 16;       // durch den Cutter wird das erste Byte (0x10 Hex) abgeschnitten, hier wird der Wert wieder dazu genommen
 			for ($i=00; $i<=06; $i++)
@@ -48,13 +47,13 @@
 			}
 			$cs = ~$cs;	//Checksumme invertieren
 			$cs &= 127;	//MSB aus Checksumme entfernen
-			if ($debug) IPS_LogMessage(SCRIPT_KENNUNG,"Berrechnete Checksumme Header: $cs , Empfangene Checksumme: " . HEADER_CHECKSUMME);
+			if ($debug) $this->SendDebug(SCRIPT_KENNUNG,"Berrechnete Checksumme Header: $cs , Empfangene Checksumme: " . HEADER_CHECKSUMME);
 			if ( $cs == HEADER_CHECKSUMME)  // Checksumme ok?
 			{
-				if ($debug) IPS_LogMessage(SCRIPT_KENNUNG,"HeaderChecksumme OK!");
+				if ($debug) $this->SendDebug(SCRIPT_KENNUNG,"HeaderChecksumme OK!");
 				$byte_array = array();
 				$k = 0; // array Index
-				if ($debug) IPS_LogMessage(SCRIPT_KENNUNG,"Anzahl der ermittelten Frames: " . ANZAHL_FRAMES);
+				if ($debug) $this->SendDebug(SCRIPT_KENNUNG,"Anzahl der ermittelten Frames: " . ANZAHL_FRAMES);
 				for ($i=01; $i<=ANZAHL_FRAMES; $i++) // Schleife für alle Datenframes
 				{
 				   $cs = 0;
@@ -69,19 +68,19 @@
 					$cs += $septet; // septet dazuaddieren
 					$cs = ~$cs; //Checksumme invertieren
 					$cs &= 127; //MSB aus Checksumme entfernen
-					if ($debug) IPS_LogMessage(SCRIPT_KENNUNG,"Berrechnete Checksumme Frame $i: $cs , Empfangene Checksumme: ".ord($value{$i * 6 + 7}));
+					if ($debug) $this->SendDebug(SCRIPT_KENNUNG,"Berrechnete Checksumme Frame $i: $cs , Empfangene Checksumme: ".ord($value{$i * 6 + 7}));
 					if ($cs != ord($value{$i * 6 + 7})) // Checksumme Frame not ok?
 					{
-						IPS_LogMessage(SCRIPT_KENNUNG,"Checksummenfehler im Frame $i >> ermittelte Summe: $cs empfangene Summe: ".ord($value{$i * 6 + 7}));
+						$this->SendDebug(SCRIPT_KENNUNG,"Checksummenfehler im Frame $i >> ermittelte Summe: $cs empfangene Summe: ".ord($value{$i * 6 + 7}));
 						return;
 					}
 				} // end for frameschleife
 			}
 			else  // Checksumme Head not ok
 			{
-				IPS_LogMessage(SCRIPT_KENNUNG,"Checksummenfehler Header >>Checksumme berrechnet: $cs Checksumme soll: ".ord($value{7}));
+				$this->SendDebug(SCRIPT_KENNUNG,"Checksummenfehler Header >>Checksumme berrechnet: $cs Checksumme soll: ".ord($value{7}));
 			}	// end else
-			if ($debug) IPS_LogMessage(SCRIPT_KENNUNG,print_r($byte_array));
+			if ($debug) $this->SendDebug(SCRIPT_KENNUNG,print_r($byte_array));
 				
 		}
 
