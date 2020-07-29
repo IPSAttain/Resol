@@ -78,7 +78,7 @@
 				$cs = 16;       // durch den Cutter wird das erste Byte (0x10 Hex) abgeschnitten, hier wird der Wert wieder dazu genommen
 				for ($i=00; $i<=06; $i++)
 				{
-					$cs += ord($value{$i}); //Headerbytes zur Checksumme zusammenaddieren
+					$cs += ord($value{$i}); // add Headerbytes -> Checksumme 
 				}
 				$cs = ~$cs;	//invert Checksumm
 				$cs &= 127;	//remove the MSB from Checksumm
@@ -109,7 +109,7 @@
 							$this->SendDebug("Frame Checksumm","Error in Frame $i >> calculated: $cs received: ".ord($value{$i * 6 + 7}),0);
 							return;
 						}
-					} // end for frameschleife
+					} // end for frame loop
 					$this->SendDebug("Frame Checksumm","Checksumm OK for $i frames",0);
 				}
 				else  // Checksumme Head not ok
@@ -146,11 +146,11 @@
 							{
 								if (isset($field->name[$language]))
 								{
-									$field_name = (string)($field->name[$language]); // 0 = deutsch 1 = englisch
+									$field_name = (string)($field->name[$language]); // 0 = german 1 = english
 								}
-								else
+								else // EN description not available -> force to german
 								{
-									$field_name = (string)@($field->name[0]); // 0 = deutsch 1 = englisch
+									$field_name = (string)@($field->name[0]); 
 								}
 								$field_info = (string)$field['commonUsage'][0];
 								$field_unit = (string)$field->unit;
@@ -164,11 +164,11 @@
 								{
 									$var_type = 2; // ^ float
 								}
-								else // kein factor oder factor >= 1
+								else // no factor or factor >= 1
 								{
 									$var_type = 1; // ^ integer
 								}
-								if (isset($field->field->offset)) // es gibt mehrere unterwerte
+								if (isset($field->field->offset)) // multiple sub values
 								{
 									$var_value = 0;
 									foreach($field->field as $child_field)
@@ -178,14 +178,14 @@
 										$var_value += ($byte_array[$field_offset] + 256 * $byte_array[$field_offset+1])* $field_factor;
 									}
 								}
-								else // nur 1 unterwert
+								else // only on subvalue
 								{
 									$field_offset = (int)$field->offset;
 									if (isset($field->factor))
 									{
 										$field_factor = (float)$field->factor;
 									}
-									else // wenn kein factor angegeben ist
+									else // no factor
 									{
 										$field_factor = 1;
 									}
@@ -197,7 +197,7 @@
 										break;
 										case 31:
 											$var_value  = $byte_array[$field_offset] + (2**8) * $byte_array[$field_offset+1] + (2**16) * $byte_array[$field_offset+2] + (2**24) * $byte_array[$field_offset+3];
-											$var_value -= ((2**32)*($var_value >> 31)); // wenn bit 31 == true , Wert ist negativ
+											$var_value -= ((2**32)*($var_value >> 31)); // if bit 31 == true , negative value
 											$var_value *= $field_factor;
 										break;
 										case 16:
@@ -206,7 +206,7 @@
 										break;
 										case 15:
 											$var_value  = $byte_array[$field_offset] + 2**8 * $byte_array[$field_offset+1];
-											$var_value -= ((2**16)*($var_value >> 15)); // wenn bit 15 == true , Wert ist negativ
+											$var_value -= ((2**16)*($var_value >> 15)); // if bit 15 == true , negative value
 											$var_value *= $field_factor;
 										break;
 										case 8:
@@ -214,7 +214,7 @@
 										break;
 										case 7:  
 											$var_value = $byte_array[$field_offset];
-											$var_value -= ((2**8)*($var_value >> 7)); // wenn bit 7 == true , Wert ist negativ
+											$var_value -= ((2**8)*($var_value >> 7)); // if bit 7 == true , negative value
 										break;
 										case 1:
 											$field_bit = $field->bitPos;
@@ -223,17 +223,17 @@
 										break;
 									} // END Switch
 								} //end else
-								if ((string)$field->format == "t") // Systemzeit
+								if ((string)$field->format == "t") // Time
 								{
 									$var_value = mktime(0,$var_value,0);
 									$var_profil = "~UnixTimestamp";
 								}
-								if ((string) $field_unit == " °C") // Temperaturen
+								if ((string) $field_unit == " °C") // Temperature
 								{
 									$var_profil = "~Temperature";
 			
 								}
-								if ($field_unit == " %") // Drehzahlen
+								if ($field_unit == " %") // Pump Speed
 								{
 									$var_profil = "~Intensity.100";
 								}
@@ -257,7 +257,7 @@
 									break;
 								} // end switch
 							}
-						break; //foreach beenden
+						break; // break foreach 
 						} // end if
 					} //end foreach
 				} //end if
