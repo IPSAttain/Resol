@@ -80,7 +80,7 @@
 			{
 				$this->SendDebug(SCRIPT_KENNUNG,"Checksummenfehler Header >>Checksumme berrechnet: $cs Checksumme soll: ".ord($value{7}),0);
 			}	// end else
-			if ($debug) $this->SendDebug(SCRIPT_KENNUNG,print_r($byte_array),0);
+			if ($debug) $this->SendDebug(SCRIPT_KENNUNG,$byte_array,0);
 				
 		}
 
