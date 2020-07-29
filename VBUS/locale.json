@@ -1,9 +1,10 @@
 {
     "translations": {
         "de": {
-            "Select Gateway": "Gateway asuwählen",
+            "Select Gateway": "Gateway auswählen",
             "Password": "Passwort",
-            "Send Password": "Passwort senden"
+            "Send Password": "Passwort senden",
+            "Network": "Netzwerk"
         }
     }
 }
