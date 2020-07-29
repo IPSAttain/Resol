@@ -54,6 +54,7 @@
 				'Buffer' => utf8_encode($data),
 			]));
 		}
+		
 		public function ReceiveData($JSONString)
 		{
 			$data = json_decode($JSONString);
