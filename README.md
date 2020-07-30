@@ -16,22 +16,22 @@ Folgende Module beinhaltet die Repository:
 
 	VBus-Datenströme der Protokollversion 2.0 (kurz „Datagramme“ genannt) ermöglichen den Zugriff auf alle Werte, die über das Menüsystem des Moduls angepasst werden können. Dies ist __nicht__ in diesem Modul umgesetzt.
 
-- __Voraussetzung__
+- ## Voraussetzung
 
 IPS Version mindestens 4.2
 
-- __Installation__
+- ## Installation
 
 Nach hinzufügen des Moduls, kann einen neue Instanz angelegt werden.
 Dazu nach "VBUS" oder "Resol" suchen.
 
 ![Instanz](docs/Instanz.png)
 
-- __Einstellungen__
+- ## Einstellungen
 
 In der Instanz können folgende Einstellungen vorgenommen werden.
 - __Gateway:__	Auswahl ob LAN (Netzwerk) oder RS232 (Seriell) Adapter
-- __Sprache für Variablennamen:__ In der Beschreibung der Werte sind Deutsche und zum Teil Englische, Bezeichnungen. Je nach Auswahl werden die IPS Variablen entsprechend angelegt. Ein nachträgliches manuells Ändern der Variablennamen ist natürlich jederzeit möglich.
+- __Sprache für Variablennamen:__ In der Beschreibung der Werte sind Deutsche und zum Teil Englische, Bezeichnungen. Je nach Auswahl werden die IPS Variablen entsprechend angelegt. Ein nachträgliches manuelles Ändern der Variablennamen ist natürlich jederzeit möglich.
 - __Passwort:__ Der LAN Adapter sendet erst Daten, wenn über die Schnittstelle eine Passwort gesendet wird.  
 	Standart: __vbus__  
 	Dieses wird gesendet nach Übernehmen von Änderungen in der Konfiguration oder mit dem Button "Passwort Senden".  
@@ -39,11 +39,11 @@ In der Instanz können folgende Einstellungen vorgenommen werden.
 
 ![Konfig](docs/Konfig.png)
 
-- __Funktionen__
+- ## Funktionen
 
 Resol_SendPass();
 
 Mit der Funktion kann das Passwort manuell an den LAN Adapter gesendet werden.
 
-- __Changelog__
+- ## Changelog
 1. | V1.0 | Grundversion
