@@ -94,12 +94,12 @@
 					$cs = 0;
 					$septet = ord($value{$i * 6 + 6});
 						for ($j=00; $j<=03; $j++)
-						{  // es sind immer 4 Bytes in einem Frame
+						{  // always 4 Bytes in a Frame
 							$payload_byte = ord($value{$i * 6 + 2 + $j});
 							$byte_array[$k] = $payload_byte + 128 * (($septet >> $j) & 1); //das komplette Datenbyte aus dem Byte und dem Teil des Septet zusammenfügen
-							$k++; //Array Index erhöhen
+							$k++; // inc. Array Index 
 							$cs += $payload_byte;// add payload to checksumm
-						} // End payload Byte Schleife
+						} // End payload Byte loop
 						$cs += $septet; // add septet 
 						$cs = ~$cs; // invert Checksumm
 						$cs &= 127; // remove MSB from Checksumm

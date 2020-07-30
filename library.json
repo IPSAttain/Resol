@@ -2,11 +2,11 @@
     "id": "{AECBAF22-162D-1422-7F8A-672256424855}",
     "name": "Resol_VBus",
     "author": "Attain",
-    "url": "",
+    "url": "https://github.com/IPSAttain/Resol",
     "compatibility": {
-        "version": "5.3"
+        "version": "4.2"
     },
     "version": "1.0",
-    "build": 0,
+    "build": 1,
     "date": 0
 }
