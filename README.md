@@ -3,6 +3,7 @@
 Folgende Module beinhaltet die Repository:
 
 - __VBUS__ ([Dokumentation](VBUS))  
+
 	Die Resol Solarregler senden sekündlich den Status der Sensoren und weitere Werte auf den "VBUS".
 	Über einen LAN oder RS232 Adapter können diese Werte abgegriffen werden. 
 
@@ -30,7 +31,7 @@ In der Instanz können folgende Einstellungen vorgenommen werden.
 	Dieses wird gesendet nach übernehmen von Änderungen in der Konfiguration oder mit dem Button "Passwort Senden".
 	Für die RS232 Schnitstelle hat es keine relevanz.
 
-![Konfig](/docs/Konfig.PNG)
+![Konfig](docs/Konfig.png)
 
 - __Changelog__
 1. | V1.0 | Grundversion
