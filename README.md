@@ -14,8 +14,8 @@ Folgende Module beinhaltet die Repository:
 	Die Variablennamen können umbennant werden, müssen aber unter der Instanz bleiben.
 	Bekannte Formate bekommen automatisch ein Variablenprofil, alle anderen müssen manuell eines zugewiesen bekommen. 
 
-	VBus-Datenströme der Protokollversion 2.0 (kurz „Datagramme“ genannt) ermöglichen den Zugriff auf alle Werte, die über das Menüsystem des Moduls angepasst werden können. Dies ist #nicht# in diesem Modul umgesetzt.
-	 
+	VBus-Datenströme der Protokollversion 2.0 (kurz „Datagramme“ genannt) ermöglichen den Zugriff auf alle Werte, die über das Menüsystem des Moduls angepasst werden können. Dies ist _nicht_ in diesem Modul umgesetzt.
+
 - __Voraussetzung__
 
 IPS Version mindestens 4.2
