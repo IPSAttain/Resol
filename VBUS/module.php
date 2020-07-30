@@ -66,7 +66,7 @@
 			$language = $this->ReadPropertyInteger("VarName");
 			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
 			$payload = utf8_decode($data->Buffer);
-			if (substr($payload,0,2) == "\xaa\x10") 
+			if (substr($payload,0,2) == "\xaa\x10" && strlen($payload) >= 16) 
 			{
 				$value = ltrim(utf8_decode($data->Buffer), "\xaa\x10"); // remove the first 2 bytes, like the cutter
 				define('NUMBER_OF_FRAMES', ord($value{6}));
@@ -89,6 +89,11 @@
 					$byte_array = array();
 					$k = 0; // array Index
 					$this->SendDebug("Frame Count","Number of Frames: " . (NUMBER_OF_FRAMES+1),0);
+					if (strlen($payload) < NUMBER_OF_FRAMES * 6 + 10) 
+					{
+						$this->SendDebug("Payload","Lenght of Payload is to short. Calculated: " . (NUMBER_OF_FRAMES * 6 + 10) . "Received: ". strlen($payload),0);
+						return;
+					}
 					for ($i=01; $i<=NUMBER_OF_FRAMES; $i++) // loop for all frames
 					{
 					$cs = 0;
