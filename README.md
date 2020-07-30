@@ -1,4 +1,6 @@
 # Modul zur Einbindung von Resol Solarreglern in IP-Symcon
+[![Version](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
+[![Version](https://img.shields.io/badge/Symcon%20Version-4.2%20%3E-green.svg)]
 
 Folgende Module beinhaltet die Repository:
 
