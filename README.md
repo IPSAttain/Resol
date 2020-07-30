@@ -1,6 +1,6 @@
 # Modul zur Einbindung von Resol Solarreglern in IP-Symcon
 [![Version](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-[![Version](https://img.shields.io/badge/Symcon%20Version-4.2%20%3E-green.svg)]
+![Version](https://img.shields.io/badge/Symcon%20Version-4.2%20%3E-green.svg)
 
 Folgende Module beinhaltet die Repository:
 
@@ -8,12 +8,14 @@ Folgende Module beinhaltet die Repository:
 
 	Die Resol Solarregler senden sekündlich den Status der Sensoren und weitere Werte auf den "VBUS".
 	Über einen LAN oder RS232 Adapter können diese Werte abgegriffen werden. 
-
-	Das Modul dient zum Empfang von Daten über den "V-Bus".
+	
+	Das Modul dient zum Empfang von Daten über den "V-Bus". Dazu unterstütz das Modul die Resol Protokollversion 1.0
 	Die Daten werden entsprechend ihrer Bedeutung aufbereitet und in IPS Variablen abgelegt.
 	Die Variablennamen können umbennant werden, müssen aber unter der Instanz bleiben.
 	Bekannte Formate bekommen automatisch ein Variablenprofil, alle anderen müssen manuell eines zugewiesen bekommen. 
 
+	VBus-Datenströme der Protokollversion 2.0 (kurz „Datagramme“ genannt) ermöglichen den Zugriff auf alle Werte, die über das Menüsystem des Moduls angepasst werden können. Dies ist #nicht# in diesem Modul umgesetzt.
+	 
 - __Voraussetzung__
 
 IPS Version mindestens 4.2
