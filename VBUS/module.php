@@ -89,7 +89,7 @@
 					$byte_array = array();
 					$k = 0; // array Index
 					$this->SendDebug("Frame Count","Number of Frames: " . (NUMBER_OF_FRAMES),0);
-					if (strlen($payload) < (NUMBER_OF_FRAMES * 6 + 11) 
+					if (strlen($payload) < (NUMBER_OF_FRAMES * 6 + 11)) 
 					{
 						$this->SendDebug("Payload","Lenght of Payload is to short. Calculated: " . (NUMBER_OF_FRAMES * 6 + 10) . "Received: ". strlen($payload),0);
 						return;
