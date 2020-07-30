@@ -23,6 +23,8 @@ Dazu nach "VBUS" oder "Resol" suchen.
 
 ![Instanz](docs/Instanz.png)
 
+- __Einstellungen__
+
 In der Instanz können folgende Einstellungen vorgenommen werden.
 - Gateway:	Auswahl ob LAN (Netzwerk) oder RS232 (Seriell) Adapter
 - Sprache für Variablennamen: In der Beschreibung der Werte sind Deutsche und zum Teil Englische, Bezeichnungen. Je nach Auswahl werden die IPS Variablen entsprechend angelegt. Ein nachträgliches Ändern ist jederzeit möglich.
@@ -32,6 +34,12 @@ In der Instanz können folgende Einstellungen vorgenommen werden.
 	Gilt nur für den LAN Adapter. Für die RS232 Schnitstelle hat es keine Relevanz.
 
 ![Konfig](docs/Konfig.png)
+
+- __Funktionen__
+
+Resol_SendPass();
+
+Mit der Funktion kann das Passwort manuell an den LAN Adapter gesendet werden.
 
 - __Changelog__
 1. | V1.0 | Grundversion
