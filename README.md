@@ -20,7 +20,7 @@ IPS Version mindestens 4.2
 Nach hinzufügen des Moduls, kann einen neue Instanz angelegt werden.
 Dazu kann nach "VBUS" oder "Resol" gesucht werden.
 
-![Modules](docs/Instanz.PNG?raw=true "Instanz")
+![Instanz](docs/Instanz.PNG)
 
 
 - __Changelog__
