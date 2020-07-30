@@ -88,8 +88,8 @@
 					$this->SendDebug("Header Checksumm","Checksumme OK!",0);
 					$byte_array = array();
 					$k = 0; // array Index
-					$this->SendDebug("Frame Count","Number of Frames: " . (NUMBER_OF_FRAMES+1),0);
-					if (strlen($payload) < NUMBER_OF_FRAMES * 6 + 9) 
+					$this->SendDebug("Frame Count","Number of Frames: " . (NUMBER_OF_FRAMES),0);
+					if (strlen($payload) < (NUMBER_OF_FRAMES * 6 + 11) 
 					{
 						$this->SendDebug("Payload","Lenght of Payload is to short. Calculated: " . (NUMBER_OF_FRAMES * 6 + 10) . "Received: ". strlen($payload),0);
 						return;
@@ -115,7 +115,7 @@
 							return;
 						}
 					} // end for frame loop
-					$this->SendDebug("Frame Checksumm","Checksumm OK for $i frames",0);
+					$this->SendDebug("Frame Checksumm","Checksumm OK for " . ($i - 1) . " frames",0);
 				}
 				else  // Checksumme Head not ok
 				{
