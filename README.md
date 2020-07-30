@@ -20,8 +20,14 @@ IPS Version mindestens 4.2
 Nach hinzufügen des Moduls, kann einen neue Instanz angelegt werden.
 Dazu kann nach "VBUS" oder "Resol" gesucht werden.
 
-![Instanz](docs/Instanz.PNG?raw=true "Instanz")
+![Instanz](/docs/Instanz.PNG?raw=true "Instanz")
 
+In der Instanz können folgende Einstellungen vorgenommen werden.
+- Gateway:	Auswahl ob LAN oder RS232 Adapter
+- Sprache für Variablennamen: In der Beschreibung der Werte sind Deusche und zum Teil Englische Bezeichnungen. Je nach Auswahl werden die IPS Variablen entsprechend angelegt. Ein nachträgliches Ändern ist jederzeit möglich.
+- Passwort: Der LAN Adapter sendet erst Daten, wenn über die Schnittstelle eine Passwort gesendet wird. Standart: vbus. Für die RS232 Schnitstelle hat es keine relevanz. Dieses wird gesendet nach übernehmen von Änderungen in der Konfiguration oder mit dem Button "Passwort Senden".
+
+![Konfig](/docs/Konfig.PNG)
 
 - __Changelog__
 1. | V1.0 | Grundversion

@@ -9,7 +9,7 @@
 			//$this->ConnectParent("{AC6C6E74-C797-40B3-BA82-F135D941D1A2}");
 			$this->RegisterPropertyInteger("GatewayMode", 0);
 			$this->RegisterPropertyInteger("VarName", 0);
-			$this->RegisterPropertyString("Password", "Pass");
+			$this->RegisterPropertyString("Password", "vbus");
 		}
 
 		public function Destroy()

@@ -12,7 +12,7 @@
                 { "caption": "English", "value": 1 }
             ]
         },
-        { "type": "ValidationTextBox", "name": "Password", "caption": "Password","value": "Pass"}
+        { "type": "ValidationTextBox", "name": "Password", "caption": "Password","value": "vbus"}
     ],
     "actions": [
         { "type": "Button", "label": "Send Password", "onClick": "Resol_SendPass($id);" }
