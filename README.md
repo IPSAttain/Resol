@@ -30,10 +30,10 @@ Dazu nach "VBUS" oder "Resol" suchen.
 - __Einstellungen__
 
 In der Instanz können folgende Einstellungen vorgenommen werden.
-- Gateway:	Auswahl ob LAN (Netzwerk) oder RS232 (Seriell) Adapter
-- Sprache für Variablennamen: In der Beschreibung der Werte sind Deutsche und zum Teil Englische, Bezeichnungen. Je nach Auswahl werden die IPS Variablen entsprechend angelegt. Ein nachträgliches Ändern ist jederzeit möglich.
-- Passwort: Der LAN Adapter sendet erst Daten, wenn über die Schnittstelle eine Passwort gesendet wird.  
-	Standart: vbus.  
+- __Gateway:__	Auswahl ob LAN (Netzwerk) oder RS232 (Seriell) Adapter
+- __Sprache für Variablennamen:__ In der Beschreibung der Werte sind Deutsche und zum Teil Englische, Bezeichnungen. Je nach Auswahl werden die IPS Variablen entsprechend angelegt. Ein nachträgliches manuells Ändern der Variablennamen ist natürlich jederzeit möglich.
+- __Passwort:__ Der LAN Adapter sendet erst Daten, wenn über die Schnittstelle eine Passwort gesendet wird.  
+	Standart: __vbus__  
 	Dieses wird gesendet nach Übernehmen von Änderungen in der Konfiguration oder mit dem Button "Passwort Senden".  
 	Gilt nur für den LAN Adapter. Für die RS232 Schnitstelle hat es keine Relevanz.
 
