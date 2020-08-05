@@ -245,15 +245,15 @@
 								if ($var_profil == "" && $field_unit != "") 
 								{
 									$MaxValue = 2** (int)$field_bit_size;
-									$profil_name = "Resol" . $field_unit;
+									$var_profil = "Resol" . $field_unit;
 									// keine Sonderzeichen im Var-Profilname zulässig
-									$profil_name = preg_replace ( '/[^a-z0-9]/i', '_', $profil_name );
-									if (!@IPS_GetVariableProfile($profil_name))
+									$var_profil = preg_replace ( '/[^a-z0-9]/i', '_', $var_profil );
+									if (!@IPS_GetVariableProfile($var_profil))
 									{
-										IPS_CreateVariableProfile($profil_name, $var_type);
-										IPS_SetVariableProfileText($profil_name, "", $field_unit);
-										IPS_SetVariableProfileIcon($profil_name,'Sun');
-										IPS_SetVariableProfileValues ($profil_name, 0, $MaxValue, 1);
+										IPS_CreateVariableProfile($var_profil, $var_type);
+										IPS_SetVariableProfileText($var_profil, "", $field_unit);
+										IPS_SetVariableProfileIcon($var_profil,'Sun');
+										IPS_SetVariableProfileValues ($var_profil, 0, $MaxValue, 1);
 									}
 								}
 								$var_ident = DEVICE_TYP . $field_offset . (string)$field->bitPos;  // eindeutigen IDENT erzeugen
