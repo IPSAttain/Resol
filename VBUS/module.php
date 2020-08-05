@@ -242,7 +242,7 @@
 								{
 									$var_profil = "~Intensity.100";
 								}
-								//if ($var_profil == "" && $field_unit != "") {$var_profil = ATN_CreateVariableProfile($var_type, $field_unit, $field_bit_size);}
+								if ($var_profil == "" && $field_unit != "") {$var_profil = ATN_CreateVariableProfile($var_type, $field_unit, $field_bit_size);}
 								$var_ident = DEVICE_TYP . $field_offset . (string)$field->bitPos;  // eindeutigen IDENT erzeugen
 								$position = (int) $field_offset . (string)$field->bitPos;
 								//$this->SendDebug("Field Output","Ident: " . $var_ident . "| Name: " . $field_name . "| Offset: " . $field_offset . "| Value: ".$var_value . " ".$field_unit . "| Profil: " .$var_profil ,0);
@@ -271,5 +271,21 @@
 					$this->SendDebug("XML","Fail to load XML file",0);
 				}
 			}
+		}
+		
+		private function ATN_CreateVariableProfile($var_type, $field_unit, $field_bit_size)
+		{
+			$Maximalwert = 2** (int)$field_bit_size;
+			$profil_name = "Resol" . $field_unit;
+			// keine Sonderzeichen im Var-Profilname zulässig
+			$profil_name = preg_replace ( '/[^a-z0-9]/i', '_', $profil_name );
+			if (!@IPS_GetVariableProfile($profil_name))
+			{
+				IPS_CreateVariableProfile($profil_name, $var_type);
+				IPS_SetVariableProfileText($profil_name, "", $field_unit);
+				IPS_SetVariableProfileIcon($profil_name,'Sun');
+				IPS_SetVariableProfileValues ($profil_name, 0, $Maximalwert, 1);
+			}
+			return $profil_name;
 		}
 	}
