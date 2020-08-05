@@ -4,17 +4,17 @@
 
 Folgende Module beinhaltet die Repository:
 
-- __VBUS__ ([Dokumentation](VBUS))  
+- ## Allgemein
 
-	Die Resol Solarregler senden sekündlich den Status der Sensoren und weitere Werte auf den "VBUS".
-	Über einen LAN oder RS232 Adapter können diese Werte abgegriffen werden. 
-	
-	Das Modul dient zum Empfang von Daten über den "V-Bus". Dazu unterstütz das Modul die Resol Protokollversion 1.0
-	Die Daten werden entsprechend ihrer Bedeutung aufbereitet und in IPS Variablen abgelegt.
-	Die Variablennamen können umbennant werden, müssen aber unter der Instanz bleiben.
-	Bekannte Formate bekommen automatisch ein Variablenprofil, alle anderen müssen manuell eines zugewiesen bekommen. 
+Die Resol Solarregler senden sekündlich den Status der Sensoren und weitere Werte auf den "VBus".
+Über einen LAN oder RS232 Adapter können diese Werte abgegriffen werden. 
 
-	VBus-Datenströme der Protokollversion 2.0 (kurz „Datagramme“ genannt) ermöglichen den Zugriff auf alle Werte, die über das Menüsystem des Moduls angepasst werden können. Dies ist __nicht__ in diesem Modul umgesetzt.
+Das Modul dient zum Empfang von Daten vom VBus. Dazu unterstütz das Modul die Resol Protokollversion 1.0.
+Die Daten werden entsprechend ihrer Bedeutung aufbereitet und in IPS Variablen abgelegt.
+Die Variablennamen können umbennant werden, müssen aber unter der Instanz bleiben.
+Bekannte Formate bekommen automatisch ein Variablenprofil, alle anderen müssen manuell eines zugewiesen bekommen. 
+
+VBus-Datensätze, der Resol Protokollversion 2.0, ermöglichen den Zugriff auf alle Werte, die über das Menüsystem des Moduls angepasst werden können. Dies ist __nicht__ in diesem Modul umgesetzt.
 
 - ## Voraussetzung
 
@@ -47,3 +47,4 @@ Mit der Funktion kann das Passwort manuell an den LAN Adapter gesendet werden.
 
 - ## Changelog
 1. | V1.0 | Grundversion
+2. | V1.1 | Variablenprofile anlegen , Überwachung auf komplette Datenstrings
