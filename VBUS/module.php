@@ -272,8 +272,8 @@
 				}
 			}
 		}
-		
-		private function ATN_CreateVariableProfile($var_type, $field_unit, $field_bit_size)
+
+		function ATN_CreateVariableProfile($var_type, $field_unit, $field_bit_size)
 		{
 			$Maximalwert = 2** (int)$field_bit_size;
 			$profil_name = "Resol" . $field_unit;
