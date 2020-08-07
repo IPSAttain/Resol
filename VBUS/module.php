@@ -84,13 +84,13 @@
 				if (substr($payload,0,2) == "\xaa\x00")
 				{
 					$payload = $this->GetBuffer("IncommingBuffer");
-					$this->SendDebug("IncommingBuffer", "Set Buffer to:", 0);
-					$this->SendDebug("IncommingBuffer", $payload, 1);
-					return;
+					$this->SendDebug("IncommingBuffer", "Flush Buffer ", 0);
 				} else 
 				{
 					$this->SetBuffer("IncommingBuffer", $this->GetBuffer("IncommingBuffer") . $payload);
-					$this->SendDebug("IncommingBuffer", "Flush Buffer ", 0);
+					$this->SendDebug("IncommingBuffer", "Set Buffer to:", 0);
+					$this->SendDebug("IncommingBuffer", $payload, 1);
+					return;
 				}
 			}
 			if (substr($payload,0,2) == "\xaa\x10" && strlen($payload) >= 16) // it must have at least the header and one dataframe (16 bytes)
