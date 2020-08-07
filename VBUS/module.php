@@ -88,7 +88,7 @@
 			}
 			if (substr($payload,0,2) == "\xaa\x10" && strlen($payload) >= 16) // it must have at least the header and one dataframe (16 bytes)
 			{
-				$value = ltrim(utf8_decode($data->Buffer), "\xaa\x10"); // remove the first 2 bytes, like the cutter
+				$value = ltrim($payload), "\xaa\x10"); // remove the first 2 bytes, like the cutter
 				define('NUMBER_OF_FRAMES', ord($value{6}));
 				define('HEADER_CHECKSUMME', ord($value{7}));
 				define('DEVICE_TYP', "0x" . dechex(ord($value{2})) . dechex(ord($value{1} )));
