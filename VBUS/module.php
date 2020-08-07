@@ -52,7 +52,13 @@
 			if($this->HasActiveParent())
 			{
 				$data =  "PASS " . $this->ReadPropertyString("Password") . CHR(13);
-				$data .= "DATA" . CHR(13);
+				
+				$this->SendDataToParent(json_encode([
+					'DataID' => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}",
+					'Buffer' => utf8_encode($data),
+				]));
+
+				$data = "DATA" . CHR(13);
 				$this->SendDataToParent(json_encode([
 					'DataID' => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}",
 					'Buffer' => utf8_encode($data),
@@ -66,9 +72,29 @@
 			$language = $this->ReadPropertyInteger("VarName");
 			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
 			$payload = utf8_decode($data->Buffer);
+			if (substr($payload,0,2) == "\xaa\x10")
+			{
+				$this->SetBuffer("IncommingBuffer", $payload);
+				$this->SendDebug("Buffer", $payload, 1);
+				return;
+			}
+			if($this->GetBuffer("IncommingBuffer") !="")
+			{
+				if (substr($payload,0,2) == "\xaa\x00")
+				{
+					$payload = $this->GetBuffer("IncommingBuffer");
+					$this->SetBuffer("IncommingBuffer","");
+					$this->SendDebug("Buffer", "Flush Buffer ", 0);
+				} else 
+				{
+					$this->SetBuffer("IncommingBuffer", $this->GetBuffer("IncommingBuffer") . $payload);
+					$this->SendDebug("Buffer", $this->GetBuffer("IncommingBuffer"), 1);
+					return;
+				}
+			}
 			if (substr($payload,0,2) == "\xaa\x10" && strlen($payload) >= 16) // it must have at least the header and one dataframe (16 bytes)
 			{
-				$value = ltrim(utf8_decode($data->Buffer), "\xaa\x10"); // remove the first 2 bytes, like the cutter
+				$value = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
 				define('NUMBER_OF_FRAMES', ord($value{6}));
 				define('HEADER_CHECKSUMME', ord($value{7}));
 				define('DEVICE_TYP', "0x" . dechex(ord($value{2})) . dechex(ord($value{1} )));
