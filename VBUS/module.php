@@ -36,7 +36,7 @@
 					$this->GetConfigurationForParent();
  					break;
 			}
-			$this->WritePropertyString("DeviceName","");
+			//$this->WritePropertyString("DeviceName","");
 		}
 
 		public function GetConfigurationForParent() {
@@ -167,7 +167,8 @@
 							{
 								$device_name = (string)$master->name;
 								$this->SendDebug("Device Name",$device_name,0);
-								$this->WritePropertyString("DeviceName",$device_name);
+								//$this->WritePropertyString("DeviceName",$device_name);
+								$this->UpdateFormField("DeviceName", "caption", $device_name);
 
 								break; // end foreach
 							} // end if
