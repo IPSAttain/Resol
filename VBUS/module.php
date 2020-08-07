@@ -11,7 +11,7 @@
 			$this->RegisterPropertyInteger("VarName", 0);
 			$this->RegisterPropertyString("Password", "vbus");
 			//$this->RegisterPropertyString("DeviceName", "");
-			//$this->RegisterAttributeString("DeviceName","");
+			$this->RegisterAttributeString("DeviceName","");
 		}
 
 		public function Destroy()
@@ -36,7 +36,7 @@
 					$this->GetConfigurationForParent();
  					break;
 			}
-			//$this->WritePropertyString("DeviceName","");
+			$this->WriteAttributeString("DeviceName","");
 		}
 
 		public function GetConfigurationForParent() {
@@ -158,7 +158,7 @@
 				{
 					$xml = simplexml_load_file(XML_FILE);	
 					
-					if($this->ReadPropertyString("DeviceName") == "")
+					if($this->ReadAttributeString("DeviceName") == "")
 					{
 						### Look for the device in the xml file ###
 						foreach($xml->device as $master)
@@ -167,9 +167,9 @@
 							{
 								$device_name = (string)$master->name;
 								$this->SendDebug("Device Name",$device_name,0);
-								//$this->WritePropertyString("DeviceName",$device_name);
+								//$this->WriteAttributeString("DeviceName",$device_name);
 								$this->UpdateFormField("DeviceName", "caption", $device_name);
-								$this->ReloadForm();
+								//$this->ReloadForm();
 								break; // end foreach
 							} // end if
 						}
