@@ -10,7 +10,7 @@
 			$this->RegisterPropertyInteger("GatewayMode", 0);
 			$this->RegisterPropertyInteger("VarName", 0);
 			$this->RegisterPropertyString("Password", "vbus");
-			$this->RegisterPropertyString("DeviceName", "");
+			//$this->RegisterPropertyString("DeviceName", "");
 			//$this->RegisterAttributeString("DeviceName","");
 		}
 
@@ -119,7 +119,7 @@
 					$byte_array = array();
 					$k = 0; // array Index
 					$this->SendDebug("Frame Count","Number of Frames: " . (NUMBER_OF_FRAMES),0);
-					if (strlen($payload) < (NUMBER_OF_FRAMES * 6 + 10)) // the length of the complete string must have the header (10 byte) and 6 byte for every data frame
+					if (strlen($payload) < (NUMBER_OF_FRAMES * 6 + 8)) // the length of the complete string must have the header (8 byte) and 6 byte for every data frame
 					{
 						$this->SendDebug("Payload","Lenght of Payload is to short. Calculated: " . (NUMBER_OF_FRAMES * 6 + 10) . "  Received: ". strlen($payload),0);
 						return;
