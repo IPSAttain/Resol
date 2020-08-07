@@ -168,15 +168,14 @@
 								$device_name = (string)$master->name;
 								$this->SendDebug("Device Name",$device_name,0);
 								$this->WriteAttributeString("DeviceName",$device_name);
-								$this->UpdateFormField("DeviceName", "caption", $device_name);
-								//$this->ReloadForm();
+								$this->UpdateFormField("DeviceName", "caption", $this->Translate('Found device ') . $device_name);
 								break; // end foreach
 							} // end if
 						}
 						if (!isset($device_name))
 						{
 							$this->SendDebug("Device Name",DEVICE_TYP ." does not exist in the XML file",0);
-							$this->UpdateFormField("DeviceName", "caption", $this->Translate('not supported device ') . DEVICE_TYP);
+							$this->UpdateFormField("DeviceName", "caption", $this->Translate('Not supported device ') . DEVICE_TYP);
 						}
 					}
 					### Regler
