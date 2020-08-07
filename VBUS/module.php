@@ -84,6 +84,7 @@
 				if (substr($payload,0,2) == "\xaa\x00")
 				{
 					$payload = $this->GetBuffer("IncommingBuffer");
+					$this->SetBuffer("IncommingBuffer","");
 					$this->SendDebug("IncommingBuffer", "Flush Buffer ", 0);
 				} else 
 				{
