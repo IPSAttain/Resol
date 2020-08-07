@@ -48,3 +48,4 @@ Mit der Funktion kann das Passwort manuell an den LAN Adapter gesendet werden.
 - ## Changelog
 1. | V1.0 | Grundversion
 2. | V1.1 | Variablenprofile anlegen , Überwachung auf komplette Datenstrings
+3. | V1.2 | fix: LAN Adapter Passwort, new: interner Datenbuffer
