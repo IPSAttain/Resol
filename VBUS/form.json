@@ -13,7 +13,6 @@
             ]
         },
         { "type": "ValidationTextBox", "name": "Password", "caption": "Password","value": "vbus"},
-        { "type": "NumberSpinner", "name": "TimeOut", "caption": "Time Out in seconds"},
         { "type": "Label", "name": "DeviceName", "caption": "" }
     ],
     "actions": [
