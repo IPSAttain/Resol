@@ -77,7 +77,7 @@
 			$payload = utf8_decode($data->Buffer);
 			if (substr($payload,0,2) == "\xaa\x10")
 			{
-				$payload = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
+				//$payload = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
 				$this->SetBuffer("IncommingBuffer", $payload);
 				$this->SendDebug("Buffer", $payload, 1);
 				return;
@@ -98,7 +98,7 @@
 			}
 			if (substr($payload,0,2) == "\xaa\x10" && strlen($payload) >= 16) // it must have at least the header and one dataframe (16 bytes)
 			{
-				//$payload = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
+				$payload = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
 				define('NUMBER_OF_FRAMES', ord($payload{6}));
 				define('HEADER_CHECKSUMME', ord($payload{7}));
 				define('DEVICE_TYP', "0x" . dechex(ord($payload{2})) . dechex(ord($payload{1} )));
