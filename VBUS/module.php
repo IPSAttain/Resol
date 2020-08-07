@@ -82,7 +82,7 @@
 			{
 				$payload = $this->GetBuffer("IncommingBuffer") . $payload;
 				$this->SendDebug("IncommingBuffer", "Flush Buffer", 0);
-				$this->SendDebug("Payload", $payload, 0);
+				$this->SendDebug("Payload", $payload, 1);
 				$this->SetBuffer("IncommingBuffer", "");
 			}
 			if (substr($payload,0,2) == "\xaa\x10" && strlen($payload) >= 16) // it must have at least the header and one dataframe (16 bytes)
