@@ -8,7 +8,9 @@
             "Language for Var Names": "Sprache für Variablen Namen",
             "German": "Deutsch",
             "English":"Englisch",
-            "Device Name": "Regler Typ"
+            "Device Name": "Regler Typ",
+            "no device detected yet": "Noch kein Regler gefunden",
+            "not supported device ": "Nicht unterstützter Regler "
         }
     }
 }

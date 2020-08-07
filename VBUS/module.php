@@ -176,6 +176,7 @@
 						if (!isset($device_name))
 						{
 							$this->SendDebug("Device Name",DEVICE_TYP ." does not exist in the XML file",0);
+							$this->UpdateFormField("DeviceName", "caption", $this->Translate('not supported device ') . DEVICE_TYP);
 						}
 					}
 					### Regler

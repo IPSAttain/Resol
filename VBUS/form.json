@@ -13,7 +13,7 @@
             ]
         },
         { "type": "ValidationTextBox", "name": "Password", "caption": "Password","value": "vbus"},
-        { "type": "Label", "name": "DeviceName", "caption": "none" }
+        { "type": "Label", "name": "DeviceName", "caption": "no device detected yet" }
     ],
     "actions": [
         { "type": "Button", "label": "Send Password", "onClick": "Resol_SendPass($id);" }
