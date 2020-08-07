@@ -52,12 +52,17 @@
 			if($this->HasActiveParent())
 			{
 				$data =  "PASS " . $this->ReadPropertyString("Password") . CHR(13);
+				
+				$this->SendDataToParent(json_encode([
+					'DataID' => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}",
+					'Buffer' => utf8_encode($data),
+				]));
+
 				$data .= "DATA" . CHR(13);
 				$this->SendDataToParent(json_encode([
 					'DataID' => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}",
 					'Buffer' => utf8_encode($data),
 				]));
-			}
 		}
 
 		public function ReceiveData($JSONString)
