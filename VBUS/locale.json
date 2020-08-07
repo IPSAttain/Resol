@@ -7,7 +7,12 @@
             "Network": "Netzwerk",
             "Language for Var Names": "Sprache für Variablen Namen",
             "German": "Deutsch",
-            "English":"Englisch"
+            "English":"Englisch",
+            "Device Name": "Regler Typ",
+            "No device detected yet": "Noch kein Regler gefunden",
+            "Not supported device ": "Nicht unterstützter Regler ",
+            "Found device ": "Gefundener Regler: ",
+            "Time Out in seconds": "Abstand in sekunden, in der Daten empfangen werden sollen."
         }
     }
 }
