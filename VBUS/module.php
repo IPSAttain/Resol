@@ -72,6 +72,18 @@
 			$language = $this->ReadPropertyInteger("VarName");
 			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
 			$payload = utf8_decode($data->Buffer);
+			if (substr($payload,0,2) == "\xaa\x10")
+			{
+				$this->SetBuffer("IncommingBuffer", $payload);
+				$this->SendDebug("IncommingBuffer", "Set Buffer", 1);
+				return;
+			}
+			if($this->GetBuffer("IncommingBuffer") !="")
+			{
+				$payload = $this->GetBuffer("IncommingBuffer") . $payload;
+				$this->SendDebug("IncommingBuffer", "Flush Buffer", 1);
+				$this->SetBuffer("IncommingBuffer", "");
+			}
 			if (substr($payload,0,2) == "\xaa\x10" && strlen($payload) >= 16) // it must have at least the header and one dataframe (16 bytes)
 			{
 				$value = ltrim(utf8_decode($data->Buffer), "\xaa\x10"); // remove the first 2 bytes, like the cutter
