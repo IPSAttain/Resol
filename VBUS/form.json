@@ -13,7 +13,7 @@
             ]
         },
         { "type": "ValidationTextBox", "name": "Password", "caption": "Password","value": "vbus"},
-        { "type": "Label", "name": "DeviceName", "caption": "Drücken Sie Einlernen, nachdem Sie das Gerät in den Lernmodus versetzt haben" },
+        { "type": "Label", "name": "DeviceName", "caption": "" }
     ],
     "actions": [
         { "type": "Button", "label": "Send Password", "onClick": "Resol_SendPass($id);" }
