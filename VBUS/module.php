@@ -10,6 +10,8 @@
 			$this->RegisterPropertyInteger("GatewayMode", 0);
 			$this->RegisterPropertyInteger("VarName", 0);
 			$this->RegisterPropertyString("Password", "vbus");
+			$this->RegisterPropertyString("DeviceName", "");
+			//$this->RegisterAttributeString("DeviceName","");
 		}
 
 		public function Destroy()
@@ -34,6 +36,7 @@
 					$this->GetConfigurationForParent();
  					break;
 			}
+			$this->WriteProperyString("DeviceName","");
 		}
 
 		public function GetConfigurationForParent() {
@@ -74,6 +77,7 @@
 			$payload = utf8_decode($data->Buffer);
 			if (substr($payload,0,2) == "\xaa\x10")
 			{
+				$payload = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
 				$this->SetBuffer("IncommingBuffer", $payload);
 				$this->SendDebug("Buffer", $payload, 1);
 				return;
@@ -94,17 +98,17 @@
 			}
 			if (substr($payload,0,2) == "\xaa\x10" && strlen($payload) >= 16) // it must have at least the header and one dataframe (16 bytes)
 			{
-				$value = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
-				define('NUMBER_OF_FRAMES', ord($value{6}));
-				define('HEADER_CHECKSUMME', ord($value{7}));
-				define('DEVICE_TYP', "0x" . dechex(ord($value{2})) . dechex(ord($value{1} )));
+				//$payload = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
+				define('NUMBER_OF_FRAMES', ord($payload{6}));
+				define('HEADER_CHECKSUMME', ord($payload{7}));
+				define('DEVICE_TYP', "0x" . dechex(ord($payload{2})) . dechex(ord($payload{1} )));
 				define('XML_FILE', __DIR__ . "/../libs/VBusSpecificationResol.xml");
 				$this->SendDebug("Device Typ",DEVICE_TYP,0);
 
 				$cs = 16;       // durch den Cutter wird das erste Byte (0x10 Hex) abgeschnitten, hier wird der Wert wieder dazu genommen
 				for ($i=00; $i<=06; $i++)
 				{
-					$cs += ord($value{$i}); // add Headerbytes -> Checksumme 
+					$cs += ord($payload{$i}); // add Headerbytes -> Checksumme 
 				}
 				$cs = ~$cs;	//invert Checksumm
 				$cs &= 127;	//remove the MSB from Checksumm
@@ -123,10 +127,10 @@
 					for ($i=01; $i<=NUMBER_OF_FRAMES; $i++) // loop for all frames
 					{
 					$cs = 0;
-					$septet = ord($value{$i * 6 + 6});
+					$septet = ord($payload{$i * 6 + 6});
 						for ($j=00; $j<=03; $j++)
 						{  // always 4 Bytes in a Frame
-							$payload_byte = ord($value{$i * 6 + 2 + $j});
+							$payload_byte = ord($payload{$i * 6 + 2 + $j});
 							$byte_array[$k] = $payload_byte + 128 * (($septet >> $j) & 1); //das komplette Datenbyte aus dem Byte und dem Teil des Septet zusammenfügen
 							$k++; // inc. Array Index 
 							$cs += $payload_byte;// add payload to checksumm
@@ -134,10 +138,10 @@
 						$cs += $septet; // add septet 
 						$cs = ~$cs; // invert Checksumm
 						$cs &= 127; // remove MSB from Checksumm
-						// $this->SendDebug("Frame Checksumm","Frame $i >> Calculated: $cs , Received: ".ord($value{$i * 6 + 7}),0);
-						if ($cs != ord($value{$i * 6 + 7})) // Checksumme Frame not ok?
+						// $this->SendDebug("Frame Checksumm","Frame $i >> Calculated: $cs , Received: ".ord($payload{$i * 6 + 7}),0);
+						if ($cs != ord($payload{$i * 6 + 7})) // Checksumme Frame not ok?
 						{
-							$this->SendDebug("Frame Checksumm","Error in Frame $i >> calculated: $cs received: ".ord($value{$i * 6 + 7}),0);
+							$this->SendDebug("Frame Checksumm","Error in Frame $i >> calculated: $cs received: ".ord($payload{$i * 6 + 7}),0);
 							return;
 						}
 					} // end for frame loop
@@ -145,28 +149,32 @@
 				}
 				else  // Checksumme Head not ok
 				{
-					$this->SendDebug("Header Checksumm","Error >> calculated: $cs received: ".ord($value{7}),0);
+					$this->SendDebug("Header Checksumm","Error >> calculated: $cs received: ".ord($payload{7}),0);
 					return;
 				}	// end else
-				$this->SendDebug("Received Data",implode(" , ",$byte_array),0);
+				// $this->SendDebug("Received Data",implode(" , ",$byte_array),0);
 					
 				if (file_exists(XML_FILE))
 				{
 					$xml = simplexml_load_file(XML_FILE);	
 					
-					### Look for the device in the xml file ###
-					foreach($xml->device as $master)
+					if($this->ReadPropertyString("DeviceName") == "")
 					{
-						if ($master->address == DEVICE_TYP)
+						### Look for the device in the xml file ###
+						foreach($xml->device as $master)
 						{
-							$device_name = (string)$master->name;
-							$this->SendDebug("Device Name",$device_name,0);
-							break; // end foreach
-						} // end if
-					}
-					if (!isset($device_name))
-					{
-						$this->SendDebug("Device Name",DEVICE_TYP ." does not exist in the XML file",0);
+							if ($master->address == DEVICE_TYP)
+							{
+								$device_name = (string)$master->name;
+								$this->SendDebug("Device Name",$device_name,0);
+								$this->WritePropertytring("DeviceName",$device_name);
+								break; // end foreach
+							} // end if
+						}
+						if (!isset($device_name))
+						{
+							$this->SendDebug("Device Name",DEVICE_TYP ." does not exist in the XML file",0);
+						}
 					}
 					### Regler
 					foreach($xml->packet as $master)

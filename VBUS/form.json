@@ -12,7 +12,8 @@
                 { "caption": "English", "value": 1 }
             ]
         },
-        { "type": "ValidationTextBox", "name": "Password", "caption": "Password","value": "vbus"}
+        { "type": "ValidationTextBox", "name": "Password", "caption": "Password","value": "vbus"},
+        { "type": "ValidationTextBox", "name": "DeviceName", "caption": "Device Name","value": "" ,"enabled": false}
     ],
     "actions": [
         { "type": "Button", "label": "Send Password", "onClick": "Resol_SendPass($id);" }

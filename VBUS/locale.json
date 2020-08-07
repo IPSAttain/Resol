@@ -7,7 +7,8 @@
             "Network": "Netzwerk",
             "Language for Var Names": "Sprache für Variablen Namen",
             "German": "Deutsch",
-            "English":"Englisch"
+            "English":"Englisch",
+            "Device Name": "Regler Typ"
         }
     }
 }
