@@ -75,8 +75,7 @@
 			if (substr($payload,0,2) == "\xaa\x10")
 			{
 				$this->SetBuffer("IncommingBuffer", $payload);
-				$this->SendDebug("IncommingBuffer", "Set Buffer to:", 0);
-				$this->SendDebug("IncommingBuffer", $payload, 1);
+				$this->SendDebug("Buffer", $payload, 1);
 				return;
 			}
 			if($this->GetBuffer("IncommingBuffer") !="")
@@ -85,12 +84,11 @@
 				{
 					$payload = $this->GetBuffer("IncommingBuffer");
 					$this->SetBuffer("IncommingBuffer","");
-					$this->SendDebug("IncommingBuffer", "Flush Buffer ", 0);
+					$this->SendDebug("Buffer", "Flush Buffer ", 0);
 				} else 
 				{
 					$this->SetBuffer("IncommingBuffer", $this->GetBuffer("IncommingBuffer") . $payload);
-					$this->SendDebug("IncommingBuffer", "Set Buffer to:", 0);
-					$this->SendDebug("IncommingBuffer", $payload, 1);
+					$this->SendDebug("Buffer", $this->GetBuffer("IncommingBuffer"), 1);
 					return;
 				}
 			}
