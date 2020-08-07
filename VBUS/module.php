@@ -167,7 +167,8 @@
 							{
 								$device_name = (string)$master->name;
 								$this->SendDebug("Device Name",$device_name,0);
-								$this->WritePropertytring("DeviceName",$device_name);
+								$this->WritePropertyString("DeviceName",$device_name);
+								
 								break; // end foreach
 							} // end if
 						}
