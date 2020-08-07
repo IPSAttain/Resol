@@ -169,7 +169,7 @@
 								$this->SendDebug("Device Name",$device_name,0);
 								//$this->WritePropertyString("DeviceName",$device_name);
 								$this->UpdateFormField("DeviceName", "caption", $device_name);
-
+								$this->ReloadForm();
 								break; // end foreach
 							} // end if
 						}
