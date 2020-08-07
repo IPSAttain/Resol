@@ -9,9 +9,12 @@
 			//$this->ConnectParent("{AC6C6E74-C797-40B3-BA82-F135D941D1A2}");
 			$this->RegisterPropertyInteger("GatewayMode", 0);
 			$this->RegisterPropertyInteger("VarName", 0);
+			$this->RegisterPropertyInteger("TimeOut", 0);
+			$this->RegisterTimer("TimeOut", 0, "Resol_Timer;");
 			$this->RegisterPropertyString("Password", "vbus");
 			//$this->RegisterPropertyString("DeviceName", "");
 			$this->RegisterAttributeString("DeviceName","");
+			$this->RegisterAttributeBoolean("Aktiv", true);
 		}
 
 		public function Destroy()
@@ -37,6 +40,8 @@
  					break;
 			}
 			$this->WriteAttributeString("DeviceName","");
+			$this->WriteAttributeBoolean("Aktiv", true);
+			$this->SetTimerInterval("Timeout", $this->ReadPropertyInteger("TimeOut")*1000);
 		}
 
 		public function GetConfigurationForParent() {
@@ -50,6 +55,11 @@
 			}
 		}
 
+		private function Timer()
+		{
+			$this->WriteAttributeBoolean("Aktiv", true);
+		}
+		
 		public function SendPass()
 		{
 			if($this->HasActiveParent())
@@ -71,6 +81,10 @@
 
 		public function ReceiveData($JSONString)
 		{
+			if (!$this->ReadAttributeBoolean("Aktiv")) 
+			{
+				return;
+			}
 			$data = json_decode($JSONString);
 			$language = $this->ReadPropertyInteger("VarName");
 			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
@@ -98,6 +112,7 @@
 			}
 			if (substr($payload,0,2) == "\xaa\x10" && strlen($payload) >= 16) // it must have at least the header and one dataframe (16 bytes)
 			{
+				$this->WriteAttributeBoolean("Aktiv", false);
 				$payload = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
 				define('NUMBER_OF_FRAMES', ord($payload{6}));
 				define('HEADER_CHECKSUMME', ord($payload{7}));
