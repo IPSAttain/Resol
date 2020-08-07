@@ -75,7 +75,8 @@
 			if (substr($payload,0,2) == "\xaa\x10")
 			{
 				$this->SetBuffer("IncommingBuffer", $payload);
-				$this->SendDebug("IncommingBuffer", "Set Buffer", 0);
+				$this->SendDebug("IncommingBuffer", "Set Buffer to:", 0);
+				$this->SendDebug("IncommingBuffer", $payload, 1);
 				return;
 			}
 			if($this->GetBuffer("IncommingBuffer") !="")
