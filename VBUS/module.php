@@ -167,7 +167,7 @@
 							{
 								$device_name = (string)$master->name;
 								$this->SendDebug("Device Name",$device_name,0);
-								//$this->WriteAttributeString("DeviceName",$device_name);
+								$this->WriteAttributeString("DeviceName",$device_name);
 								$this->UpdateFormField("DeviceName", "caption", $device_name);
 								//$this->ReloadForm();
 								break; // end foreach
