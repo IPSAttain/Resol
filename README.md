@@ -52,3 +52,4 @@ Mit der Funktion kann das Passwort manuell an den LAN Adapter gesendet werden.
  V1.1     | Variablenprofile anlegen , Überwachung auf komplette Datenstrings |
  V1.2     | fix: LAN Adapter Passwort, new: interner Datenbuffer |
  V1.3     | new: senden des Passwort auf Anforderung |
+ V1.4     | fix: Delta Sol BX Plus

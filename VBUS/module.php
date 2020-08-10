@@ -79,24 +79,34 @@
 			{
 				$this->SendPass();
 			}
-			if (substr($payload,0,2) == "\xaa\x10")
+
+			if($this->GetBuffer("IncommingBuffer") =="")
 			{
 				//$payload = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
 				$this->SetBuffer("IncommingBuffer", $payload);
 				$this->SendDebug("Buffer", $payload, 1);
 				return;
-			}
-			if($this->GetBuffer("IncommingBuffer") !="")
+			} else
 			{
-				if (substr($payload,0,2) == "\xaa\x00")
+				$payload = $this->GetBuffer("IncommingBuffer") . $payload;
+				$AA10pos = strpos($payload, "\xaa\x10");
+				$AA00pos = strpos($payload, "\xaa\x00");
+				$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA00: " . $AA00pos, 0);
+				if ($AA10pos !== false && $AA00pos !== false && $AA10pos < $AA00pos)
 				{
-					$payload = $this->GetBuffer("IncommingBuffer");
+					$payload = substr($payload,$AA10pos,$AA00pos);
 					$this->SetBuffer("IncommingBuffer","");
 					$this->SendDebug("Buffer", "Flush Buffer ", 0);
-				} else 
+				} elseif ($AA10pos !== false && $AA00pos !== false && $AA10pos > $AA00pos)
 				{
-					$this->SetBuffer("IncommingBuffer", $this->GetBuffer("IncommingBuffer") . $payload);
-					$this->SendDebug("Buffer", $this->GetBuffer("IncommingBuffer"), 1);
+					$payload = substr($payload,$AA10pos);
+					$this->SetBuffer("IncommingBuffer",$payload);
+					$this->SendDebug("Buffer", $payload, 1);
+					return;
+				} else
+				{
+					$this->SetBuffer("IncommingBuffer",$payload);
+					$this->SendDebug("Buffer", $payload, 1);
 					return;
 				}
 			}
