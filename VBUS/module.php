@@ -82,6 +82,7 @@
 
 			if($this->GetBuffer("IncommingBuffer") =="")
 			{
+				//$payload = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
 				$this->SetBuffer("IncommingBuffer", $payload);
 				$this->SendDebug("Buffer", $payload, 1);
 				return;
