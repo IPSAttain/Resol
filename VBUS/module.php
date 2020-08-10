@@ -98,7 +98,7 @@
 				$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA00: " . $AA00pos, 0);
 				if ($AA10pos !== false && $AA00pos !== false && $AA10pos < $AA00pos)
 				{
-					$payload = substr($payload,$AA10pos,$AA00pos);
+					$payload = substr($payload,$AA10pos,$AA00pos-$AA10pos);
 					$this->SetBuffer("IncommingBuffer","");
 					$this->SendDebug("Buffer", "Flush Buffer ", 0);
 					$this->SendDebug("To Proceed", $payload, 1);
