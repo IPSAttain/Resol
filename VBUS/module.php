@@ -82,21 +82,26 @@
 
 			if($this->GetBuffer("IncommingBuffer") =="")
 			{
-				//$payload = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
 				$this->SetBuffer("IncommingBuffer", $payload);
 				$this->SendDebug("Buffer", $payload, 1);
 				return;
 			} else
 			{
 				$payload = $this->GetBuffer("IncommingBuffer") . $payload;
-				$AA10pos = strpos($payload, "\xaa\x10");
-				$AA00pos = strpos($payload, "\xaa\x00");
+				$serchAApos = 0;
+				$AA10pos = strpos($payload, "\xaa\x10\x00");
+				if ($AA10pos !== false) 
+				{
+					$serchAApos = $AA10pos +1; // the trailing AA must higer than the leading 
+				}
+				$AA00pos = strpos($payload, "\xaa",$serchAApos);
 				$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA00: " . $AA00pos, 0);
 				if ($AA10pos !== false && $AA00pos !== false && $AA10pos < $AA00pos)
 				{
 					$payload = substr($payload,$AA10pos,$AA00pos);
 					$this->SetBuffer("IncommingBuffer","");
 					$this->SendDebug("Buffer", "Flush Buffer ", 0);
+					$this->SendDebug("To Proceed", $payload, 1);
 				} elseif ($AA10pos !== false && $AA00pos !== false && $AA10pos > $AA00pos)
 				{
 					$payload = substr($payload,$AA10pos);
