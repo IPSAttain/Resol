@@ -90,7 +90,7 @@
 				$payload = $this->GetBuffer("IncommingBuffer") . $payload;
 				$AA10pos = strpos($payload, "\xaa\x10");
 				$AA00pos = strpos($payload, "\xaa\x00");
-				$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA00" . $AA00pos, 0);
+				$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA00: " . $AA00pos, 0);
 				if ($AA10pos !== false && $AA00pos !== false && $AA10pos < $AA00pos)
 				{
 					$payload = substr($payload,$AA10pos,$AA00pos);
