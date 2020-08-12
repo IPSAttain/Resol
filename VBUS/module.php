@@ -10,7 +10,7 @@
 			$this->RegisterPropertyInteger("GatewayMode", 0);
 			$this->RegisterPropertyInteger("LanguageSelect", 0);
 			$this->RegisterPropertyString("Password", "vbus");
-			$this->RegisterTimer("Update", 0, "PassThru($id);");
+			$this->RegisterTimer("Update", 0, "PassThru(' . $this->InstanceID . ');");
 			$this->RegisterAttributeBoolean("PassTrueBit",true);
 			$this->RegisterAttributeString("DeviceName","");
 		}
