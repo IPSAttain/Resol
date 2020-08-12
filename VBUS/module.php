@@ -79,7 +79,7 @@
 				if ($AA10pos !== false && $AA00pos !== false && $AA10pos < $AA00pos)
 				{
 					$this->SetBuffer("IncommingBuffer",substr($payload,$AA00pos));
-					$this->SendDebug("Buffer", substr($payload,$AA00pos), 0);
+					$this->SendDebug("Buffer", substr($payload,$AA00pos), 1);
 					$payload = substr($payload,$AA10pos,$AA00pos-$AA10pos); // cut from AA10 to the next AA
 					$this->SendDebug("To Proceed", $payload, 1);
 					$this->ProccedData($payload);
