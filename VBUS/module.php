@@ -6,7 +6,7 @@
 			//Never delete this line!
 			parent::Create();
 
-			//$this->ConnectParent("{AC6C6E74-C797-40B3-BA82-F135D941D1A2}");
+			$this->RegisterPropertyInteger("Delay", 0);
 			$this->RegisterPropertyInteger("GatewayMode", 0);
 			$this->RegisterPropertyInteger("LanguageSelect", 0);
 			$this->RegisterPropertyString("Password", "vbus");
