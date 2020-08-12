@@ -310,7 +310,7 @@
 							} // end switch
 						}
 						$this->SendDebug("Success", $updatedvars . " Variables set",0);
-						if($this->ReadPropertyInteger("Delay") != 0) WriteAttributeBoolean("PassTrueBit",false);
+						if($this->ReadPropertyInteger("Delay") != 0) $this->WriteAttributeBoolean("PassTrueBit",false);
 						break; // break foreach no further devices needs to search
 					} // end if
 				} //end foreach
