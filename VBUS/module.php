@@ -55,7 +55,7 @@
 
 		private function UpdateTimer()
 		{
-			$this->SetTimerInterval("Update", $this->ReadPropertyInteger("Delay")*1000);
+			$this->SetTimerInterval("Update", 10000);
 			$this->SendDebug("Timer", "Intervall:" . $this->ReadPropertyInteger("Delay")*1000, 0);
 		}
 
