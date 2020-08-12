@@ -64,7 +64,7 @@
 		public function PassThru()
 		{
 			$this->WriteAttributeBoolean("PassTrueBit",true);
-			$this->SendDebug("Timer", "updated" , 0);
+			$this->SendDebug("Timer", "Start Receiving Data" , 0);
 		}
 
 		public function ReceiveData($JSONString)
