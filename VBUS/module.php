@@ -53,7 +53,6 @@
 		public function ReceiveData($JSONString)
 		{
 			$data = json_decode($JSONString);
-			$language = $this->ReadPropertyInteger("VarName");
 			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
 			$payload = utf8_decode($data->Buffer);
 			if (substr($payload,0,6) == "+HELLO")
@@ -99,6 +98,7 @@
 
 		private function ProccedData($payload)
 		{
+			$language = $this->ReadPropertyInteger("VarName");
 			if (substr($payload,0,2) == "\xaa\x10" && strlen($payload) >= 16) // it must have at least the header and one dataframe (16 bytes)
 			{
 				$payload = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
