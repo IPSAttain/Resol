@@ -62,7 +62,7 @@
 
 		public function PassThru()
 		{
-			WriteAttributeBoolean("PassTrueBit",true);
+			$this->WriteAttributeBoolean("PassTrueBit",true);
 			$this->SendDebug("Timer", "updated" , 0);
 		}
 
