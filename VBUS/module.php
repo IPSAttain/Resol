@@ -10,7 +10,8 @@
 			$this->RegisterPropertyInteger("GatewayMode", 0);
 			$this->RegisterPropertyInteger("LanguageSelect", 0);
 			$this->RegisterPropertyString("Password", "vbus");
-			//$this->RegisterPropertyString("DeviceName", "");
+			$this->RegisterTimer("Update", 0, "PassThru($id);");
+			$this->RegisterAttributeBoolean("PassTrueBit",true);
 			$this->RegisterAttributeString("DeviceName","");
 		}
 
@@ -37,6 +38,7 @@
  					break;
 			}
 			$this->WriteAttributeString("DeviceName","");
+			$this->SetTimerInterval("Update", $this->ReadPropertyInteger("Delay")*1000);
 		}
 
 		public function GetConfigurationForParent() {
@@ -50,13 +52,22 @@
 			}
 		}
 
+		private function PassThru()
+		{
+			WriteAttributeBoolean("PassTrueBit",true);
+			$this->SendDebug("Timer", "updated" , 0);
+		}
+
 		public function ReceiveData($JSONString)
 		{
+			if (!ReadAttributeBoolean("PassTrueBit")) return;
+
 			$data = json_decode($JSONString);
 			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
 			if (substr(utf8_decode($data->Buffer),0,6) == "+HELLO")
 			{
 				$this->SendPass();
+				$this->SendDebug("Received", utf8_decode($data->Buffer) , 0);
 				return;
 			}
 			$payload = $this->GetBuffer("IncommingBuffer") . utf8_decode($data->Buffer);
@@ -291,6 +302,7 @@
 							} // end switch
 						}
 						$this->SendDebug("Success", $updatedvars . " Variables set",0);
+						if($this->ReadPropertyInteger("Delay") != 0) WriteAttributeBoolean("PassTrueBit",false);
 						break; // break foreach no further devices needs to search
 					} // end if
 				} //end foreach

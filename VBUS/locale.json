@@ -12,7 +12,7 @@
             "No device detected yet": "Noch kein Regler gefunden",
             "Not supported device ": "Nicht unterstützter Regler ",
             "Found device ": "Gefundener Regler: ",
-            "Time Out in seconds": "Abstand in sekunden, in der Daten empfangen werden sollen."
+            "Delay between receiving data": "Abstand in sekunden, in der Daten empfangen werden sollen."
         }
     }
 }
