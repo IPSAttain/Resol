@@ -69,16 +69,20 @@
 
 		public function ReceiveData($JSONString)
 		{
-			if (!$this->ReadAttributeBoolean("PassTrueBit")) return;
-
 			$data = json_decode($JSONString);
-			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
 			if (substr(utf8_decode($data->Buffer),0,6) == "+HELLO")
 			{
 				$this->SendPass();
 				$this->SendDebug("Received", utf8_decode($data->Buffer) , 0);
 				return;
 			}
+			if (substr(utf8_decode($data->Buffer),0,3) == "+OK")
+			{
+				$this->SendDebug("Received", utf8_decode($data->Buffer) , 0);
+				return;
+			}
+			if (!$this->ReadAttributeBoolean("PassTrueBit")) return;
+			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
 			$payload = $this->GetBuffer("IncommingBuffer") . utf8_decode($data->Buffer);
 			$AA10pos = strpos($payload, "\xaa\x10\x00");
 			$AApos = strpos($payload, "\xaa",$AA10pos +1);
