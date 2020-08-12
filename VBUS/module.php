@@ -98,7 +98,7 @@
 				$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA00: " . $AA00pos, 0);
 				if ($AA10pos !== false && $AA00pos !== false && $AA10pos < $AA00pos)
 				{
-					$payload = substr($payload,$AA10pos,$AA00pos-$AA10pos);
+					$payload = substr($payload,$AA10pos,$AA00pos-$AA10pos); // cut from AA10 to the next AA
 					$this->SetBuffer("IncommingBuffer","");
 					$this->SendDebug("Buffer", "Flush Buffer ", 0);
 					$this->SendDebug("To Proceed", $payload, 1);
@@ -129,8 +129,9 @@
 				{
 					$cs += ord($payload{$i}); // add Headerbytes -> Checksumme 
 				}
-				$cs = ~$cs;	//invert Checksumm
-				$cs &= 127;	//remove the MSB from Checksumm
+				$cs = CalcCheckumm($cs);
+				//$cs = ~$cs;	//invert Checksumm
+				//$cs &= 127;	//remove the MSB from Checksumm
 				$this->SendDebug("Header Checksumm","Calculated: $cs , Received: " . HEADER_CHECKSUMME,0);
 				if ( $cs == HEADER_CHECKSUMME)  // Checksumm ok?
 				{
@@ -339,5 +340,12 @@
 					$this->SendDebug("XML","Fail to load XML file",0);
 				}
 			}
+		}
+
+		private function CalcCheckumm($cs)
+		{
+			$cs = ~$cs;	//invert Checksumm
+			$cs &= 127;	//remove the MSB from Checksumm
+			return $cs;
 		}
 	}
