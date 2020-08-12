@@ -58,41 +58,28 @@
 			if (substr($payload,0,6) == "+HELLO")
 			{
 				$this->SendPass();
-			}
-
-			if($this->GetBuffer("IncommingBuffer") =="")
-			{
-				$this->SetBuffer("IncommingBuffer", $payload);
-				$this->SendDebug("Buffer", $payload, 1);
 				return;
+			}
+			$payload = $this->GetBuffer("IncommingBuffer") . $payload;
+			//$searchAApos = 0;
+			$AA10pos = strpos($payload, "\xaa\x10\x00");
+			//if ($AA10pos !== false) 
+			//{
+			//	$searchAApos = $AA10pos +1; // the trailing AA must higer than the leading 
+			//}
+			$AApos = strpos($payload, "\xaa",$AA10pos +1);
+			$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA: " . $AApos, 0);
+			if ($AA10pos !== false && $AApos !== false)
+			{
+				$this->SetBuffer("IncommingBuffer",substr($payload,$AApos));
+				$this->SendDebug("Buffer", substr($payload,$AApos), 1);
+				$payload = substr($payload,$AA10pos,$AApos-$AA10pos); // cut from AA10 to the next AA
+				$this->SendDebug("To Proceed", $payload, 1);
+				$this->ProccedData($payload);
 			} else
 			{
-				$payload = $this->GetBuffer("IncommingBuffer") . $payload;
-				$serchAApos = 0;
-				$AA10pos = strpos($payload, "\xaa\x10\x00");
-				if ($AA10pos !== false) 
-				{
-					$serchAApos = $AA10pos +1; // the trailing AA must higer than the leading 
-				}
-				$AA00pos = strpos($payload, "\xaa",$serchAApos);
-				$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA00: " . $AA00pos, 0);
-				if ($AA10pos !== false && $AA00pos !== false && $AA10pos < $AA00pos)
-				{
-					$this->SetBuffer("IncommingBuffer",substr($payload,$AA00pos));
-					$this->SendDebug("Buffer", substr($payload,$AA00pos), 1);
-					$payload = substr($payload,$AA10pos,$AA00pos-$AA10pos); // cut from AA10 to the next AA
-					$this->SendDebug("To Proceed", $payload, 1);
-					$this->ProccedData($payload);
-				} elseif ($AA10pos !== false && $AA00pos !== false && $AA10pos > $AA00pos)
-				{
-					$payload = substr($payload,$AA10pos);
-					$this->SetBuffer("IncommingBuffer",$payload);
-					$this->SendDebug("Buffer", $payload, 1);
-				} else
-				{
-					$this->SetBuffer("IncommingBuffer",$payload);
-					$this->SendDebug("Buffer", $payload, 1);
-				}
+				$this->SetBuffer("IncommingBuffer",$payload);
+				$this->SendDebug("Buffer", $payload, 1);
 			}
 		}
 
