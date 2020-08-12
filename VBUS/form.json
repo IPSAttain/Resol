@@ -6,15 +6,16 @@
                 { "caption": "RS232", "value": 1 }
             ]
         },
-        { "type": "Select", "name": "VarName", "caption": "Language for Var Names",
+        { "type": "Select", "name": "LanguageSelect", "caption": "Language for Var Names",
             "options": [
                 { "caption": "German", "value": 0 },
                 { "caption": "English", "value": 1 }
             ]
         },
         { "type": "ValidationTextBox", "name": "Password", "caption": "Password","value": "vbus"},
-        { "type": "Label", "name": "DeviceName", "caption": "" }
-    ],
+        { "type": "Label", "name": "DeviceName", "caption": "" },
+        { "type": "NumberSpinner", "name": "Delay", "caption": "Delay between receiving data", "suffix": "s"}
+        ],
     "actions": [
         { "type": "Button", "label": "Send Password", "onClick": "Resol_SendPass($id);" }
     ],
