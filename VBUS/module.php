@@ -53,7 +53,7 @@
 		}
 
 
-		protected function SetCyclicTimerInterval()
+		private function SetCyclicTimerInterval()
 		{
 			$seconds = $this->ReadPropertyInteger('Delay');
 			$Interval = $seconds * 1000;
