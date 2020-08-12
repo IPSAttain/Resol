@@ -60,7 +60,7 @@
 
 		public function ReceiveData($JSONString)
 		{
-			if (!ReadAttributeBoolean("PassTrueBit")) return;
+			if (!$this->ReadAttributeBoolean("PassTrueBit")) return;
 
 			$data = json_decode($JSONString);
 			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
