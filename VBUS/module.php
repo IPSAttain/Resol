@@ -38,7 +38,7 @@
  					break;
 			}
 			$this->WriteAttributeString("DeviceName","");
-			$this->UpdateTimer();
+			$this->SetCyclicTimerInterva();
 		}
 
 		public function GetConfigurationForParent() {
