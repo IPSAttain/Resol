@@ -1,6 +1,6 @@
 # Modul zur Einbindung von Resol Solarreglern in IP-Symcon
 [![Version](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-![Version](https://img.shields.io/badge/Symcon%20Version-4.2%20%3E-green.svg)
+![Version](https://img.shields.io/badge/Symcon%20Version-5.0%20%3E-green.svg)
 
 Folgende Module beinhaltet die Repository:
 
@@ -18,7 +18,7 @@ VBus-Datensätze, der Resol Protokollversion 2.0, ermöglichen den Zugriff auf a
 
 - ## Voraussetzung
 
-IPS Version mindestens 4.2
+IPS Version mindestens 5.0
 
 - ## Installation
 
@@ -53,3 +53,4 @@ Mit der Funktion kann das Passwort manuell an den LAN Adapter gesendet werden.
  V1.2     | fix: LAN Adapter Passwort, new: interner Datenbuffer |
  V1.3     | new: senden des Passwort auf Anforderung |
  V1.4     | fix: Delta Sol BX Plus
+ V1.5     | new: Timer 
