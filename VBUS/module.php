@@ -58,6 +58,7 @@
 			$seconds = $this->ReadPropertyInteger('Delay');
 			$Interval = $seconds * 1000;
 			$this->SetTimerInterval('Update', $Interval);
+			$this->WriteAttributeBoolean("PassTrueBit",true);
 		}
 
 		public function PassThru()
