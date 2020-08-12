@@ -330,7 +330,7 @@
 				$data =  "PASS " . $this->ReadPropertyString("Password") . CHR(13);
 				$this->SendToLanAdapter($data);
 				$data = "DATA" . CHR(13);
-				$$this->SendToLanAdapter($data);
+				$this->SendToLanAdapter($data);
 			}
 		}
 
@@ -341,7 +341,7 @@
 				'Buffer' => utf8_encode($data),
 			]));
 		}
-		
+
 		private function CalcCheckSumm($cs)
 		{
 			$cs = ~$cs;	//invert Checksumm
