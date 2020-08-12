@@ -50,25 +50,6 @@
 			}
 		}
 
-		public function SendPass()
-		{
-			if($this->HasActiveParent())
-			{
-				$data =  "PASS " . $this->ReadPropertyString("Password") . CHR(13);
-				
-				$this->SendDataToParent(json_encode([
-					'DataID' => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}",
-					'Buffer' => utf8_encode($data),
-				]));
-
-				$data = "DATA" . CHR(13);
-				$this->SendDataToParent(json_encode([
-					'DataID' => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}",
-					'Buffer' => utf8_encode($data),
-				]));
-			}
-		}
-
 		public function ReceiveData($JSONString)
 		{
 			$data = json_decode($JSONString);
@@ -102,19 +83,22 @@
 					$this->SetBuffer("IncommingBuffer","");
 					$this->SendDebug("Buffer", "Flush Buffer ", 0);
 					$this->SendDebug("To Proceed", $payload, 1);
+					$this->ProccedData($payload);
 				} elseif ($AA10pos !== false && $AA00pos !== false && $AA10pos > $AA00pos)
 				{
 					$payload = substr($payload,$AA10pos);
 					$this->SetBuffer("IncommingBuffer",$payload);
 					$this->SendDebug("Buffer", $payload, 1);
-					return;
 				} else
 				{
 					$this->SetBuffer("IncommingBuffer",$payload);
 					$this->SendDebug("Buffer", $payload, 1);
-					return;
 				}
 			}
+		}
+
+		private function ProccedData($payload)
+		{
 			if (substr($payload,0,2) == "\xaa\x10" && strlen($payload) >= 16) // it must have at least the header and one dataframe (16 bytes)
 			{
 				$payload = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
@@ -130,13 +114,10 @@
 					$cs += ord($payload{$i}); // add Headerbytes -> Checksumme 
 				}
 				$cs = $this->CalcCheckSumm($cs);
-
-				//$cs = ~$cs;	//invert Checksumm
-				//$cs &= 127;	//remove the MSB from Checksumm
 				$this->SendDebug("Header Checksumm","Calculated: $cs , Received: " . HEADER_CHECKSUMME,0);
 				if ( $cs == HEADER_CHECKSUMME)  // Checksumm ok?
 				{
-					$this->SendDebug("Header Checksumm","Checksumme OK!",0);
+					//$this->SendDebug("Header Checksumm","Checksumme OK!",0);
 					$byte_array = array();
 					$k = 0; // array Index
 					$this->SendDebug("Frame Count","Number of Frames: " . (NUMBER_OF_FRAMES),0);
@@ -157,8 +138,7 @@
 							$cs += $payload_byte;// add payload to checksumm
 						} // End payload Byte loop
 						$cs += $septet; // add septet 
-						$cs = ~$cs; // invert Checksumm
-						$cs &= 127; // remove MSB from Checksumm
+						$cs = $this->CalcCheckSumm($cs);
 						// $this->SendDebug("Frame Checksumm","Frame $i >> Calculated: $cs , Received: ".ord($payload{$i * 6 + 7}),0);
 						if ($cs != ord($payload{$i * 6 + 7})) // Checksumme Frame not ok?
 						{
@@ -343,6 +323,25 @@
 			}
 		}
 
+		public function SendPass()
+		{
+			if($this->HasActiveParent())
+			{
+				$data =  "PASS " . $this->ReadPropertyString("Password") . CHR(13);
+				$this->SendToLanAdapter($data);
+				$data = "DATA" . CHR(13);
+				$$this->SendToLanAdapter($data);
+			}
+		}
+
+		public function SendToLanAdapter($data)
+		{
+			$this->SendDataToParent(json_encode([
+				'DataID' => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}",
+				'Buffer' => utf8_encode($data),
+			]));
+		}
+		
 		private function CalcCheckSumm($cs)
 		{
 			$cs = ~$cs;	//invert Checksumm
