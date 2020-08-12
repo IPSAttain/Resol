@@ -38,7 +38,7 @@
  					break;
 			}
 			$this->WriteAttributeString("DeviceName","");
-			$this->SetCyclicTimerInterva();
+			$this->SetCyclicTimerInterval();
 		}
 
 		public function GetConfigurationForParent() {
@@ -53,7 +53,7 @@
 		}
 
 
-		private function SetCyclicTimerInterval()
+		protected function SetCyclicTimerInterval()
 		{
 			$seconds = $this->ReadPropertyInteger('Delay');
 			$Interval = $seconds * 1000;
