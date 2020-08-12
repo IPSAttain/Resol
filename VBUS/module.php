@@ -129,7 +129,8 @@
 				{
 					$cs += ord($payload{$i}); // add Headerbytes -> Checksumme 
 				}
-				$cs = CalcCheckumm($cs);
+				$cs = CalcCheckSumm($cs);
+				
 				//$cs = ~$cs;	//invert Checksumm
 				//$cs &= 127;	//remove the MSB from Checksumm
 				$this->SendDebug("Header Checksumm","Calculated: $cs , Received: " . HEADER_CHECKSUMME,0);
@@ -342,7 +343,7 @@
 			}
 		}
 
-		private function CalcCheckumm($cs)
+		private function CalcCheckSumm($cs)
 		{
 			$cs = ~$cs;	//invert Checksumm
 			$cs &= 127;	//remove the MSB from Checksumm
