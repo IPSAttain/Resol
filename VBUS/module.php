@@ -10,7 +10,7 @@
 			$this->RegisterPropertyInteger("GatewayMode", 0);
 			$this->RegisterPropertyInteger("LanguageSelect", 0);
 			$this->RegisterPropertyString("Password", "vbus");
-			$this->RegisterTimer("Update", 0, "PassThru(' . $this->InstanceID . ');");
+			$this->RegisterTimer("Update", 0, "Resol_PassThru(' . $this->InstanceID . ');");
 			$this->RegisterAttributeBoolean("PassTrueBit",true);
 			$this->RegisterAttributeString("DeviceName","");
 		}
@@ -53,13 +53,14 @@
 		}
 
 
-		private function UpdateTimer()
+		protected function SetCyclicTimerInterval()
 		{
-			$this->SetTimerInterval("Update", 10000);
-			$this->SendDebug("Timer", "Intervall:" . $this->ReadPropertyInteger("Delay")*1000, 0);
+			$seconds = $this->ReadPropertyInteger('Delay');
+			$Interval = $seconds * 1000;
+			$this->SetTimerInterval('Update', $Interval);
 		}
 
-		private function PassThru()
+		public function PassThru()
 		{
 			WriteAttributeBoolean("PassTrueBit",true);
 			$this->SendDebug("Timer", "updated" , 0);
