@@ -79,8 +79,8 @@
 				if ($AA10pos !== false && $AA00pos !== false && $AA10pos < $AA00pos)
 				{
 					$payload = substr($payload,$AA10pos,$AA00pos-$AA10pos); // cut from AA10 to the next AA
-					$this->SetBuffer("IncommingBuffer","");
-					$this->SendDebug("Buffer", "Flush Buffer ", 0);
+					$this->SetBuffer("IncommingBuffer",substr($payload,$AA00pos-$AA10pos));
+					$this->SendDebug("Buffer", substr($payload,$AA00pos-$AA10pos), 0);
 					$this->SendDebug("To Proceed", $payload, 1);
 					$this->ProccedData($payload);
 				} elseif ($AA10pos !== false && $AA00pos !== false && $AA10pos > $AA00pos)
@@ -170,7 +170,7 @@
 								$this->SendDebug("Device Name",$device_name,0);
 								$this->WriteAttributeString("DeviceName",$device_name);
 								$this->UpdateFormField("DeviceName", "caption", $this->Translate('Found device ') . $device_name);
-								break; // end foreach
+								break; // end foreach no further devices needs to search
 							} // end if
 						}
 						if (!isset($device_name))
@@ -311,8 +311,8 @@
 									break;
 								} // end switch
 							}
-							$this->SendDebug("Success", $updatedvars . " Vars updated",0);
-						break; // break foreach 
+							$this->SendDebug("Success", $updatedvars . " Variables set",0);
+							break; // break foreach no further devices needs to search
 						} // end if
 					} //end foreach
 				} //end if
