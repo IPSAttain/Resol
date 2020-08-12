@@ -38,7 +38,7 @@
  					break;
 			}
 			$this->WriteAttributeString("DeviceName","");
-			$this->SetTimerInterval("Update", $this->ReadPropertyInteger("Delay")*1000);
+			$this->UpdateTimer();
 		}
 
 		public function GetConfigurationForParent() {
@@ -50,6 +50,13 @@
 			{
 				return "{\"Port\": 7053}";
 			}
+		}
+
+
+		private function UpdateTimer()
+		{
+			$this->SetTimerInterval("Update", $this->ReadPropertyInteger("Delay")*1000);
+			$this->SendDebug("Timer", "Intervall:" . $this->ReadPropertyInteger("Delay")*1000, 0);
 		}
 
 		private function PassThru()
