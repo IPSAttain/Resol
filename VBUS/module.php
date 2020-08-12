@@ -184,6 +184,7 @@
 					{
 						if ($master->source == DEVICE_TYP) // match
 						{
+							$updatedvars = 0;
 							foreach($master->field as $field)
 							{
 								if (isset($field->name[$language]))
@@ -270,48 +271,47 @@
 									$var_value = mktime(0,$var_value,0);
 									$var_profil = "~UnixTimestamp";
 								}
-								if ((string) $field_unit == " °C") // Temperature
-								{
+								if ((string) $field_unit == " °C") {
+									// Temperature
 									$var_profil = "~Temperature";
-			
-								}
-								if ($field_unit == " %") // Pump Speed
-								{
+								} elseif ($field_unit == " %") {
+									// Pump Speed
 									$var_profil = "~Intensity.100";
 								}
 								if ($var_profil == "" && $field_unit != "") 
 								{
-									$MaxValue = 2** (int)$field_bit_size;
-									$var_profil = "Resol" . $field_unit;
-									// keine Sonderzeichen im Var-Profilname zulässig
-									$var_profil = preg_replace ( '/[^a-z0-9]/i', '_', $var_profil );
-									if (!@IPS_GetVariableProfile($var_profil))
-									{
-										IPS_CreateVariableProfile($var_profil, $var_type);
-										IPS_SetVariableProfileText($var_profil, "", $field_unit);
-										IPS_SetVariableProfileIcon($var_profil,'Sun');
-										IPS_SetVariableProfileValues ($var_profil, 0, $MaxValue, 1);
-									}
+									$var_profil = $this->CreateVarProfil($field_bit_size, $field_unit, $var_type);
 								}
 								$var_ident = DEVICE_TYP . $field_offset . (string)$field->bitPos;  // eindeutigen IDENT erzeugen
-								$position = (int) $field_offset . (string)$field->bitPos;
-								//$this->SendDebug("Field Output","Ident: " . $var_ident . "| Name: " . $field_name . "| Offset: " . $field_offset . "| Value: ".$var_value . " ".$field_unit . "| Profil: " .$var_profil ,0);
 								switch ($var_type)
 								{
 									case 0: // bool
 										$this->RegisterVariableBoolean($var_ident, $field_name, '~Switch', 0);
-										if($this->GetValue($var_ident) != $var_value) SetValueBoolean($this->GetIDForIdent($var_ident), $var_value);
+										if($this->GetValue($var_ident) != $var_value) 
+										{
+											SetValueBoolean($this->GetIDForIdent($var_ident), $var_value);
+											$updatedvars += 1;
+										}
 									break;
 									case 1: // integer
 										$this->RegisterVariableInteger($var_ident, $field_name, $var_profil, 0);
-										if($this->GetValue($var_ident) != $var_value) SetValueInteger($this->GetIDForIdent($var_ident), $var_value);
+										if($this->GetValue($var_ident) != $var_value) 
+										{
+											SetValueInteger($this->GetIDForIdent($var_ident), $var_value);
+											$updatedvars += 1;
+										}
 									break;
 									case 2: // float
 										$this->RegisterVariableFloat($var_ident, $field_name, $var_profil, 0);
-										if($this->GetValue($var_ident) != $var_value) SetValueFloat($this->GetIDForIdent($var_ident), $var_value);
+										if($this->GetValue($var_ident) != $var_value) 
+										{
+											SetValueFloat($this->GetIDForIdent($var_ident), $var_value);
+											$updatedvars += 1;
+										}
 									break;
 								} // end switch
 							}
+							$this->SendDebug("Success", $updatedvars . " Vars updated",0);
 						break; // break foreach 
 						} // end if
 					} //end foreach
@@ -321,6 +321,22 @@
 					$this->SendDebug("XML","Fail to load XML file",0);
 				}
 			}
+		}
+
+		private function CreateVarProfil($field_bit_size, $field_unit, $var_type)
+		{
+			$MaxValue = 2** (int)$field_bit_size;
+			$var_profil = "Resol" . $field_unit;
+			// keine Sonderzeichen im Var-Profilname zulässig
+			$var_profil = preg_replace ( '/[^a-z0-9]/i', '_', $var_profil );
+			if (!@IPS_GetVariableProfile($var_profil))
+			{
+				IPS_CreateVariableProfile($var_profil, $var_type);
+				IPS_SetVariableProfileText($var_profil, "", $field_unit);
+				IPS_SetVariableProfileIcon($var_profil,'Sun');
+				IPS_SetVariableProfileValues ($var_profil, 0, $MaxValue, 1);
+			}
+			return $var_profil;
 		}
 
 		public function SendPass()
@@ -334,7 +350,7 @@
 			}
 		}
 
-		public function SendToLanAdapter($data)
+		public function SendToLanAdapter(string $data)
 		{
 			$this->SendDataToParent(json_encode([
 				'DataID' => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}",
