@@ -78,7 +78,7 @@
 						$this->ProccedData($payload);
 						} else {
 							$this->SetBuffer("IncommingBuffer",""); // flush buffer
-							$this->SendDebug("Buffer", "Error: Insufficient string length. Stringlength:" . $AApos-$AA10pos, 0);
+							$this->SendDebug("Buffer", "Error: Insufficient string length.", 0);
 						}
 					} else
 					{
