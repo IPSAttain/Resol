@@ -66,7 +66,7 @@
 				$AA10pos = strpos($payload, "\xaa\x10\x00");
 				$AApos = strpos($payload, "\xaa",$AA10pos +1);
 				$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA: " . $AApos, 0);
-				if ($AA10pos && $AApos )
+				if ($AA10pos !== false && $AApos !== false)
 				{
 					// found cutter values
 					$this->SetBuffer("IncommingBuffer",substr($payload,$AApos)); // put the rest back to the buffer
