@@ -57,7 +57,7 @@
 			$data = json_decode($JSONString);
 			if (substr(utf8_decode($data->Buffer),0,1) == "+")
 			{
-				$this->RecieveLANCommands(utf8_decode($data->Buffer));
+				$this->ReceiveLANCommands(utf8_decode($data->Buffer));
 			} else 
 			{
 				if ($this->ReadAttributeBoolean("PassTrueBit"))
@@ -324,7 +324,7 @@
 			return $var_profil;
 		}
 
-		protected function RecieveLANCommands(string $payload)
+		protected function ReceiveLANCommands(string $payload)
 		{
 			switch ($payload)
 			{
