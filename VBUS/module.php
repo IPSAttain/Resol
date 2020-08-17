@@ -68,19 +68,17 @@
 					$AApos = strpos($payload, "\xaa",$AA10pos +1);
 					$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA: " . $AApos, 0);
 					if ($AA10pos !== false && $AApos !== false )
-					{
-						if($AApos-$AA10pos >= 16)// found cutter values
-						{
+					{ // found cutter values
+						if($AApos-$AA10pos >= 16)
+						{ // header and one frame is 16 bytes long at least
 						$this->SetBuffer("IncommingBuffer",substr($payload,$AApos)); // put the rest back to the buffer
 						$this->SendDebug("Buffer", substr($payload,$AApos), 1);
 						$payload = substr($payload,$AA10pos,$AApos-$AA10pos); // cut from AA 10 00 to the next AA
 						$this->SendDebug("To Proceed", $payload, 1);
 						$this->ProccedData($payload);
 						} else {
-							$this->SetBuffer("IncommingBuffer",""); // put the rest back to the buffer
-							$this->SendDebug("Buffer", "Error: Insufficient string length. Flush Buffer", 0);
-							IPS_LogMessage("VBUS RECV", "Error: Insufficient string length.");
-							IPS_LogMessage("VBUS RECV", $payload);
+							$this->SetBuffer("IncommingBuffer",""); // flush buffer
+							$this->SendDebug("Buffer", "Error: Insufficient string length. Stringlength:" . $AApos-$AA10pos, 0);
 						}
 					} else
 					{
