@@ -80,6 +80,7 @@
 							$this->SetBuffer("IncommingBuffer",""); // put the rest back to the buffer
 							$this->SendDebug("Buffer", "Error: Insufficient string length. Flush Buffer", 0);
 							IPS_LogMessage("VBUS RECV", "Error: Insufficient string length.");
+							IPS_LogMessage("VBUS RECV", $payload);
 						}
 					} else
 					{
