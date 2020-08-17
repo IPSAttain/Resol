@@ -69,6 +69,7 @@
 
 		public function ReceiveData($JSONString)
 		{
+			if (!$this->ReadAttributeBoolean("PassTrueBit")) return;
 			$data = json_decode($JSONString);
 			if (substr(utf8_decode($data->Buffer),0,6) == "+HELLO")
 			{
