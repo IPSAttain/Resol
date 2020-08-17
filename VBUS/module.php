@@ -69,15 +69,15 @@
 					$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA: " . $AApos, 0);
 					if ($AA10pos !== false && $AApos !== false )
 					{ // found cutter values
-						if($AApos-$AA10pos >= 16)
-						{ // header and one frame is 16 bytes long at least
+						if($AApos-$AA10pos >= 10)
+						{ // header is 10 bytes long 
 						$this->SetBuffer("IncommingBuffer",substr($payload,$AApos)); // put the rest back to the buffer
 						$this->SendDebug("Buffer", substr($payload,$AApos), 1);
 						$payload = substr($payload,$AA10pos,$AApos-$AA10pos); // cut from AA 10 00 to the next AA
 						$this->SendDebug("To Proceed", $payload, 1);
 						$this->ProccedData($payload);
 						} else {
-							$this->SetBuffer("IncommingBuffer",""); // flush buffer
+							$this->SetBuffer("IncommingBuffer",""); // clear buffer
 							$this->SendDebug("Buffer", "Error: Insufficient string length.", 0);
 						}
 					} else
