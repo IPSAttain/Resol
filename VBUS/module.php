@@ -362,7 +362,7 @@
 			$this->WriteAttributeBoolean("PassTrueBit",true);
 		}
 
-		protected function PassThru()
+		public function PassThru()
 		{
 			$this->WriteAttributeBoolean("PassTrueBit",true);
 			$this->SendDebug("Timer", "Start Receiving Data" , 0);
