@@ -52,53 +52,33 @@
 			}
 		}
 
-
-		protected function SetCyclicTimerInterval()
-		{
-			$seconds = $this->ReadPropertyInteger('Delay');
-			$Interval = $seconds * 1000;
-			$this->SetTimerInterval('Update', $Interval);
-			$this->WriteAttributeBoolean("PassTrueBit",true);
-		}
-
-		public function PassThru()
-		{
-			$this->WriteAttributeBoolean("PassTrueBit",true);
-			$this->SendDebug("Timer", "Start Receiving Data" , 0);
-		}
-
 		public function ReceiveData($JSONString)
 		{
 			$data = json_decode($JSONString);
-			if (substr(utf8_decode($data->Buffer),0,6) == "+HELLO")
+			if (substr(utf8_decode($data->Buffer),0,1) == "+")
 			{
-				$this->SendPass();
-				$this->SendDebug("Received", utf8_decode($data->Buffer) , 0);
-				return;
-			}
-			if (substr(utf8_decode($data->Buffer),0,3) == "+OK")
+				$this->RecieveLANCommands(utf8_decode($data->Buffer));
+			} else 
 			{
-				$this->SendDebug("Received", utf8_decode($data->Buffer) , 0);
-				return;
-			}
-			if (!$this->ReadAttributeBoolean("PassTrueBit")) return;
-			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
-			$payload = $this->GetBuffer("IncommingBuffer") . utf8_decode($data->Buffer);
-			$AA10pos = strpos($payload, "\xaa\x10\x00");
-			$AApos = strpos($payload, "\xaa",$AA10pos +1);
-			$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA: " . $AApos, 0);
-			if ($AA10pos !== false && $AApos !== false)
-			{
-				// found cutter values
-				$this->SetBuffer("IncommingBuffer",substr($payload,$AApos)); // put the rest back to the buffer
-				$this->SendDebug("Buffer", substr($payload,$AApos), 1);
-				$payload = substr($payload,$AA10pos,$AApos-$AA10pos); // cut from AA 10 00 to the next AA
-				$this->SendDebug("To Proceed", $payload, 1);
-				$this->ProccedData($payload);
-			} else
-			{
-				$this->SetBuffer("IncommingBuffer",$payload);
-				$this->SendDebug("Buffer", $payload, 1);
+				if (!$this->ReadAttributeBoolean("PassTrueBit")) return;
+				$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
+				$payload = $this->GetBuffer("IncommingBuffer") . utf8_decode($data->Buffer);
+				$AA10pos = strpos($payload, "\xaa\x10\x00");
+				$AApos = strpos($payload, "\xaa",$AA10pos +1);
+				$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA: " . $AApos, 0);
+				if ($AA10pos && $AApos )
+				{
+					// found cutter values
+					$this->SetBuffer("IncommingBuffer",substr($payload,$AApos)); // put the rest back to the buffer
+					$this->SendDebug("Buffer", substr($payload,$AApos), 1);
+					$payload = substr($payload,$AA10pos,$AApos-$AA10pos); // cut from AA 10 00 to the next AA
+					$this->SendDebug("To Proceed", $payload, 1);
+					$this->ProccedData($payload);
+				} else
+				{
+					$this->SetBuffer("IncommingBuffer",$payload);
+					$this->SendDebug("Buffer", $payload, 1);
+				}
 			}
 		}
 
@@ -342,6 +322,19 @@
 			return $var_profil;
 		}
 
+		protected function RecieveLANCommands(string $payload)
+		{
+			switch ($payload)
+			{
+				case "+HELLO":
+					$this->SendPass();
+				break;
+				default:
+				break;
+			}
+			$this->SendDebug("Received", $payload , 0);
+		}
+
 		public function SendPass()
 		{
 			if($this->HasActiveParent())
@@ -361,7 +354,21 @@
 			]));
 		}
 
-		private function CalcCheckSumm($cs)
+		protected function SetCyclicTimerInterval()
+		{
+			$seconds = $this->ReadPropertyInteger('Delay');
+			$Interval = $seconds * 1000;
+			$this->SetTimerInterval('Update', $Interval);
+			$this->WriteAttributeBoolean("PassTrueBit",true);
+		}
+
+		protected function PassThru()
+		{
+			$this->WriteAttributeBoolean("PassTrueBit",true);
+			$this->SendDebug("Timer", "Start Receiving Data" , 0);
+		}
+
+		protected function CalcCheckSumm($cs)
 		{
 			$cs = ~$cs;	//invert Checksumm
 			$cs &= 127;	//remove the MSB from Checksumm
