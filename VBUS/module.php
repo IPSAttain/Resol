@@ -326,7 +326,7 @@
 		{
 			switch ($payload)
 			{
-				case "+HELLO":
+				case "+HELLO\x0a":
 					$this->SendPass();
 				break;
 				default:
