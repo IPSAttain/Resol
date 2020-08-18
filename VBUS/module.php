@@ -105,7 +105,6 @@
 			{
 				$cs += ord($payload{$i}); // add Headerbytes -> Checksumme 
 			}
-
 			$cs = $this->CalcCheckSumm($cs);
 			$this->SendDebug("Header Checksumm","Calculated: $cs , Received: " . HEADER_CHECKSUMME,0);
 			if ( $cs == HEADER_CHECKSUMME)  // Checksumm ok?
@@ -314,32 +313,6 @@
 				$this->SendDebug("XML","Fail to load XML file",0);
 			}
 			return $var_profil;
-		}
-
-		public function SendPass()
-		{
-			if($this->HasActiveParent())
-			{
-				$data =  "PASS " . $this->ReadPropertyString("Password") . CHR(13);
-				$this->SendToLanAdapter($data);
-				$data = "DATA" . CHR(13);
-				$this->SendToLanAdapter($data);
-			}
-		}
-
-		public function SendToLanAdapter(string $data)
-		{
-			$this->SendDataToParent(json_encode([
-				'DataID' => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}",
-				'Buffer' => utf8_encode($data),
-			]));
-		}
-
-		private function CalcCheckSumm($cs)
-		{
-			$cs = ~$cs;	//invert Checksumm
-			$cs &= 127;	//remove the MSB from Checksumm
-			return $cs;
 		}
 
 		private function CreateVarProfil($field_bit_size, $field_unit, $var_type)
