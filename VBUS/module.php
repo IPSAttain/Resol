@@ -55,9 +55,14 @@
 		public function ReceiveData($JSONString)
 		{
 			$data = json_decode($JSONString);
-			if (substr(utf8_decode($data->Buffer),0,1) == "+")
+			if (substr(utf8_decode($data->Buffer),0,6) == "+HELLO" )
 			{
-				$this->ReceiveLANCommands(utf8_decode($data->Buffer));
+				$this->SendPass();
+				$this->SendDebug("Received", utf8_decode($data->Buffer) , 0);
+			} elseif (substr(utf8_decode($data->Buffer),0,4) == "+OK:" )
+			{
+				// further development
+				$this->SendDebug("Received", utf8_decode($data->Buffer) , 0);
 			} else 
 			{
 				if ($this->ReadAttributeBoolean("PassTrueBit"))
@@ -329,18 +334,6 @@
 				IPS_SetVariableProfileValues ($var_profil, 0, $MaxValue, 1);
 			}
 			return $var_profil;
-		}
-
-		protected function ReceiveLANCommands(string $payload)
-		{
-			if (substr($payload,0,3) == "+HE" )
-			{
-				$this->SendPass();
-			} elseif (substr($payload,0,3) == "+OK" )
-			{
-				// further development
-			}
-			$this->SendDebug("Received", $payload , 0);
 		}
 
 		public function SendPass()
