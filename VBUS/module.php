@@ -59,7 +59,7 @@
 			{
 				$this->SendPass();
 				$this->SendDebug("Received", utf8_decode($data->Buffer) , 0);
-			} elseif (substr(utf8_decode($data->Buffer),0,4) == "+OK:" )
+			} elseif (substr(utf8_decode($data->Buffer),0,3) == "+OK" )
 			{
 				// further development
 				$this->SendDebug("Received", utf8_decode($data->Buffer) , 0);
@@ -361,6 +361,7 @@
 			$Interval = $seconds * 1000;
 			$this->SetTimerInterval('Update', $Interval);
 			$this->WriteAttributeBoolean("PassTrueBit",true);
+			if ($this->GetBuffer("IncommingBuffer") == "") $this->SendPass();
 		}
 
 		public function PassThru()
