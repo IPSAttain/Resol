@@ -69,11 +69,12 @@
 					$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA: " . $AApos, 0);
 					if ($AA10pos !== false && $AApos !== false )
 					{ // found cutter values
-						if($AApos-$AA10pos >= 10)
+						$payloadlength = $AApos-$AA10pos;
+						if($payloadlength >= 10)
 						{ // header is 10 bytes long 
 						$this->SetBuffer("IncommingBuffer",substr($payload,$AApos)); // put the rest back to the buffer
 						$this->SendDebug("Buffer", substr($payload,$AApos), 1);
-						$payload = substr($payload,$AA10pos,$AApos-$AA10pos); // cut from AA 10 00 to the next AA
+						$payload = substr($payload,$AA10pos,$payloadlength); // cut from AA 10 00 to the next AA
 						$this->SendDebug("To Proceed", $payload, 1);
 						$this->ProccedData($payload);
 						} else {
@@ -331,13 +332,12 @@
 
 		protected function ReceiveLANCommands(string $payload)
 		{
-			switch ($payload)
+			if (substr($payload,0,3) == "+HE" )
 			{
-				case "+HELLO\x0a":
-					$this->SendPass();
-				break;
-				default:
-				break;
+				$this->SendPass();
+			} elseif (substr($payload,0,3) == "+OK" )
+			{
+				// further development
 			}
 			$this->SendDebug("Received", $payload , 0);
 		}
