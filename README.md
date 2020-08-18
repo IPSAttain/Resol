@@ -54,3 +54,5 @@ Mit der Funktion kann das Passwort manuell an den LAN Adapter gesendet werden.
  V1.3     | new: senden des Passwort auf Anforderung |
  V1.4     | fix: Delta Sol BX Plus
  V1.5     | new: Timer 
+ V1.6     | fix: Passwort & Timer, unvollständige Daten erzeugen keine Fehlermeldung mehr
+

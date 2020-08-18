@@ -52,54 +52,41 @@
 			}
 		}
 
-
-		protected function SetCyclicTimerInterval()
-		{
-			$seconds = $this->ReadPropertyInteger('Delay');
-			$Interval = $seconds * 1000;
-			$this->SetTimerInterval('Update', $Interval);
-			$this->WriteAttributeBoolean("PassTrueBit",true);
-		}
-
-		public function PassThru()
-		{
-			$this->WriteAttributeBoolean("PassTrueBit",true);
-			$this->SendDebug("Timer", "Start Receiving Data" , 0);
-		}
-
 		public function ReceiveData($JSONString)
 		{
-			if (!$this->ReadAttributeBoolean("PassTrueBit")) return;
 			$data = json_decode($JSONString);
-			if (substr(utf8_decode($data->Buffer),0,6) == "+HELLO")
+			if (substr(utf8_decode($data->Buffer),0,1) == "+")
 			{
-				$this->SendPass();
-				$this->SendDebug("Received", utf8_decode($data->Buffer) , 0);
-				return;
-			}
-			if (substr(utf8_decode($data->Buffer),0,3) == "+OK")
+				$this->ReceiveLANCommands(utf8_decode($data->Buffer));
+			} else 
 			{
-				$this->SendDebug("Received", utf8_decode($data->Buffer) , 0);
-				return;
-			}
-			if (!$this->ReadAttributeBoolean("PassTrueBit")) return;
-			$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
-			$payload = $this->GetBuffer("IncommingBuffer") . utf8_decode($data->Buffer);
-			$AA10pos = strpos($payload, "\xaa\x10\x00");
-			$AApos = strpos($payload, "\xaa",$AA10pos +1);
-			$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA: " . $AApos, 0);
-			if ($AA10pos !== false && $AApos !== false)
-			{
-				// found cutter values
-				$this->SetBuffer("IncommingBuffer",substr($payload,$AApos)); // put the rest back to the buffer
-				$this->SendDebug("Buffer", substr($payload,$AApos), 1);
-				$payload = substr($payload,$AA10pos,$AApos-$AA10pos); // cut from AA 10 00 to the next AA
-				$this->SendDebug("To Proceed", $payload, 1);
-				$this->ProccedData($payload);
-			} else
-			{
-				$this->SetBuffer("IncommingBuffer",$payload);
-				$this->SendDebug("Buffer", $payload, 1);
+				if ($this->ReadAttributeBoolean("PassTrueBit"))
+				{
+					$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
+					$payload = $this->GetBuffer("IncommingBuffer") . utf8_decode($data->Buffer);
+					$AA10pos = strpos($payload, "\xaa\x10\x00");
+					$AApos = strpos($payload, "\xaa",$AA10pos +1);
+					$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA: " . $AApos, 0);
+					if ($AA10pos !== false && $AApos !== false )
+					{ // found cutter values
+						$payloadlength = $AApos-$AA10pos;
+						if($payloadlength >= 10)
+						{ // header is 10 bytes long 
+						$this->SetBuffer("IncommingBuffer",substr($payload,$AApos)); // put the rest back to the buffer
+						$this->SendDebug("Buffer", substr($payload,$AApos), 1);
+						$payload = substr($payload,$AA10pos,$payloadlength); // cut from AA 10 00 to the next AA
+						$this->SendDebug("To Proceed", $payload, 1);
+						$this->ProccedData($payload);
+						} else {
+							$this->SetBuffer("IncommingBuffer",""); // clear buffer
+							$this->SendDebug("Buffer", "Error: Insufficient string length.", 0);
+						}
+					} else
+					{
+						$this->SetBuffer("IncommingBuffer",$payload);
+						$this->SendDebug("Buffer", $payload, 1);
+					}
+				}
 			}
 		}
 
@@ -118,6 +105,7 @@
 			{
 				$cs += ord($payload{$i}); // add Headerbytes -> Checksumme 
 			}
+
 			$cs = $this->CalcCheckSumm($cs);
 			$this->SendDebug("Header Checksumm","Calculated: $cs , Received: " . HEADER_CHECKSUMME,0);
 			if ( $cs == HEADER_CHECKSUMME)  // Checksumm ok?
@@ -325,21 +313,6 @@
 			{
 				$this->SendDebug("XML","Fail to load XML file",0);
 			}
-		}
-
-		private function CreateVarProfil($field_bit_size, $field_unit, $var_type)
-		{
-			$MaxValue = 2** (int)$field_bit_size;
-			$var_profil = "Resol" . $field_unit;
-			// keine Sonderzeichen im Var-Profilname zulässig
-			$var_profil = preg_replace ( '/[^a-z0-9]/i', '_', $var_profil );
-			if (!@IPS_GetVariableProfile($var_profil))
-			{
-				IPS_CreateVariableProfile($var_profil, $var_type);
-				IPS_SetVariableProfileText($var_profil, "", $field_unit);
-				IPS_SetVariableProfileIcon($var_profil,'Sun');
-				IPS_SetVariableProfileValues ($var_profil, 0, $MaxValue, 1);
-			}
 			return $var_profil;
 		}
 
@@ -363,6 +336,74 @@
 		}
 
 		private function CalcCheckSumm($cs)
+		{
+			$cs = ~$cs;	//invert Checksumm
+			$cs &= 127;	//remove the MSB from Checksumm
+			return $cs;
+		}
+
+		private function CreateVarProfil($field_bit_size, $field_unit, $var_type)
+		{
+			$MaxValue = 2** (int)$field_bit_size;
+			$var_profil = "Resol" . $field_unit;
+			// keine Sonderzeichen im Var-Profilname zulässig
+			$var_profil = preg_replace ( '/[^a-z0-9]/i', '_', $var_profil );
+			if (!@IPS_GetVariableProfile($var_profil))
+			{
+				IPS_CreateVariableProfile($var_profil, $var_type);
+				IPS_SetVariableProfileText($var_profil, "", $field_unit);
+				IPS_SetVariableProfileIcon($var_profil,'Sun');
+				IPS_SetVariableProfileValues ($var_profil, 0, $MaxValue, 1);
+			}
+			return $var_profil;
+		}
+
+		protected function ReceiveLANCommands(string $payload)
+		{
+			if (substr($payload,0,3) == "+HE" )
+			{
+				$this->SendPass();
+			} elseif (substr($payload,0,3) == "+OK" )
+			{
+				// further development
+			}
+			$this->SendDebug("Received", $payload , 0);
+		}
+
+		public function SendPass()
+		{
+			if($this->HasActiveParent())
+			{
+				$data =  "PASS " . $this->ReadPropertyString("Password") . CHR(13);
+				$this->SendToLanAdapter($data);
+				$data = "DATA" . CHR(13);
+				$this->SendToLanAdapter($data);
+			}
+		}
+
+		public function SendToLanAdapter(string $data)
+		{
+			$this->SendDataToParent(json_encode([
+				'DataID' => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}",
+				'Buffer' => utf8_encode($data),
+			]));
+		}
+
+		protected function SetCyclicTimerInterval()
+		{
+			$seconds = $this->ReadPropertyInteger('Delay');
+			$Interval = $seconds * 1000;
+			$this->SetTimerInterval('Update', $Interval);
+			$this->WriteAttributeBoolean("PassTrueBit",true);
+		}
+
+		public function PassThru()
+		{
+			$this->WriteAttributeBoolean("PassTrueBit",true);
+			$this->SendDebug("Timer", "Start Receiving Data" , 0);
+		}
+
+		protected function CalcCheckSumm($cs)
 		{
 			$cs = ~$cs;	//invert Checksumm
 			$cs &= 127;	//remove the MSB from Checksumm
