@@ -60,7 +60,6 @@
 			$data = json_decode($JSONString);
 			if ($this->ReadPropertyInteger("GatewayMode") == 0)
 			{
-				//$this->SetTimerInterval("TimeOut", 0);
 				$this->SetTimerInterval("TimeOut", 30000);
 			}
 			elseif ($this->ReadPropertyInteger("GatewayMode") == 1 && $this->GetTimerInterval("TimeOut") != 0)
@@ -111,16 +110,16 @@
 		{
 			$language = $this->ReadPropertyInteger("LanguageSelect");
 			$payload = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
-			define('NUMBER_OF_FRAMES', ord($payload{6}));
-			define('HEADER_CHECKSUMME', ord($payload{7}));
-			define('DEVICE_TYP', "0x" . dechex(ord($payload{2})) . dechex(ord($payload{1} )));
+			define('NUMBER_OF_FRAMES', ord($payload[6]));
+			define('HEADER_CHECKSUMME', ord($payload[7]));
+			define('DEVICE_TYP', "0x" . dechex(ord($payload[2])) . dechex(ord($payload[1])));
 			define('XML_FILE', __DIR__ . "/../libs/VBusSpecificationResol.xml");
 			$this->SendDebug("Device Typ",DEVICE_TYP,0);
 
 			$cs = 16;       // durch den Cutter wird das erste Byte (0x10 Hex) abgeschnitten, hier wird der Wert wieder dazu genommen
 			for ($i=00; $i<=06; $i++)
 			{
-				$cs += ord($payload{$i}); // add Headerbytes -> Checksumme 
+				$cs += ord($payload[$i]); // add Headerbytes -> Checksumme 
 			}
 			$cs = $this->CalcCheckSumm($cs);
 			$this->SendDebug("Header Checksumm","Calculated: $cs , Received: " . HEADER_CHECKSUMME,0);
@@ -138,20 +137,19 @@
 				for ($i=01; $i<=NUMBER_OF_FRAMES; $i++) // loop for all frames
 				{
 				$cs = 0;
-				$septet = ord($payload{$i * 6 + 6});
+				$septet = ord($payload[$i * 6 + 6]);
 					for ($j=00; $j<=03; $j++)
 					{  // always 4 Bytes in a Frame
-						$payload_byte = ord($payload{$i * 6 + 2 + $j});
+						$payload_byte = ord($payload[$i * 6 + 2 + $j]);
 						$byte_array[$k] = $payload_byte + 128 * (($septet >> $j) & 1); //das komplette Datenbyte aus dem Byte und dem Teil des Septet zusammenfügen
 						$k++; // inc. Array Index 
 						$cs += $payload_byte;// add payload to checksumm
 					} // End payload Byte loop
 					$cs += $septet; // add septet 
 					$cs = $this->CalcCheckSumm($cs);
-					// $this->SendDebug("Frame Checksumm","Frame $i >> Calculated: $cs , Received: ".ord($payload{$i * 6 + 7}),0);
-					if ($cs != ord($payload{$i * 6 + 7})) // Checksumme Frame not ok?
+					if ($cs != ord($payload[$i * 6 + 7])) // Checksumme Frame not ok?
 					{
-						$this->SendDebug("Frame Checksumm","Error in Frame $i >> calculated: $cs received: ".ord($payload{$i * 6 + 7}),0);
+						$this->SendDebug("Frame Checksumm","Error in Frame $i >> calculated: $cs received: ".ord($payload[$i * 6 + 7]),0);
 						return;
 					}
 				} // end for frame loop
@@ -159,7 +157,7 @@
 			}
 			else  // Checksumme Head not ok
 			{
-				$this->SendDebug("Header Checksumm","Error >> Calculated: $cs   Received: ".ord($payload{7}),0);
+				$this->SendDebug("Header Checksumm","Error >> Calculated: $cs   Received: ".ord($payload[7]),0);
 				return;
 			}	// end else
 	

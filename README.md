@@ -55,4 +55,6 @@ Mit der Funktion kann das Passwort manuell an den LAN Adapter gesendet werden.
  V1.4     | fix: Delta Sol BX Plus
  V1.5     | new: Timer 
  V1.6     | fix: Passwort & Timer, unvollständige Daten erzeugen keine Fehlermeldung mehr
+ V1.6.2   | new: automatisches senden  des PW nach TimeOut
+ V1.7     | fix: Array and string offset access syntax with curly braces is deprecated in further PHP versions
 
