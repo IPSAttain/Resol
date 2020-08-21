@@ -14,7 +14,7 @@
         },
         { "type": "ValidationTextBox", "name": "Password", "caption": "Password","value": "vbus"},
         { "type": "Label", "name": "DeviceName", "caption": "" },
-        { "type": "NumberSpinner", "name": "Delay", "caption": "Delay between receiving data", "suffix": "s"}
+        { "type": "NumberSpinner", "name": "Delay", "caption": "Delay between receiving data", "suffix": "s", "minimum": 0, "maximum": 3600}
         ],
     "actions": [
         { "type": "Button", "label": "Send Password", "onClick": "Resol_SendPass($id);" }

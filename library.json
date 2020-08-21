@@ -4,9 +4,9 @@
     "author": "Attain",
     "url": "https://github.com/IPSAttain/Resol",
     "compatibility": {
-        "version": "5.0"
+        "version": "5.3"
     },
-    "version": "1.6",
-    "build": 13,
+    "version": "1.6.2",
+    "build": 14,
     "date": 0
 }

@@ -11,6 +11,7 @@
 			$this->RegisterPropertyInteger("LanguageSelect", 0);
 			$this->RegisterPropertyString("Password", "vbus");
 			$this->RegisterTimer("Update", 0, "Resol_PassThru($this->InstanceID);");
+			$this->RegisterTimer("TimeOut", 60000, "Resol_SendPass($this->InstanceID);");
 			$this->RegisterAttributeBoolean("PassTrueBit",true);
 			$this->RegisterAttributeString("DeviceName","");
 		}
@@ -31,10 +32,12 @@
 					$this->ForceParent("{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}");
 					$this->GetConfigurationForParent();
 					$this->SendPass();
+					$this->SetTimerInterval("TimeOut", 30000);
 					break;
 				case 1: //SerialPort bei Modus 1 erstellen
 					$this->ForceParent("{6DC3D946-0D31-450F-A8C6-C42DB8D7D4F1}");
 					$this->GetConfigurationForParent();
+					$this->SetTimerInterval("TimeOut", 0);
  					break;
 			}
 			$this->WriteAttributeString("DeviceName","");
@@ -55,6 +58,15 @@
 		public function ReceiveData($JSONString)
 		{
 			$data = json_decode($JSONString);
+			if ($this->ReadPropertyInteger("GatewayMode") == 0)
+			{
+				//$this->SetTimerInterval("TimeOut", 0);
+				$this->SetTimerInterval("TimeOut", 30000);
+			}
+			elseif ($this->ReadPropertyInteger("GatewayMode") == 1 && $this->GetTimerInterval("TimeOut") != 0)
+			{
+				$this->SetTimerInterval("TimeOut", 0);
+			}
 			if (substr(utf8_decode($data->Buffer),0,6) == "+HELLO" )
 			{
 				$this->SendPass();
@@ -342,8 +354,13 @@
 			{
 				$data =  "PASS " . $this->ReadPropertyString("Password") . CHR(13);
 				$this->SendToLanAdapter($data);
+				$this->SendDebug("Password", "Password: " . $this->ReadPropertyString("Password") . " send to LAN adapter" , 0);
 				$data = "DATA" . CHR(13);
 				$this->SendToLanAdapter($data);
+			}
+			else
+			{
+				$this->SendDebug("Password", "Can not send password: " . $this->ReadPropertyString("Password") . ". Client Socket not active" , 0);
 			}
 		}
 
@@ -361,7 +378,6 @@
 			$Interval = $seconds * 1000;
 			$this->SetTimerInterval('Update', $Interval);
 			$this->WriteAttributeBoolean("PassTrueBit",true);
-			if ($this->GetBuffer("IncommingBuffer") == "") $this->SendPass();
 		}
 
 		public function PassThru()
