@@ -18,7 +18,7 @@ VBus-Datensätze, der Resol Protokollversion 2.0, ermöglichen den Zugriff auf a
 
 - ## Voraussetzung
 
-IPS Version mindestens 5.0
+IPS Version mindestens 5.2
 
 - ## Installation
 
