@@ -112,7 +112,8 @@
 			$payload = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
 			define('NUMBER_OF_FRAMES', ord($payload[6]));
 			define('HEADER_CHECKSUMME', ord($payload[7]));
-			define('DEVICE_TYP', "0x" . dechex(ord($payload[2])) . dechex(ord($payload[1])));
+			$device_typ = strtoupper(dechex(ord($payload[2])) . dechex(ord($payload[1])));
+			define('DEVICE_TYP', "0x" .  $device_typ);
 			define('XML_FILE', __DIR__ . "/../libs/VBusSpecificationResol.xml");
 			$this->SendDebug("Device Typ",DEVICE_TYP,0);
 
@@ -181,7 +182,7 @@
 					}
 					if (!isset($device_name))
 					{
-						$this->SendDebug("Device Name",DEVICE_TYP ." does not exist in the XML file",0);
+						$this->SendDebug("Device Name: " . DEVICE_TYP ." does not exist in the XML file",0);
 						$this->UpdateFormField("DeviceName", "caption", $this->Translate('Not supported device ') . DEVICE_TYP);
 					}
 				}
