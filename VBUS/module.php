@@ -202,7 +202,7 @@
 							{
 								$field_name = (string)@($field->name[0]); 
 							}
-							if (isset($field['commonUsage'][0]) $field_info = (string)@$field['commonUsage'][0];
+							//if (isset($field['commonUsage'][0]) $field_info = (string)@$field['commonUsage'][0];
 							if (isset($field->unit) $field_unit = (string)@$field->unit;
 							if (isset($field->bitSize) $field_bit_size = (int)@$field->bitSize;
 							$var_profil = "";
