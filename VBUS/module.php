@@ -318,7 +318,7 @@
 									}
 								break;
 							} // end switch
-							$this->SendDebug("Var Debug: " . $updatedvars ." Var | Field Name: ".$field_name,0);
+							$this->SendDebug("Var Debug: ", $updatedvars ." Var | Field Name: ".$field_name,0);
 						}
 						$this->SendDebug("Success", $updatedvars . " Variables set",0);
 						if($this->ReadPropertyInteger("Delay") != 0) $this->WriteAttributeBoolean("PassTrueBit",false);
