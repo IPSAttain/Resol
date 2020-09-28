@@ -275,11 +275,14 @@
 									break;
 								} // END Switch
 							} //end else
-							if ((string)$field->format == "t") // Time
+							if (isset($field->format)) 
 							{
-								$var_value = mktime(0,$var_value,0);
-								$var_profil = "~UnixTimestamp";
-							}
+								if ((string)$field->format == "t") // Time
+								{
+									$var_value = mktime(0,$var_value,0);
+									$var_profil = "~UnixTimestamp";
+								}
+								}
 							if ((string) $field_unit == " °C") {
 								// Temperature
 								$var_profil = "~Temperature";
