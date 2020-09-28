@@ -194,6 +194,7 @@
 						$updatedvars = 0;
 						foreach($master->field as $field)
 						{
+							
 							if (isset($field->name[$language]))
 							{
 								$field_name = (string)($field->name[$language]); // 0 = german 1 = english
@@ -317,6 +318,7 @@
 									}
 								break;
 							} // end switch
+							$this->SendDebug("Var Debug: " . $updatedvars ." Var | Field Name: ".$field_name,0);
 						}
 						$this->SendDebug("Success", $updatedvars . " Variables set",0);
 						if($this->ReadPropertyInteger("Delay") != 0) $this->WriteAttributeBoolean("PassTrueBit",false);
