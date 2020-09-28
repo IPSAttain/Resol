@@ -194,6 +194,10 @@
 						$updatedvars = 0;
 						foreach($master->field as $field)
 						{
+							$field_unit = "";
+							$var_profil = "";
+							$field_bit = "";
+							$field_bit_size = 0;
 							if (isset($field->name[$language]))
 							{
 								$field_name = (string)($field->name[$language]); // 0 = german 1 = english
@@ -202,10 +206,9 @@
 							{
 								$field_name = (string)@($field->name[0]); 
 							}
-							$field_info = (string)$field['commonUsage'][0];
-							$field_unit = (string)$field->unit;
-							$field_bit_size = (int)$field->bitSize;
-							$var_profil = "";
+							//if (isset($field['commonUsage'][0]) $field_info = (string)@$field['commonUsage'][0];
+							if (isset($field->unit)) $field_unit = (string)$field->unit; 
+							if (isset($field->bitSize)) $field_bit_size = (int)$field->bitSize;
 							if ($field_bit_size  == 1)
 							{
 								$var_type = 0; // 0 ^ bool
@@ -273,11 +276,14 @@
 									break;
 								} // END Switch
 							} //end else
-							if ((string)$field->format == "t") // Time
+							if (isset($field->format)) 
 							{
-								$var_value = mktime(0,$var_value,0);
-								$var_profil = "~UnixTimestamp";
-							}
+								if ((string)$field->format == "t") // Time
+								{
+									$var_value = mktime(0,$var_value,0);
+									$var_profil = "~UnixTimestamp";
+								}
+								}
 							if ((string) $field_unit == " °C") {
 								// Temperature
 								$var_profil = "~Temperature";
@@ -289,14 +295,14 @@
 							{
 								$var_profil = $this->CreateVarProfil($field_bit_size, $field_unit, $var_type);
 							}
-							$var_ident = DEVICE_TYP . $field_offset . (string)$field->bitPos;  // eindeutigen IDENT erzeugen
+							$var_ident = DEVICE_TYP . $field_offset . (string)$field_bit;  // eindeutigen IDENT erzeugen
 							switch ($var_type)
 							{
 								case 0: // bool
 									$this->RegisterVariableBoolean($var_ident, $field_name, '~Switch', 0);
 									if($this->GetValue($var_ident) != $var_value) 
 									{
-										SetValueBoolean($this->GetIDForIdent($var_ident), $var_value);
+										$this->SetValue($var_ident, $var_value);
 										$updatedvars += 1;
 									}
 								break;
@@ -304,7 +310,7 @@
 									$this->RegisterVariableInteger($var_ident, $field_name, $var_profil, 0);
 									if($this->GetValue($var_ident) != $var_value) 
 									{
-										SetValueInteger($this->GetIDForIdent($var_ident), $var_value);
+										$this->SetValue($var_ident, $var_value);
 										$updatedvars += 1;
 									}
 								break;
@@ -312,11 +318,12 @@
 									$this->RegisterVariableFloat($var_ident, $field_name, $var_profil, 0);
 									if($this->GetValue($var_ident) != $var_value) 
 									{
-										SetValueFloat($this->GetIDForIdent($var_ident), $var_value);
+										$this->SetValue($var_ident, $var_value);
 										$updatedvars += 1;
 									}
 								break;
 							} // end switch
+							//$this->SendDebug("Var Debug: ", $updatedvars ." Var | Field Name: ".$field_name. " | Var Type: " .$var_type . " | Var Profil: " . $var_profil,0);
 						}
 						$this->SendDebug("Success", $updatedvars . " Variables set",0);
 						if($this->ReadPropertyInteger("Delay") != 0) $this->WriteAttributeBoolean("PassTrueBit",false);
