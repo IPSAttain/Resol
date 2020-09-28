@@ -194,7 +194,9 @@
 						$updatedvars = 0;
 						foreach($master->field as $field)
 						{
-							
+							$field_unit = "";
+							$var_profil = "";
+							$field_bit_size = 0;
 							if (isset($field->name[$language]))
 							{
 								$field_name = (string)($field->name[$language]); // 0 = german 1 = english
@@ -206,7 +208,6 @@
 							//if (isset($field['commonUsage'][0]) $field_info = (string)@$field['commonUsage'][0];
 							if (isset($field->unit)) $field_unit = (string)$field->unit; 
 							if (isset($field->bitSize)) $field_bit_size = (int)$field->bitSize;
-							$var_profil = "";
 							if ($field_bit_size  == 1)
 							{
 								$var_type = 0; // 0 ^ bool
