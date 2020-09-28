@@ -196,6 +196,7 @@
 						{
 							$field_unit = "";
 							$var_profil = "";
+							$field_bit = "";
 							$field_bit_size = 0;
 							if (isset($field->name[$language]))
 							{
@@ -294,14 +295,14 @@
 							{
 								$var_profil = $this->CreateVarProfil($field_bit_size, $field_unit, $var_type);
 							}
-							$var_ident = DEVICE_TYP . $field_offset . (string)$field->bitPos;  // eindeutigen IDENT erzeugen
+							$var_ident = DEVICE_TYP . $field_offset . (string)$field_bit;  // eindeutigen IDENT erzeugen
 							switch ($var_type)
 							{
 								case 0: // bool
 									$this->RegisterVariableBoolean($var_ident, $field_name, '~Switch', 0);
 									if($this->GetValue($var_ident) != $var_value) 
 									{
-										SetValueBoolean($this->GetIDForIdent($var_ident), $var_value);
+										$this->SetValue($var_ident, $var_value);
 										$updatedvars += 1;
 									}
 								break;
@@ -309,7 +310,7 @@
 									$this->RegisterVariableInteger($var_ident, $field_name, $var_profil, 0);
 									if($this->GetValue($var_ident) != $var_value) 
 									{
-										SetValueInteger($this->GetIDForIdent($var_ident), $var_value);
+										$this->SetValue($var_ident, $var_value);
 										$updatedvars += 1;
 									}
 								break;
@@ -317,12 +318,12 @@
 									$this->RegisterVariableFloat($var_ident, $field_name, $var_profil, 0);
 									if($this->GetValue($var_ident) != $var_value) 
 									{
-										SetValueFloat($this->GetIDForIdent($var_ident), $var_value);
+										$this->SetValue($var_ident, $var_value);
 										$updatedvars += 1;
 									}
 								break;
 							} // end switch
-							$this->SendDebug("Var Debug: ", $updatedvars ." Var | Field Name: ".$field_name. " | Var Type: " .$var_type . " | Var Profil: " . $var_profil,0);
+							//$this->SendDebug("Var Debug: ", $updatedvars ." Var | Field Name: ".$field_name. " | Var Type: " .$var_type . " | Var Profil: " . $var_profil,0);
 						}
 						$this->SendDebug("Success", $updatedvars . " Variables set",0);
 						if($this->ReadPropertyInteger("Delay") != 0) $this->WriteAttributeBoolean("PassTrueBit",false);
