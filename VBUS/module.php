@@ -112,7 +112,7 @@
 			$payload = ltrim($payload , "\xaa\x10"); // remove the first 2 bytes, like the cutter
 			define('NUMBER_OF_FRAMES', ord($payload[6]));
 			define('HEADER_CHECKSUMME', ord($payload[7]));
-			$device_typ = strtoupper(dechex(ord($payload[2])) . dechex(ord($payload[1])));
+			$device_typ = strtoupper(str_pad(dechex(ord($payload[2])), 2, "0", STR_PAD_LEFT) . str_pad(dechex(ord($payload[1])), 2, "0", STR_PAD_LEFT));
 			define('DEVICE_TYP', "0x" .  $device_typ);
 			define('XML_FILE', __DIR__ . "/../libs/VBusSpecificationResol.xml");
 			$this->SendDebug("Device Typ",DEVICE_TYP,0);
