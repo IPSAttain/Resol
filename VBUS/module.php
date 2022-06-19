@@ -89,7 +89,7 @@
 					//if ($lastSyncByte - $firstSyncByte >9)
 					if ($AA10pos !== false && $AApos !== false )
 					{ // found cutter values
-						$protocol = strpos($payload, "\xaa",5);
+						$protocol = substr($payload, $firstSyncByte + 5 , 1);
 						$this->SendDebug("Protocol:", $protocol, 0);
 						$payloadlength = $AApos-$AA10pos;
 						if($payloadlength >= 10)
