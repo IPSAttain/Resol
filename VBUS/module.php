@@ -93,7 +93,7 @@
 						{
 							//cut all unwanted
 							$this->SetBuffer("IncommingBuffer",substr($payload,$secondSyncByte));
-							$this->SendDebug("Buffer", substr($payload,$AApos), 1);
+							$this->SendDebug("New Buffer", substr($payload,$secondSyncByte), 1);
 						}
 					}
 					$this->SendDebug("Protocol:", $protocol, 1);
