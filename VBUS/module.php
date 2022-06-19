@@ -82,6 +82,8 @@
 					$payload = $this->GetBuffer("IncommingBuffer") . utf8_decode($data->Buffer);
 					$firstSyncByte = strpos($payload, "\xaa");
 					$secondSyncByte = strpos($payload, "\xaa", $firstSyncByte +1);
+					$protocol = substr($payload, $secondSyncByte + 5 , 1);
+					$this->SendDebug("Protocol:", $protocol, 1);
 					$this->SendDebug("Search Sync ", "first " . $firstSyncByte . " second " . $secondSyncByte, 0);
 					$lastSyncByte = strrpos($payload, "\xaa");
 
