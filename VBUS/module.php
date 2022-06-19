@@ -83,7 +83,7 @@
 					$firstSyncByte = strpos($payload, "\xaa");
 					$secondSyncByte = strpos($payload, "\xaa", $firstSyncByte +1);
 					$protocol = substr($payload, $firstSyncByte + 5 , 1);
-					if ($lastSyncByte - $firstSyncByte > 8) 
+					if ($secondSyncByte - $firstSyncByte > 8) 
 					{
 						if ($protocol == "\x10") 
 						{
