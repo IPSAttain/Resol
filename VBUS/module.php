@@ -92,7 +92,7 @@
 						else
 						{
 							//cut all unwanted
-							$this->SetBuffer("IncommingBuffer",""));
+							$this->SetBuffer("IncommingBuffer","");
 							$this->SendDebug("New Buffer", substr($payload,$secondSyncByte), 1);
 							return;
 						}
