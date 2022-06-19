@@ -82,7 +82,20 @@
 					$payload = $this->GetBuffer("IncommingBuffer") . utf8_decode($data->Buffer);
 					$firstSyncByte = strpos($payload, "\xaa");
 					$secondSyncByte = strpos($payload, "\xaa", $firstSyncByte +1);
-					$protocol = substr($payload, $secondSyncByte + 5 , 1);
+					$protocol = substr($payload, $firstSyncByte + 5 , 1);
+					if ($lastSyncByte - $firstSyncByte >9) 
+					{
+						if ($protocol == "\x10") 
+						{
+							// proceed
+						}
+						else
+						{
+							//cut all unwanted
+							$this->SetBuffer("IncommingBuffer",substr($payload,$secondSyncByte));
+							$this->SendDebug("Buffer", substr($payload,$AApos), 1);
+						}
+					}
 					$this->SendDebug("Protocol:", $protocol, 1);
 					$this->SendDebug("Search Sync ", "first " . $firstSyncByte . " second " . $secondSyncByte, 0);
 					$lastSyncByte = strrpos($payload, "\xaa");
