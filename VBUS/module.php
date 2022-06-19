@@ -90,7 +90,7 @@
 					if ($AA10pos !== false && $AApos !== false )
 					{ // found cutter values
 						$protocol = strpos($payload, "\xaa",5);
-						$this->SendDebug("Protocol: " . $protocol, 0);
+						$this->SendDebug("Protocol:", $protocol, 0);
 						$payloadlength = $AApos-$AA10pos;
 						if($payloadlength >= 10)
 						{ // header is 10 bytes long 
