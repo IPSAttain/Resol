@@ -81,6 +81,8 @@
 					$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
 					$payload = $this->GetBuffer("IncommingBuffer") . utf8_decode($data->Buffer);
 					$firstSyncByte = strpos($payload, "\xaa");
+					If ($firstSyncByte) $secoundSyncByte = strpos($payload, "\xaa", $firstSyncByte +1);
+					$this->SendDebug("Search Sync ", "first " . $firstSyncByte . " second " . $secoundSyncByte, 0);
 					$lastSyncByte = strrpos($payload, "\xaa");
 
 					$AA10pos = strpos($payload, "\xaa\x10\x00");
