@@ -80,11 +80,17 @@
 				{
 					$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
 					$payload = $this->GetBuffer("IncommingBuffer") . utf8_decode($data->Buffer);
+					$firstSyncByte = strpos($payload, "\xaa");
+					$lastSyncByte = strrpos($payload, "\xaa");
+
 					$AA10pos = strpos($payload, "\xaa\x10\x00");
 					$AApos = strpos($payload, "\xaa",$AA10pos +1);
 					$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA: " . $AApos, 0);
+					//if ($lastSyncByte - $firstSyncByte >9)
 					if ($AA10pos !== false && $AApos !== false )
 					{ // found cutter values
+						$protocol = strpos($payload, "\xaa",5);
+						$this->SendDebug("Protocol: " . $protocol, 0);
 						$payloadlength = $AApos-$AA10pos;
 						if($payloadlength >= 10)
 						{ // header is 10 bytes long 
