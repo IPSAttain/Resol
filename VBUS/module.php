@@ -93,7 +93,10 @@
 						{
 							// proceed
 							$payloaddata = substr($payload,$firstSyncByte,$secondSyncByte - $firstSyncByte);
-							$this->SendDebug(__FUNCTION__ . " Proceed", $payloaddata , 1);
+							$this->SendDebug(__FUNCTION__ . " To Proceed", $payloaddata , 1);
+							$this->ProccedData($payloaddata);
+							$this->SetBuffer("IncommingBuffer",substr($payload,$secondSyncByte)); // put the rest back to the buffer
+							$this->SendDebug(__FUNCTION__ . " Buffer Left", substr($payload,$secondSyncByte) , 1);
 						}
 						else
 						{
@@ -103,6 +106,7 @@
 							return;
 						}
 					}
+					/*
 					$AA10pos = strpos($payload, "\xaa\x10\x00");
 					$AApos = strpos($payload, "\xaa",$AA10pos +1);
 					$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA: " . $AApos, 0);
@@ -126,6 +130,7 @@
 						$this->SetBuffer("IncommingBuffer",$payload);
 						$this->SendDebug("Buffer", $payload, 1);
 					}
+					*/
 				}
 			}
 		}
