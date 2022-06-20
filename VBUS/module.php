@@ -78,37 +78,37 @@
 			{
 				if ($this->ReadAttributeBoolean("PassTrueBit"))
 				{
-					$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
+					$this->SendDebug(__FUNCTION__ . " Incomming", utf8_decode($data->Buffer) , 1);
 					$payload = $this->GetBuffer("IncommingBuffer") . utf8_decode($data->Buffer);
 					$firstSyncByte = strpos($payload, "\xaa");
 					$secondSyncByte = strpos($payload, "\xaa", $firstSyncByte +1);
+					$lastSyncByte = strrpos($payload, "\xaa");
+					$this->SendDebug(__FUNCTION__ . " Sync Bytes", "first " . $firstSyncByte . " second " . $secondSyncByte, 0);
 					$protocol = substr($payload, $firstSyncByte + 5 , 1);
+					$this->SendDebug(__FUNCTION__ . " Read Protocol:", $protocol, 1);
+
 					if ($secondSyncByte - $firstSyncByte > 8) 
 					{
 						if ($protocol == "\x10") 
 						{
 							// proceed
+							$payloaddata = substr($payload,$firstSyncByte,$secondSyncByte - $firstSyncByte);
+							$this->SendDebug(__FUNCTION__ . " Proceed", $payloaddata , 1);
 						}
 						else
 						{
 							//cut all unwanted
 							$this->SetBuffer("IncommingBuffer","");
-							$this->SendDebug("New Buffer", substr($payload,$secondSyncByte), 1);
+							$this->SendDebug(__FUNCTION__ . " New Buffer", substr($payload,$secondSyncByte), 1);
 							return;
 						}
 					}
-					$this->SendDebug("Protocol:", $protocol, 1);
-					$this->SendDebug("Search Sync ", "first " . $firstSyncByte . " second " . $secondSyncByte, 0);
-					$lastSyncByte = strrpos($payload, "\xaa");
-
 					$AA10pos = strpos($payload, "\xaa\x10\x00");
 					$AApos = strpos($payload, "\xaa",$AA10pos +1);
 					$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA: " . $AApos, 0);
 					//if ($lastSyncByte - $firstSyncByte >9)
 					if ($AA10pos !== false && $AApos !== false )
 					{ // found cutter values
-						$protocol = substr($payload, $firstSyncByte + 5 , 1);
-						$this->SendDebug("Protocol:", $protocol, 1);
 						$payloadlength = $AApos-$AA10pos;
 						if($payloadlength >= 10)
 						{ // header is 10 bytes long 
