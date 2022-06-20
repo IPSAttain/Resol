@@ -101,11 +101,15 @@
 						else
 						{
 							//cut all unwanted
-							//$this->SetBuffer("IncommingBuffer",substr($payload,$secondSyncByte));
-							$this->SetBuffer("IncommingBuffer",$payload);
-							$this->SendDebug(__FUNCTION__ . " New Buffer", substr($payload,$secondSyncByte), 1);
+							$this->SetBuffer("IncommingBuffer",substr($payload,$secondSyncByte));
+							$this->SendDebug(__FUNCTION__ . "1 New Buffer", substr($payload,$secondSyncByte), 1);
 							
 						}
+					}
+					else 
+					{
+						$this->SetBuffer("IncommingBuffer",$payload);
+						$this->SendDebug(__FUNCTION__ . "2 New Buffer", $payload, 1);
 					}
 					/*
 					$AA10pos = strpos($payload, "\xaa\x10\x00");
