@@ -101,9 +101,10 @@
 						else
 						{
 							//cut all unwanted
-							$this->SetBuffer("IncommingBuffer",substr($payload,$secondSyncByte));
+							//$this->SetBuffer("IncommingBuffer",substr($payload,$secondSyncByte));
+							$this->SetBuffer("IncommingBuffer",$payload);
 							$this->SendDebug(__FUNCTION__ . " New Buffer", substr($payload,$secondSyncByte), 1);
-							return;
+							
 						}
 					}
 					/*
