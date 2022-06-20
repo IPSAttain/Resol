@@ -87,7 +87,7 @@
 					$protocol = substr($payload, $firstSyncByte + 5 , 1);
 					$this->SendDebug(__FUNCTION__ . " Read Protocol:", $protocol, 1);
 
-					if ($secondSyncByte - $firstSyncByte > 8) 
+					if ($secondSyncByte > $firstSyncByte) 
 					{
 						if ($protocol == "\x10") 
 						{
@@ -423,7 +423,7 @@
 		public function PassThru()
 		{
 			$this->WriteAttributeBoolean("PassTrueBit",true);
-			$this->SendDebug("Timer", "Start Receiving Data" , 0);
+			$this->SendDebug(__FUNCTION__, "Start Receiving Data" , 0);
 		}
 
 		protected function CalcCheckSumm($cs)
