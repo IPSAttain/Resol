@@ -83,11 +83,9 @@
 					$this->SendDebug(__FUNCTION__ . " Current Payload", $payload , 1);
 					$firstSyncByte = strpos($payload, "\xaa");
 					$secondSyncByte = strpos($payload, "\xaa", $firstSyncByte +1);
-					$lastSyncByte = strrpos($payload, "\xaa");
-					$this->SendDebug(__FUNCTION__ . " Sync Bytes", "first " . $firstSyncByte . " second " . $secondSyncByte, 0);
+					$this->SendDebug(__FUNCTION__ . " Sync Bytes", "First Byte Position: " . $firstSyncByte . " | Second Byte Position: " . $secondSyncByte, 0);
 					$protocol = substr($payload, $firstSyncByte + 5 , 1);
 					$this->SendDebug(__FUNCTION__ . " Read Protocol:", $protocol, 1);
-
 					if ($secondSyncByte > $firstSyncByte) 
 					{
 						if ($protocol == "\x10") 
@@ -112,31 +110,6 @@
 						$this->SetBuffer("IncommingBuffer",$payload);
 						$this->SendDebug(__FUNCTION__ . "2 New Buffer", $payload, 1);
 					}
-					/*
-					$AA10pos = strpos($payload, "\xaa\x10\x00");
-					$AApos = strpos($payload, "\xaa",$AA10pos +1);
-					$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA: " . $AApos, 0);
-					//if ($lastSyncByte - $firstSyncByte >9)
-					if ($AA10pos !== false && $AApos !== false )
-					{ // found cutter values
-						$payloadlength = $AApos-$AA10pos;
-						if($payloadlength >= 10)
-						{ // header is 10 bytes long 
-						$this->SetBuffer("IncommingBuffer",substr($payload,$AApos)); // put the rest back to the buffer
-						$this->SendDebug("Buffer", substr($payload,$AApos), 1);
-						$payload = substr($payload,$AA10pos,$payloadlength); // cut from AA 10 00 to the next AA
-						$this->SendDebug("To Proceed", $payload, 1);
-						$this->ProccedData($payload);
-						} else {
-							$this->SetBuffer("IncommingBuffer",""); // clear buffer
-							$this->SendDebug("Buffer", "Error: Insufficient string length.", 0);
-						}
-					} else
-					{
-						$this->SetBuffer("IncommingBuffer",$payload);
-						$this->SendDebug("Buffer", $payload, 1);
-					}
-					*/
 				}
 			}
 		}
