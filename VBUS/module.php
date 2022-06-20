@@ -80,6 +80,7 @@
 				{
 					$this->SendDebug(__FUNCTION__ . " Incomming", utf8_decode($data->Buffer) , 1);
 					$payload = $this->GetBuffer("IncommingBuffer") . utf8_decode($data->Buffer);
+					$this->SendDebug(__FUNCTION__ . " Current Payload", $payload , 1);
 					$firstSyncByte = strpos($payload, "\xaa");
 					$secondSyncByte = strpos($payload, "\xaa", $firstSyncByte +1);
 					$lastSyncByte = strrpos($payload, "\xaa");
