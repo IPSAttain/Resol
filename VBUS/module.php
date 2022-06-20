@@ -78,29 +78,42 @@
 			{
 				if ($this->ReadAttributeBoolean("PassTrueBit"))
 				{
-					$this->SendDebug("Received", utf8_decode($data->Buffer) , 1);
+					$this->SendDebug(__FUNCTION__ . " Incomming", utf8_decode($data->Buffer) , 1);
 					$payload = $this->GetBuffer("IncommingBuffer") . utf8_decode($data->Buffer);
-					$AA10pos = strpos($payload, "\xaa\x10\x00");
-					$AApos = strpos($payload, "\xaa",$AA10pos +1);
-					$this->SendDebug("SerchPos", "AA10: " . $AA10pos . " AA: " . $AApos, 0);
-					if ($AA10pos !== false && $AApos !== false )
-					{ // found cutter values
-						$payloadlength = $AApos-$AA10pos;
-						if($payloadlength >= 10)
-						{ // header is 10 bytes long 
-						$this->SetBuffer("IncommingBuffer",substr($payload,$AApos)); // put the rest back to the buffer
-						$this->SendDebug("Buffer", substr($payload,$AApos), 1);
-						$payload = substr($payload,$AA10pos,$payloadlength); // cut from AA 10 00 to the next AA
-						$this->SendDebug("To Proceed", $payload, 1);
-						$this->ProccedData($payload);
-						} else {
-							$this->SetBuffer("IncommingBuffer",""); // clear buffer
-							$this->SendDebug("Buffer", "Error: Insufficient string length.", 0);
-						}
-					} else
+					$this->SendDebug(__FUNCTION__ . " Current Payload", $payload , 1);
+					$firstSyncByte = strpos($payload, "\xaa");
+					$secondSyncByte = strpos($payload, "\xaa", $firstSyncByte +1);
+					$this->SendDebug(__FUNCTION__ . " Sync Bytes", "First Sync Byte Position: " . $firstSyncByte . " | Second Sync Byte Position: " . $secondSyncByte, 0);
+					$protocol = substr($payload, $firstSyncByte + 5 , 1);
+					$this->SendDebug(__FUNCTION__ . " Protocol Version:", $protocol, 1);
+					if ($secondSyncByte > $firstSyncByte) 
 					{
+						switch ($protocol)
+						{
+							case "\x10" :
+								// proceed
+								$proceedData = substr($payload,$firstSyncByte,$secondSyncByte - $firstSyncByte);
+								$this->SendDebug(__FUNCTION__ . " To Proceed", $proceedData , 1);
+								$this->ProccedData($proceedData);
+								$this->SetBuffer("IncommingBuffer",substr($payload,$secondSyncByte)); // put the rest back to the buffer
+								$this->SendDebug(__FUNCTION__ . " Buffer Left", substr($payload,$secondSyncByte) , 1);
+								break;
+							
+							// case "\x20" :
+								// for furter protocol 2.0 implementation
+
+							default :
+								//remove all unwanted from buffer
+								$this->SetBuffer("IncommingBuffer",substr($payload,$secondSyncByte));
+								$this->SendDebug(__FUNCTION__ . "Write to Buffer", substr($payload,$secondSyncByte), 1);
+								break;
+							
+						}
+					}
+					else 
+					{
+						// no second sync byte yet, add to the buffer
 						$this->SetBuffer("IncommingBuffer",$payload);
-						$this->SendDebug("Buffer", $payload, 1);
 					}
 				}
 			}
@@ -115,7 +128,7 @@
 			$device_typ = strtoupper(str_pad(dechex(ord($payload[2])), 2, "0", STR_PAD_LEFT) . str_pad(dechex(ord($payload[1])), 2, "0", STR_PAD_LEFT));
 			define('DEVICE_TYP', "0x" .  $device_typ);
 			define('XML_FILE', __DIR__ . "/../libs/VBusSpecificationResol.xml");
-			$this->SendDebug("Device Typ",DEVICE_TYP,0);
+			$this->SendDebug(__FUNCTION__ . " Device Typ",DEVICE_TYP,0);
 
 			$cs = 16;       // durch den Cutter wird das erste Byte (0x10 Hex) abgeschnitten, hier wird der Wert wieder dazu genommen
 			for ($i=00; $i<=06; $i++)
@@ -123,16 +136,15 @@
 				$cs += ord($payload[$i]); // add Headerbytes -> Checksumme 
 			}
 			$cs = $this->CalcCheckSumm($cs);
-			$this->SendDebug("Header Checksumm","Calculated: $cs , Received: " . HEADER_CHECKSUMME,0);
+			$this->SendDebug(__FUNCTION__ . " Header Checksumm","Calculated: $cs , Received: " . HEADER_CHECKSUMME,0);
 			if ( $cs == HEADER_CHECKSUMME)  // Checksumm ok?
 			{
 				//$this->SendDebug("Header Checksumm","Checksumme OK!",0);
 				$byte_array = array();
 				$k = 0; // array Index
-				$this->SendDebug("Frame Count","Number of Frames: " . (NUMBER_OF_FRAMES),0);
 				if (strlen($payload) < (NUMBER_OF_FRAMES * 6 + 8)) // the length of the complete string must have the header (8 byte) and 6 byte for every data frame
 				{
-					$this->SendDebug("Payload","Lenght of Payload is to short. Calculated: " . (NUMBER_OF_FRAMES * 6 + 10) . "  Received: ". strlen($payload),0);
+					$this->SendDebug(__FUNCTION__ . " Payload","Lenght of Payload is to short. Calculated: " . (NUMBER_OF_FRAMES * 6 + 10) . "  Received: ". strlen($payload),0);
 					return;
 				}
 				for ($i=01; $i<=NUMBER_OF_FRAMES; $i++) // loop for all frames
@@ -150,15 +162,15 @@
 					$cs = $this->CalcCheckSumm($cs);
 					if ($cs != ord($payload[$i * 6 + 7])) // Checksumme Frame not ok?
 					{
-						$this->SendDebug("Frame Checksumm","Error in Frame $i >> calculated: $cs received: ".ord($payload[$i * 6 + 7]),0);
+						$this->SendDebug(__FUNCTION__ . " Frame Checksumm","Error in Frame $i >> calculated: $cs received: ".ord($payload[$i * 6 + 7]),0);
 						return;
 					}
 				} // end for frame loop
-				$this->SendDebug("Frame Checksumm","Checksumm OK for " . ($i - 1) . " frames",0);
+				$this->SendDebug(__FUNCTION__ . " Frame Checksumm","Checksumm OK for " . ($i - 1) . " frames",0);
 			}
 			else  // Checksumme Head not ok
 			{
-				$this->SendDebug("Header Checksumm","Error >> Calculated: $cs   Received: ".ord($payload[7]),0);
+				$this->SendDebug(__FUNCTION__ . " Header Checksumm","Error >> Calculated: $cs   Received: ".ord($payload[7]),0);
 				return;
 			}	// end else
 	
@@ -174,7 +186,7 @@
 						if ($master->address == DEVICE_TYP)
 						{
 							$device_name = (string)$master->name;
-							$this->SendDebug("Device Name",$device_name,0);
+							$this->SendDebug(__FUNCTION__ . " Device Name",$device_name,0);
 							$this->WriteAttributeString("DeviceName",$device_name);
 							$this->UpdateFormField("DeviceName", "caption", $this->Translate('Found device ') . $device_name);
 							break; // end foreach no further devices needs to search
@@ -182,7 +194,7 @@
 					}
 					if (!isset($device_name))
 					{
-						$this->SendDebug("Device Name: " . DEVICE_TYP ." does not exist in the XML file",0);
+						$this->SendDebug(__FUNCTION__ . " Device Name: " . DEVICE_TYP ." does not exist in the XML file",0);
 						$this->UpdateFormField("DeviceName", "caption", $this->Translate('Not supported device ') . DEVICE_TYP);
 					}
 				}
@@ -325,7 +337,7 @@
 							} // end switch
 							//$this->SendDebug("Var Debug: ", $updatedvars ." Var | Field Name: ".$field_name. " | Var Type: " .$var_type . " | Var Profil: " . $var_profil,0);
 						}
-						$this->SendDebug("Success", $updatedvars . " Variables set",0);
+						$this->SendDebug(__FUNCTION__ . " successful", $updatedvars . " Variables set",0);
 						if($this->ReadPropertyInteger("Delay") != 0) $this->WriteAttributeBoolean("PassTrueBit",false);
 						break; // break foreach no further devices needs to search
 					} // end if
@@ -360,13 +372,13 @@
 			{
 				$data =  "PASS " . $this->ReadPropertyString("Password") . CHR(13);
 				$this->SendToLanAdapter($data);
-				$this->SendDebug("Password", "Password: " . $this->ReadPropertyString("Password") . " send to LAN adapter" , 0);
+				$this->SendDebug(__FUNCTION__, "Password: " . $this->ReadPropertyString("Password") . " send to LAN adapter" , 0);
 				$data = "DATA" . CHR(13);
 				$this->SendToLanAdapter($data);
 			}
 			else
 			{
-				$this->SendDebug("Password", "Can not send password: " . $this->ReadPropertyString("Password") . ". Client Socket not active" , 0);
+				$this->SendDebug(__FUNCTION__, "Can not send password: " . $this->ReadPropertyString("Password") . ". Client Socket not active" , 0);
 			}
 		}
 
@@ -389,7 +401,7 @@
 		public function PassThru()
 		{
 			$this->WriteAttributeBoolean("PassTrueBit",true);
-			$this->SendDebug("Timer", "Start Receiving Data" , 0);
+			$this->SendDebug(__FUNCTION__, "Start Receiving Data" , 0);
 		}
 
 		protected function CalcCheckSumm($cs)

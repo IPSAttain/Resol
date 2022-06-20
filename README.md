@@ -57,4 +57,10 @@ Mit der Funktion kann das Passwort manuell an den LAN Adapter gesendet werden.
  V1.6     | fix: Passwort & Timer, unvollständige Daten erzeugen keine Fehlermeldung mehr
  V1.6.2   | new: automatisches senden  des PW nach TimeOut
  V1.7     | fix: Array and string offset access syntax with curly braces is deprecated in further PHP versions
+ V2.0     | new: neuer Such Algorithmus für das Sync Byte
 
+- ## Spenden
+
+Schenkungen zur Unterstützung sind hier möglich:
+
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6CSLZLEKKGT8Q" target="_blank"><img src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_LG.gif" border="0" /></a>
