@@ -58,6 +58,8 @@ Mit der Funktion kann das Passwort manuell an den LAN Adapter gesendet werden.
  V1.6.2   | new: automatisches senden  des PW nach TimeOut
  V1.7     | fix: Array and string offset access syntax with curly braces is deprecated in further PHP versions
  V2.0     | new: neuer Such Algorithmus für das Sync Byte
+ V2.1	  | new: Regler Cosmo Multi 3 (0x1F11)
+
 
 - ## Spenden
 
