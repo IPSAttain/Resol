@@ -593,6 +593,11 @@
 		<name>COSMO Multi [Regler]</name>
 		<isMaster>true</isMaster>
 	</device>
+		<device>
+		<address>0x1F11</address>
+		<name>COSMO Multi 3 [Regler]</name>
+		<isMaster>true</isMaster>
+	</device>
 	<device>
 		<address>0x7822</address>
 		<name>COSMO Multi [WMZ]</name>
@@ -14647,6 +14652,389 @@
 		-->
 
 	</packet>
+
+
+<!-- Cosmo Multi 3 [Regler] -->
+	<packet>
+		<destination>0x0010</destination>
+		<source>0x1f11</source>
+		<command>0x0100</command>
+		<field commonUsage='collector1'>
+			<offset>0</offset>
+			<name>Temperatur Sensor 1</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field commonUsage='store1'>
+			<offset>2</offset>
+			<name>Temperatur Sensor 2</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>4</offset>
+			<name>Temperatur Sensor 3</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>6</offset>
+			<name>Temperatur Sensor 4</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>8</offset>
+			<name>Temperatur Sensor 5</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>10</offset>
+			<name>Temperatur Sensor 6</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>12</offset>
+			<name>Temperatur Sensor 7</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>14</offset>
+			<name>Temperatur Sensor 8</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>16</offset>
+			<name>Temperatur Sensor 9</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>18</offset>
+			<name>Temperatur Sensor 10</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_020_2_0</id>
+			<offset>20</offset>
+			<name>Temperature sensor 21</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit>°C</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_022_2_0</id>
+			<offset>22</offset>
+			<name>Temperature sensor 22</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit>°C</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_024_4_0</id>
+			<offset>24</offset>
+			<name>Volumenstrom Sensor 16</name>
+			<name lang="en">Volume flow</name>
+			<bitSize>32</bitSize>
+			<unit> l/h</unit>
+			<factor>1.0</factor>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_028_4_0</id>
+			<offset>28</offset>
+			<name>Flow rate sensor 21</name>
+			<bitSize>32</bitSize>
+			<factor>1.0</factor>
+			<unit>l/h</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_032_4_0</id>
+			<offset>32</offset>
+			<name>Volumenstrom Sensor 22</name>
+			<bitSize>32</bitSize>
+			<factor>1.0</factor>
+			<unit>l/h</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_036_2_0</id>
+			<offset>36</offset>
+			<name>Druck Sensor 21</name>
+			<bitSize>16</bitSize>
+			<factor>0.01</factor>
+			<unit>bar</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_038_2_0</id>
+			<offset>38</offset>
+			<name>Druck Sensor 22</name>
+			<bitSize>16</bitSize>
+			<factor>0.01</factor>
+			<unit>bar</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_040_1_0</id>
+			<offset>40</offset>
+			<name>Luftfeuchtigkeit Sensor 21</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_041_1_0</id>
+			<offset>41</offset>
+			<name>Luftfeuchtigkeit Sensor 22</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_042_2_0</id>
+			<offset>42</offset>
+			<name>Sensor ZA</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit>°C</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_044_1_0</id>
+			<offset>44</offset>
+			<name>Pump speed relay 1</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_045_1_0</id>
+			<offset>45</offset>
+			<name>Pump speed relay 2</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_046_1_0</id>
+			<offset>46</offset>
+			<name>Pump speed relay 3</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_047_1_0</id>
+			<offset>47</offset>
+			<name>Pump speed relay 4</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_048_1_0</id>
+			<offset>48</offset>
+			<name>Pump speed relay 5</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_049_1_0</id>
+			<offset>49</offset>
+			<name>Pump speed relay 6</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_050_1_0</id>
+			<offset>50</offset>
+			<name>Pump speed relay 7</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_052_1_0</id>
+			<offset>52</offset>
+			<name>Output A</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_053_1_0</id>
+			<offset>53</offset>
+			<name>Output B</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_054_1_0</id>
+			<offset>54</offset>
+			<name>Output C</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_055_1_0</id>
+			<offset>55</offset>
+			<name>Output D</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_056_4_0</id>
+			<offset>56</offset>
+			<name>System date</name>
+			<bitSize>32</bitSize>
+			<factor>1.0</factor>
+			<unit>t</unit>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_060_4_0</id>
+			<offset>60</offset>
+			<name>Error mask</name>
+			<bitSize>32</bitSize>
+			<factor>1</factor>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_060_1_1</id>
+			<offset>60</offset>
+			<name>Error: Sensor line broken</name>
+			<bitPos>1</bitPos>
+			<bitSize>1</bitSize>
+			<factor>1</factor>
+
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_060_1_2</id>
+			<offset>60</offset>
+			<name>Error: Sensor line short-circuited</name>
+			<bitPos>2</bitPos>
+			<bitSize>1</bitSize>
+			<factor>1</factor>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_060_1_32</id>
+			<offset>60</offset>
+			<name>Fehler: Volumstromüberwachung</name>
+			<bitPos>6</bitPos>
+			<bitSize>1</bitSize>
+			<factor>1</factor>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_060_1_64</id>
+			<offset>100</offset>
+			<name>Error: Overpressure</name>
+			<bitPos>7</bitPos>
+			<bitSize>1</bitSize>
+			<factor>1</factor>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_060_1_128</id>
+			<offset>60</offset>
+			<name>Error: Low pressure</name>
+			<bitPos>8</bitPos>
+			<bitSize>1</bitSize>
+			<factor>1</factor>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_060_1_512</id>
+			<offset>61</offset>
+			<name>Error: Data memory</name>
+			<bitPos>2</bitPos>
+			<bitSize>1</bitSize>
+			<factor>1</factor>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_060_1_1024</id>
+			<offset>61</offset>
+			<name>Error: Real-time clock</name>
+			<bitPos>3</bitPos>
+			<bitSize>1</bitSize>
+			<factor>1</factor>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_060_1_4096</id>
+			<offset>61</offset>
+			<name>Error: Twin pump</name>
+			<bitPos>5</bitPos>
+			<bitSize>1</bitSize>
+			<factor>1</factor>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_060_1_8192</id>
+			<offset>61</offset>
+			<name>Error: HC cooling below flow minimum temperature</name>
+			<bitPos>6</bitPos>
+			<bitSize>1</bitSize>
+			<factor>1</factor>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_060_1_16384</id>
+			<offset>61</offset>
+			<name>Error: Thermal disinfection cancelled</name>
+			<bitPos>7</bitPos>
+			<bitSize>1</bitSize>
+			<factor>1</factor>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_064_4_0</id>
+			<offset>64</offset>
+			<name>Warning mask</name>
+			<bitSize>32</bitSize>
+			<factor>1</factor>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_064_1_4</id>
+			<offset>64</offset>
+			<name>Warning: ΔT too high</name>
+			<bitPos>3</bitPos>
+			<bitSize>1</bitSize>
+			<factor>1</factor>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_064_1_8</id>
+			<offset>64</offset>
+			<name>Warning: Night circulation</name>
+			<bitPos>4</bitPos>
+			<bitSize>1</bitSize>
+			<factor>1</factor>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_064_1_16</id>
+			<offset>64</offset>
+			<name>Warning: Flow/Return interchanged</name>
+			<bitPos>5</bitPos>
+			<bitSize>1</bitSize>
+			<factor>1</factor>
+		</field>
+		<field>
+			<id>00_0010_1F11_10_0100_064_1_2048</id>
+			<offset>65</offset>
+			<name>Warning: SD card</name>
+			<bitPos>4</bitPos>
+			<bitSize>1</bitSize>
+			<factor>1</factor>
+		</field>
+	</packet>
+
 
 <!-- Cosmo Multi [Regler] -->
 	<packet>
