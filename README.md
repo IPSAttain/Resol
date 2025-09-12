@@ -60,6 +60,7 @@ Mit der Funktion kann das Passwort manuell an den LAN Adapter gesendet werden.
  V2.0     | new: neuer Such Algorithmus für das Sync Byte
  V2.1	  | new: Regler Cosmo Multi 3 (0x1F11)
 
+
 - ## Spenden
 
 Schenkungen zur Unterstützung sind hier möglich:
