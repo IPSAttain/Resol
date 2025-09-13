@@ -14657,7 +14657,7 @@
 <!-- Cosmo Multi 3 [Regler] -->
 	<packet>
 		<destination>0x0010</destination>
-		<source>0x1f11</source>
+		<source>0x1F11</source>
 		<command>0x0100</command>
 		<field commonUsage='collector1'>
 			<offset>0</offset>
