@@ -14940,7 +14940,7 @@
 		</field>
 		<field>
 			<id>00_0010_1F11_10_0100_060_1_64</id>
-			<offset>100</offset>
+			<offset>60</offset>
 			<name>Error: Overpressure</name>
 			<bitPos>7</bitPos>
 			<bitSize>1</bitSize>
