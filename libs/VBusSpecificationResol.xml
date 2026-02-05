@@ -14657,7 +14657,7 @@
 <!-- Cosmo Multi 3 [Regler] -->
 	<packet>
 		<destination>0x0010</destination>
-		<source>0x1f11</source>
+		<source>0x1F11</source>
 		<command>0x0100</command>
 		<field commonUsage='collector1'>
 			<offset>0</offset>
@@ -14940,7 +14940,7 @@
 		</field>
 		<field>
 			<id>00_0010_1F11_10_0100_060_1_64</id>
-			<offset>100</offset>
+			<offset>60</offset>
 			<name>Error: Overpressure</name>
 			<bitPos>7</bitPos>
 			<bitSize>1</bitSize>

@@ -194,7 +194,7 @@
 					}
 					if (!isset($device_name))
 					{
-						$this->SendDebug(__FUNCTION__ . " Device Name: " . DEVICE_TYP ." does not exist in the XML file",0);
+						$this->SendDebug(__FUNCTION__ , DEVICE_TYP ." does not exist in the XML file",0);
 						$this->UpdateFormField("DeviceName", "caption", $this->Translate('Not supported device ') . DEVICE_TYP);
 					}
 				}
