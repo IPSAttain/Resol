@@ -598,6 +598,90 @@
 		<name>COSMO Multi 3 [Regler]</name>
 		<isMaster>true</isMaster>
 	</device>
+	</device>
+		<device>
+		<address>0x1F20</address>
+		<name>COSMO Multi 3 [HK0]</name>
+		<isMaster>false</isMaster>
+	</device>
+	</device>
+		<device>
+		<address>0x1F21</address>
+		<name>COSMO Multi 3 [HK1]</name>
+		<isMaster>false</isMaster>
+	</device>
+	</device>
+		<device>
+		<address>0x1F22</address>
+		<name>COSMO Multi 3 [HK2]</name>
+		<isMaster>false</isMaster>
+	</device>
+	</device>
+		<device>
+		<address>0x1F23</address>
+		<name>COSMO Multi 3 [HK3]</name>
+		<isMaster>false</isMaster>
+	</device>
+	</device>
+		<device>
+		<address>0x1F24</address>
+		<name>COSMO Multi 3 [HK4]</name>
+		<isMaster>false</isMaster>
+	</device>
+	</device>
+		<device>
+		<address>0x1F25</address>
+		<name>COSMO Multi 3 [HK5]</name>
+		<isMaster>false</isMaster>
+	</device>
+	</device>
+		<device>
+		<address>0x1F26</address>
+		<name>COSMO Multi 3 [HK6]</name>
+		<isMaster>false</isMaster>
+	</device>
+	</device>
+		<device>
+		<address>0x1F27</address>
+		<name>COSMO Multi 3 [HK7]</name>
+		<isMaster>false</isMaster>
+	</device>
+	</device>
+		<device>
+		<address>0x1F40</address>
+		<name>COSMO Multi 3 [Modul0]</name>
+		<isMaster>false</isMaster>
+	</device>
+	</device>
+		<device>
+		<address>0x1F41</address>
+		<name>COSMO Multi 3 [Modul1]</name>
+		<isMaster>false</isMaster>
+	</device>
+	</device>
+		<device>
+		<address>0x1F42</address>
+		<name>COSMO Multi 3 [Modul2]</name>
+		<isMaster>false</isMaster>
+	</device>
+	</device>
+		<device>
+		<address>0x1F43</address>
+		<name>COSMO Multi 3 [Modul3]</name>
+		<isMaster>false</isMaster>
+	</device>
+	</device>
+		<device>
+		<address>0x1F44</address>
+		<name>COSMO Multi 3 [Modul4]</name>
+		<isMaster>false</isMaster>
+	</device>
+	</device>
+		<device>
+		<address>0x1F45</address>
+		<name>COSMO Multi 3 [Modul5]</name>
+		<isMaster>false</isMaster>
+	</device>
 	<device>
 		<address>0x7822</address>
 		<name>COSMO Multi [WMZ]</name>
@@ -14651,6 +14735,226 @@
 		</field>		
 		-->
 
+	</packet>
+
+<!-- Cosmo Multi 3 [Modul 0] -->
+	<packet>
+		<destination>0x0010</destination>
+		<source>0x1F40</source>
+		<command>0x0100</command>
+		<field commonUsage='Temp1'>
+			<offset>0</offset>
+			<name>Temperatur Sensor 1</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field commonUsage='Temp2'>
+			<offset>2</offset>
+			<name>Temperatur Sensor 2</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>4</offset>
+			<name>Temperatur Sensor 3</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>6</offset>
+			<name>Temperatur Sensor 4</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>8</offset>
+			<name>Temperatur Sensor 5</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>10</offset>
+			<name>Temperatur Sensor 6</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>12</offset>
+			<name>Pump speed relay 1</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<offset>13</offset>
+			<name>Pump speed relay 2</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<offset>14</offset>
+			<name>Pump speed relay 3</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<offset>15</offset>
+			<name>Pump speed relay 4</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<offset>16</offset>
+			<name>Pump speed relay 5</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+	</packet>
+
+<!-- Cosmo Multi 3 [Modul 1] -->
+	<packet>
+		<destination>0x0010</destination>
+		<source>0x1F41</source>
+		<command>0x0100</command>
+		<field commonUsage='Temp1'>
+			<offset>0</offset>
+			<name>Temperatur Sensor 1</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		
+		<field commonUsage='Temp2'>
+			<offset>2</offset>
+			<name>Temperatur Sensor 2</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>4</offset>
+			<name>Temperatur Sensor 3</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>6</offset>
+			<name>Temperatur Sensor 4</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>8</offset>
+			<name>Temperatur Sensor 5</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>10</offset>
+			<name>Temperatur Sensor 6</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+		<field>
+			<offset>12</offset>
+			<name>Pump speed relay 1</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<offset>13</offset>
+			<name>Pump speed relay 2</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<offset>14</offset>
+			<name>Pump speed relay 3</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<offset>15</offset>
+			<name>Pump speed relay 4</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+		<field>
+			<offset>16</offset>
+			<name>Pump speed relay 5</name>
+			<bitSize>8</bitSize>
+			<factor>1.0</factor>
+			<unit>%</unit>
+		</field>
+	</packet>
+
+<!-- Cosmo Multi 3 [HK 1] -->
+	<packet>
+		<destination>0x0010</destination>
+		<source>0x1F21</source>
+		<command>0x0100</command>
+		<field commonUsage='Temp1'>
+			<offset>0</offset>
+			<name>Temperatur Sensor HK1</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		<field>
+			<offset>2</offset>
+			<name>Status HK1 Modul</name>
+			<bitSize>16</bitSize>
+		</field>
+		</field>
+			<field commonUsage='Dewpoint'>
+			<offset>4</offset>
+			<name>Taupunkt HK1</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
+	</packet>
+<!-- Cosmo Multi 3 [HK 2] -->
+	<packet>
+		<destination>0x0010</destination>
+		<source>0x1F22</source>
+		<command>0x0100</command>
+		<field commonUsage='Temp2'>
+			<offset>0</offset>
+			<name>Temperatur Sensor HK2</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		<field>
+			<offset>2</offset>
+			<name>Status HK2 Modul</name>
+			<bitSize>16</bitSize>
+		</field>
+		</field>
+			<field commonUsage='Dewpoint'>
+			<offset>4</offset>
+			<name>Taupunkt HK2</name>
+			<bitSize>15</bitSize>
+			<factor>0.1</factor>
+			<unit> °C</unit>
+		</field>
 	</packet>
 
 
